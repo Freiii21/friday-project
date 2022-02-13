@@ -1,0 +1,26 @@
+.default {
+    width: 90px;
+    height: 30px;
+    margin-top: 3px;
+    margin-right: 6px;
+    font-weight: bold;
+    font-size: 15px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #d3d3d3;
+}
+
+.default:focus {
+    border: 1px solid orange;
+    color: orange;
+}
+
+.default:disabled {
+    border: 1px solid lightgray;
+    background-color: darkgrey;
+}
+
+.red {
+    background-color: red;
+    color: white;
+}
