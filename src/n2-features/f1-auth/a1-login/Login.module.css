@@ -1,0 +1,14 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85vh;
+flex-direction: column;
+}
+
+.wrapper div {
+
+    border: 2px lightgrey solid;
+    width: 50%;
+    height: 50vh;
+}
