@@ -18,10 +18,15 @@ export const setLogin = (user:UserType,isAuth:boolean) => ({type:'AUTH_REDUCER/S
 
 export const setLoginT = (data:LoginDataType) =>
     async (dispatch:Dispatch<ActionAuthReducerType>)=>{
-    const res=await authAPI.login(data);
-    if(res.data._id){
+
+    try {
+        const res=await authAPI.login(data);
         dispatch(setLogin(res.data,true));
+
+    }catch (er:any){
+
     }
+
     }
 
 export type ActionAuthReducerType=ReturnType<typeof setLogin>

@@ -20,7 +20,14 @@ export const instance = axios.create({
 
     setNewPassword: (data: NewPasswordType) => instance.post<NewPasswordType, AxiosResponse<ResponseCommonType>>('/auth/set-new-password', data),
 }
-
+ export const appPing={
+  getPing:()=>instance.get<ResponsePingType>('/ping'),
+}
+export type ResponsePingType={
+     ping:number;
+     backTime:number;
+     info:string;
+}
 export type NewPasswordType = {
     password: string;
     resetPasswordToken: string;
