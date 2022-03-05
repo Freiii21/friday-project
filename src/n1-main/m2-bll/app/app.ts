@@ -5,7 +5,7 @@ export const instance = axios.create({
     withCredentials: true,
 });
 
-const authAPI = {
+ export const authAPI = {
     login: (data: LoginDataType) => instance.post<LoginDataType, AxiosResponse<UserType>>('/auth/login', data),
 
     getAuthMe: () => instance.post<UserType>('/auth/me'),
