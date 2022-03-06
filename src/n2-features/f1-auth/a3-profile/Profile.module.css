@@ -1,0 +1,10 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+.wrapper :not(:last-child){
+    margin-bottom: 20px;
+}

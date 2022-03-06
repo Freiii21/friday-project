@@ -2,7 +2,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
-import {setLogoutT} from "../../../n1-main/m2-bll/reducer";
+import {setLogoutT} from "../../../n1-main/m2-bll/authReducer";
 import {useTypedSelector} from "../../../n1-main/m2-bll/redux"
 import { DateTime } from 'luxon'
 import {useSelector} from 'react-redux';
@@ -16,7 +16,7 @@ export const Profile = () => {
     const dispatch = useDispatch();
     const handleLogout = () => dispatch(setLogoutT());
 
-    const user = useTypedSelector(state => state.auth)
+    const user = useTypedSelector(state => state.auth.user)
 
     const registerData = DateTime.fromISO(user.created).toFormat('DDD')
 
@@ -25,7 +25,11 @@ export const Profile = () => {
 
     return (
         <div className={s.wrapper}>
-            {user.avatar ? <img src={user.avatar} alt="AVATAR"/> : <div className={'avatar'}>{user.name.substring(0, 2)}</div>}
+            {
+                user.avatar
+                ? <img src={user.avatar} alt="AVATAR"/>
+                : <div className={'avatar'}>{user.name.substring(0, 2)}</div>
+            }
 
             <span>Your Email: {user.email}</span>
             <span>Your NickName: {user.email}</span>
