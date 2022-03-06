@@ -1,13 +1,16 @@
+
 import React from "react";
 import { useDispatch } from "react-redux";
 import SuperButton from "../../../n1-main/m1-ui/common/c2-SuperButton/SuperButton";
 import {setLogoutT} from "../../../n1-main/m2-bll/reducer";
 import {useTypedSelector} from "../../../n1-main/m2-bll/redux"
 import { DateTime } from 'luxon'
+import {useSelector} from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import {AppRootStateType} from '../../../n1-main/m2-bll/store';
+import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 
 import s from './Profile.module.css'
-
-
 
 export const Profile = () => {
     const dispatch = useDispatch();
@@ -16,6 +19,9 @@ export const Profile = () => {
     const user = useTypedSelector(state => state.auth)
 
     const registerData = DateTime.fromISO(user.created).toFormat('DDD')
+
+    const isAuth=useSelector<AppRootStateType,boolean>(state => state.auth.isAuth);
+    if(!isAuth) return <Navigate to={PATH.LOGIN}/>
 
     return (
         <div className={s.wrapper}>

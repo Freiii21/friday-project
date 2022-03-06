@@ -1,7 +1,10 @@
+import o from './Login.module.css';
+import {AddFormLogin} from './AddFormLogin';
+
 export const Login = () => {
     return (
-        <div>
-            Login page
+        <div className={o.wrapper}>
+                <AddFormLogin/>
         </div>
     )
 }
