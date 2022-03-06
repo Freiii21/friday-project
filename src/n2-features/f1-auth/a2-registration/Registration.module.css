@@ -1,5 +1,6 @@
 .common {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 100px;
@@ -25,15 +26,20 @@
     font-weight: bold;
     font-size: 20px;
 }
-.regWindow input{
+.input{
     width: 250px;
     height: 40px;
     margin: 7px;
-    padding: 7px;
+    padding: 10px;
     border-radius: 10px;
     border: none;
+    font-size: 15px;
 }
-.regWindow button{
+.inputDisabled {
+    background-color: #ececec;
+    color: #9d9d9d;
+}
+.button{
     margin-top: 50px;
     width: 170px;
     height: 30px;
@@ -41,4 +47,13 @@
     border-radius: 20px;
     background-color: #002884;
     color: white;
+}
+.buttonDisabled{
+    background-color: #88a7ee;
+    color: dimgrey;
+}
+.error{
+    text-align: center;
+    color: red;
+    font-size: 14px;
 }
