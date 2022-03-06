@@ -1,0 +1,44 @@
+.common {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.regWindow {
+    width: 320px;
+    height: 480px;
+    background-color: lightgrey;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.text{
+    margin-top: 40px;
+    font-weight: bold;
+    font-size: 28px;
+}
+.text2{
+    margin-top: 25px;
+    margin-bottom: 50px;
+    font-weight: bold;
+    font-size: 20px;
+}
+.regWindow input{
+    width: 250px;
+    height: 40px;
+    margin: 7px;
+    padding: 7px;
+    border-radius: 10px;
+    border: none;
+}
+.regWindow button{
+    margin-top: 50px;
+    width: 170px;
+    height: 30px;
+    border: none;
+    border-radius: 20px;
+    background-color: #002884;
+    color: white;
+}
