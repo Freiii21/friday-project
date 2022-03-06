@@ -1,7 +1,8 @@
 import axios, {AxiosResponse} from 'axios';
 
 export const instance = axios.create({
-    baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
+    //baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
+    baseURL: process.env.REACT_APP_BACK_URL || 'https://neko-back.herokuapp.com/2.0',
     withCredentials: true,
 });
 
@@ -15,7 +16,8 @@ export const instance = axios.create({
 
     changeUserName: (data: NewNameUserType) => instance.put<NewNameUserType, AxiosResponse<ResponseUpdateUserType>>('/auth/me'),
 
-    delete: () => instance.delete<ResponseCommonType>('/auth/me'),
+    logOut: () => instance.delete<ResponseCommonType>('/auth/me'),
+
     postForgotPassword: (data: ForgotPasswordType) => instance.post<ForgotPasswordType, AxiosResponse<ResponseCommonType>>('auth/forgot', data),
 
     setNewPassword: (data: NewPasswordType) => instance.post<NewPasswordType, AxiosResponse<ResponseCommonType>>('/auth/set-new-password', data),
@@ -64,8 +66,8 @@ export type UserType = {
     name: string;
     avatar?: string;
     publicCardPacksCount: number;
-    created: Date;
-    updated: Date;
+    created: string;
+    updated: string;
     isAdmin: boolean;
     verified: boolean;
     rememberMe: boolean;
