@@ -1,9 +1,12 @@
-import {authAPI, LoginDataType, UserType} from './app/app';
+import {authAPI, ForgotPasswordType, LoginDataType, UserType} from './app/app';
 import {Dispatch} from 'redux';
 
 const initialAuthState = {
     user: {} as UserType,
     isAuth: false,
+
+    error: false,
+    errorText: "",
 }
 
 export const authReducer = (state = initialAuthState,
@@ -14,6 +17,12 @@ export const authReducer = (state = initialAuthState,
 
         case 'AUTH_REDUCER/SET_LOGOUT': {
             return {...state, isAuth: false};
+        }
+        case "AUTH_REDUCER/SET_ERROR":{
+            return {...state, error: action.error}
+        }
+        case "AUTH_REDUCER/SET_ERROR_TEXT":{
+            return {...state, errorText: action.errorText}
         }
         default:
             return state;
@@ -31,7 +40,8 @@ export const setLoginT = (data: LoginDataType) =>
             dispatch(setLogin(res.data, true));
 
         } catch (er: any) {
-
+            dispatch(setError(true))
+            dispatch(setErrorText(er.response.data.error))
         }
 
     }
@@ -49,5 +59,35 @@ export const setLogoutT = () =>
 
     }
 
-export type ActionAuthReducerType = ReturnType<typeof setLogin | typeof setLogOut>
+export type ActionAuthReducerType = ReturnType<typeof setLogin | typeof setLogOut | typeof setError | typeof setErrorText>
 export type InitialAuthStateType = typeof initialAuthState;
+
+
+export const passwordRecoveryTC = (data: ForgotPasswordType) =>
+    async (dispatch: Dispatch<ActionAuthReducerType>) => {
+        try {
+            const res = await authAPI.postForgotPassword(data);
+            console.log(res)
+
+        } catch (err: any) {
+            // console.log(error.error)
+            dispatch(setError(true))
+            dispatch(setErrorText(err.response.data.error))
+        }
+
+    }
+
+export const setError = (error:boolean) => ({type: 'AUTH_REDUCER/SET_ERROR', error} as const);
+export const setErrorText = (errorText:string) => ({type: 'AUTH_REDUCER/SET_ERROR_TEXT', errorText} as const);
+
+
+
+
+
+
+
+
+
+
+
+
