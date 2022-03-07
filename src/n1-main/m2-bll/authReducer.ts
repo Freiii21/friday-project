@@ -80,7 +80,6 @@ export const setRegisteredT = (data: Omit<LoginDataType, 'rememberMe'>) =>
             const res = await authAPI.register(data);
             dispatch(setRegistered(true, "", true))
         } catch (err: any) {
-            const temp = err.response.data.error;
             dispatch(setRegistered(false, err.response.data.error, false))
         }
         finally {
