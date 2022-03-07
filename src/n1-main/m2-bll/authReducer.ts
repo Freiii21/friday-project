@@ -1,4 +1,4 @@
-import {authAPI, LoginDataType, UserType} from './app/app';
+import {authAPI, ForgotPasswordType, LoginDataType, UserType} from './app/app';
 import {Dispatch} from 'redux';
 
 const initialAuthState = {
@@ -51,3 +51,29 @@ export const setLogoutT = () =>
 
 export type ActionAuthReducerType = ReturnType<typeof setLogin | typeof setLogOut>
 export type InitialAuthStateType = typeof initialAuthState;
+
+
+export const passwordRecoveryTC = (data: ForgotPasswordType) =>
+    async (dispatch: Dispatch<ActionAuthReducerType>) => {
+        try {
+            const res = await authAPI.postForgotPassword(data);
+            console.log(res)
+
+        } catch (er: any) {
+            console.log(er)
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+

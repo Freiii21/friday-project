@@ -36,7 +36,7 @@ export type NewPasswordType = {
 }
 export type ForgotPasswordType = {
     email: string;
-    from: string;
+    from?: string;
     message: string;
 }
 export type ResponseCommonType = {
