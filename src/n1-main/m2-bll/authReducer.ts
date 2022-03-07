@@ -7,7 +7,7 @@ const initialAuthState = {
     user: {} as UserType,
     isAuth: false,
     isRegistered: false,
-    newRegisteredUser: true,
+    newRegisteredUser: false,
     status: 'idle' as RequestStatusType,
     error: false,
     errorText: "",
