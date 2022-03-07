@@ -1,4 +1,4 @@
-import {appPing, ResponsePingType} from './app/app';
+import {appPing, ResponsePingType} from './app/api';
 import {Dispatch} from 'redux';
 
 const initialState={

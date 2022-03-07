@@ -1,4 +1,4 @@
-import {authAPI, LoginDataType, UserType} from './app/app';
+import {authAPI, LoginDataType, UserType} from './app/api';
 import {Dispatch} from 'redux';
 
 export type RequestStatusType = 'idle' | 'loading'
@@ -6,7 +6,8 @@ export type RequestStatusType = 'idle' | 'loading'
 const initialAuthState = {
     user: {} as UserType,
     isAuth: false,
-    isRegistered: true,
+    isRegistered: false,
+    newRegisteredUser: true,
     status: 'idle' as RequestStatusType,
     registrationError: ""
 }
@@ -20,7 +21,13 @@ export const authReducer = (state = initialAuthState,
             return {...state, isAuth: false};
         }
         case 'AUTH_REDUCER/SET_REGISTERED': {
-            return {...state, isRegistered: action.isRegistered};
+            return {...state,
+                isRegistered: action.isRegistered,
+                registrationError: action.registrationError,
+                newRegisteredUser: action.newRegisteredUser};
+        }
+        case 'AUTH_REDUCER/SET_REQUESTSTATUS': {
+            return {...state, status: action.status};
         }
         default:
             return state;
@@ -29,7 +36,15 @@ export const authReducer = (state = initialAuthState,
 
 export const setLogin = (user: UserType, isAuth: boolean) => ({type: 'AUTH_REDUCER/SET_LOGIN', user, isAuth} as const);
 export const setLogOut = () => ({type: 'AUTH_REDUCER/SET_LOGOUT'} as const);
-export const setRegistered = (isRegistered: boolean) => ({type: 'AUTH_REDUCER/SET_REGISTERED', isRegistered} as const);
+export const setRegistered = (isRegistered: boolean, registrationError: string, newRegisteredUser: boolean) => {
+    return {
+        type: 'AUTH_REDUCER/SET_REGISTERED',
+        isRegistered,
+        registrationError,
+        newRegisteredUser
+    } as const;
+}
+export const setRequestStatus = (status: RequestStatusType) => ({type: 'AUTH_REDUCER/SET_REQUESTSTATUS', status} as const);
 
 export const setLoginT = (data: LoginDataType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
@@ -60,11 +75,20 @@ export const setLogoutT = () =>
 export const setRegisteredT = (data: Omit<LoginDataType, 'rememberMe'>) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
+            dispatch(setRequestStatus("loading"));
+            dispatch(setRegistered(false, "", false))
             const res = await authAPI.register(data);
-        } catch (er: any) {
+            dispatch(setRegistered(true, "", true))
+        } catch (err: any) {
+            const temp = err.response.data.error;
+            dispatch(setRegistered(false, err.response.data.error, false))
+        }
+        finally {
+            dispatch(setRequestStatus("idle"))
         }
 
     }
 
-export type ActionAuthReducerType = ReturnType<typeof setLogin | typeof setLogOut | typeof setRegistered>
+export type ActionAuthReducerType = ReturnType<typeof setLogin | typeof setLogOut | typeof setRegistered
+    | typeof setRequestStatus>
 export type InitialAuthStateType = typeof initialAuthState;
