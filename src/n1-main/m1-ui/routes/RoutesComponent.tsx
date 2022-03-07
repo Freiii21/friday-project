@@ -14,12 +14,11 @@ export const PATH = {
     PROFILE: '/profile',
     PAGE_NOT_FOUND: '/pageNotFound',
     PASSWORD_RECOVERY: '/passwordRecovery',
-    CREATING_NEW_PASSWORD: '/creatingNewPassword',
+    CREATING_NEW_PASSWORD: '/creatingNewPassword/:token',
     TEST_PAGE: '/testPage',
-
 }
 
-export const RoutesComponent = () => {
+export const RoutesComponent = () =>{
     return (
         <div>
             <Routes>
