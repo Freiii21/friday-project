@@ -13,11 +13,11 @@ export const Registration = () => {
 
     useEffect(() => {
         dispatch(setRegistered(false, "", false));
-    },[])
+    },[dispatch])
 
     const requestStatus = useSelector<AppRootStateType, RequestStatusType>(store => store.auth.status)
     const registerStatus = useSelector<AppRootStateType, boolean>(store => store.auth.isRegistered)
-    const registrationError = useSelector<AppRootStateType, string>(store => store.auth.registrationError)
+    const registrationError = useSelector<AppRootStateType, string>(store => store.auth.errorText)
 
 
     const [email, setEmail] = useState<string>('')
@@ -102,6 +102,7 @@ export const Registration = () => {
                     }
                     <img src={yeyForHidePassword}
                          className={s.hiddenPassword}
+                         alt={"eye"}
                          onClick={() => onShowPassword(!showPassword)}
                     />
                     {passwordError !== '' && <div className={s.error}>{passwordError}</div>}
@@ -125,6 +126,7 @@ export const Registration = () => {
                     }
                     <img src={yeyForHidePassword}
                          className={s.hiddenPassword}
+                         alt={"eye"}
                          onClick={() => onShowConfirm(!showConfirm)}
                     />
                     {confirmError !== '' && <div className={s.error}>{confirmError}</div>}

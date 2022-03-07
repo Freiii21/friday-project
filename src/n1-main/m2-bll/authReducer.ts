@@ -30,7 +30,7 @@ export const authReducer = (state = initialAuthState,
         case 'AUTH_REDUCER/SET_REGISTERED': {
             return {...state,
                 isRegistered: action.isRegistered,
-                registrationError: action.registrationError,
+                errorText: action.errorText,
                 newRegisteredUser: action.newRegisteredUser};
         }
         case 'AUTH_REDUCER/SET_REQUESTSTATUS': {
@@ -43,15 +43,17 @@ export const authReducer = (state = initialAuthState,
 
 export const setLogin = (user: UserType, isAuth: boolean) => ({type: 'AUTH_REDUCER/SET_LOGIN', user, isAuth} as const);
 export const setLogOut = () => ({type: 'AUTH_REDUCER/SET_LOGOUT'} as const);
-export const setRegistered = (isRegistered: boolean, registrationError: string, newRegisteredUser: boolean) => {
+export const setRegistered = (isRegistered: boolean, errorText: string, newRegisteredUser: boolean) => {
     return {
         type: 'AUTH_REDUCER/SET_REGISTERED',
         isRegistered,
-        registrationError,
+        errorText,
         newRegisteredUser
     } as const;
 }
 export const setRequestStatus = (status: RequestStatusType) => ({type: 'AUTH_REDUCER/SET_REQUESTSTATUS', status} as const);
+export const setError = (error:boolean) => ({type: 'AUTH_REDUCER/SET_ERROR', error} as const);
+export const setErrorText = (errorText:string) => ({type: 'AUTH_REDUCER/SET_ERROR_TEXT', errorText} as const);
 
 export const setLoginT = (data: LoginDataType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
@@ -85,7 +87,7 @@ export const setRegisteredT = (data: Omit<LoginDataType, 'rememberMe'>) =>
         try {
             dispatch(setRequestStatus("loading"));
             dispatch(setRegistered(false, "", false))
-            const res = await authAPI.register(data);
+            await authAPI.register(data);
             dispatch(setRegistered(true, "", true))
         } catch (err: any) {
             dispatch(setRegistered(false, err.response.data.error, false))
@@ -95,12 +97,6 @@ export const setRegisteredT = (data: Omit<LoginDataType, 'rememberMe'>) =>
         }
 
     }
-
-export type ActionAuthReducerType = ReturnType<typeof setLogin | typeof setLogOut | typeof setRegistered
-    | typeof setRequestStatus>
-export type ActionAuthReducerType = ReturnType<typeof setLogin | typeof setLogOut | typeof setError | typeof setErrorText>
-export type InitialAuthStateType = typeof initialAuthState;
-
 
 export const passwordRecoveryTC = (data: ForgotPasswordType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
@@ -116,8 +112,9 @@ export const passwordRecoveryTC = (data: ForgotPasswordType) =>
 
     }
 
-export const setError = (error:boolean) => ({type: 'AUTH_REDUCER/SET_ERROR', error} as const);
-export const setErrorText = (errorText:string) => ({type: 'AUTH_REDUCER/SET_ERROR_TEXT', errorText} as const);
+export type ActionAuthReducerType = ReturnType<typeof setLogin | typeof setLogOut | typeof setRegistered
+    | typeof setRequestStatus | typeof setError | typeof setErrorText>
+export type InitialAuthStateType = typeof initialAuthState;
 
 
 
