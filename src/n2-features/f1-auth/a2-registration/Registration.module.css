@@ -1,0 +1,66 @@
+.common {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.regWindow {
+    width: 320px;
+    height: 480px;
+    background-color: lightgrey;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.text{
+    margin-top: 40px;
+    font-weight: bold;
+    font-size: 28px;
+}
+.text2{
+    margin-top: 25px;
+    margin-bottom: 50px;
+    font-weight: bold;
+    font-size: 20px;
+}
+.input{
+    width: 250px;
+    height: 40px;
+    margin: 7px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    outline:none;
+}
+.inputDisabled {
+    background-color: #ececec;
+    color: #9d9d9d;
+}
+.button{
+    margin-top: 50px;
+    width: 170px;
+    height: 30px;
+    border: none;
+    border-radius: 20px;
+    background-color: #002884;
+    color: white;
+}
+.buttonDisabled{
+    background-color: #88a7ee;
+    color: dimgrey;
+}
+.error{
+    text-align: center;
+    color: red;
+    font-size: 14px;
+}
+.hiddenPassword{
+    position: absolute;
+    width: 25px;
+    margin-left: -40px;
+    margin-top: 16px;
+}

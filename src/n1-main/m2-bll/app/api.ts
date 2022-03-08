@@ -2,7 +2,7 @@ import axios, {AxiosResponse} from 'axios';
 
 export const instance = axios.create({
     //baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
-    baseURL: process.env.REACT_APP_BACK_URL || 'https://neko-back.herokuapp.com/2.0',
+    baseURL: 'https://neko-back.herokuapp.com/2.0',
     withCredentials: true,
 });
 
@@ -12,7 +12,7 @@ export const instance = axios.create({
     getAuthMe: () => instance.post<UserType>('/auth/me'),
 
     register: (data: Omit<LoginDataType, 'rememberMe'>) =>
-        instance.post<Omit<LoginDataType, 'rememberMe'>, AxiosResponse<ResponseRegisterDataType>>('/auth,register'),
+        instance.post<Omit<LoginDataType, 'rememberMe'>, AxiosResponse<ResponseRegisterDataType>>('/auth/register', data),
 
     changeUserName: (data: NewNameUserType) => instance.put<NewNameUserType, AxiosResponse<ResponseUpdateUserType>>('/auth/me'),
 
@@ -36,7 +36,7 @@ export type NewPasswordType = {
 }
 export type ForgotPasswordType = {
     email: string;
-    from: string;
+    from?: string;
     message: string;
 }
 export type ResponseCommonType = {

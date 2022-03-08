@@ -5,7 +5,7 @@ import s from './TestPage.module.css'
 import {useDispatch, useSelector} from 'react-redux';
 import {getPingT} from '../../n1-main/m2-bll/testReducer';
 import {AppRootStateType} from '../../n1-main/m2-bll/store';
-import {ResponsePingType} from '../../n1-main/m2-bll/app/app';
+import {ResponsePingType} from '../../n1-main/m2-bll/app/api';
 
 export const TestPage = () => {
    const dispatch=useDispatch();
