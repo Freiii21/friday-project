@@ -1,4 +1,4 @@
-import {authAPI, ForgotPasswordType, LoginDataType, UserType} from './app/api';
+import {authAPI, ForgotPasswordType, LoginDataType, UserType} from './api/api';
 import {Dispatch} from 'redux';
 
 export type RequestStatusType = 'idle' | 'loading'
