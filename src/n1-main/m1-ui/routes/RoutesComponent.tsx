@@ -1,5 +1,5 @@
 import React from 'react'
-import {Routes, Route, Navigate} from 'react-router-dom'
+import {Navigate, Route, Routes} from 'react-router-dom'
 import {Login} from '../../../n2-features/f1-auth/a1-login/Login';
 import {TestPage} from '../../../n2-features/f0-test/TestPage';
 import {Registration} from '../../../n2-features/f1-auth/a2-registration/Registration';

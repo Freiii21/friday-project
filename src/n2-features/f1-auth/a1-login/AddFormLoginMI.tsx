@@ -1,65 +1,77 @@
 import React, {useState} from 'react'
 import Grid from '@mui/material/Grid';
+import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
+import {Navigate, NavLink} from 'react-router-dom';
+import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
+import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import * as Yup from 'yup';
+import {setLoginT} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {Box, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
-import {Navigate, useParams} from 'react-router-dom';
-import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
-import {createNewPassword} from '../../../n1-main/m2-bll/reducers/authReducer';
 
-
-export const CreatingNewPassword = () => {
-    debugger
+type State = {
+    password: string;
+    showPassword: boolean;
+    email: string;
+}
+export const AddFormLoginMI = () => {
     const dispatch = useDispatch();
-    const [values, setValues] = useState<{ showPassword: boolean }>({
+    const [values, setValues] = useState<State>({
+        password: '',
         showPassword: false,
+        email: '',
     });
-
-    const {token} = useParams();
-
+    /* const handleChange =
+         (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+             setValues({ ...values, [prop]: event.target.value });
+         };
+ */
     const handleClickShowPassword = () => {
         setValues({
+            ...values,
             showPassword: !values.showPassword,
         });
     };
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
+    const isAuth = useTypedSelector(state => state.auth.isAuth);
     const formik = useFormik({
         initialValues: {
+            email: '',
             password: '',
-            resetPasswordToken:token,
+            rememberMe: false,
         },
         validationSchema: Yup.object({
 
             password: Yup.string()
                 .min(8, 'Must be 8 characters or more')
                 .required('Required'),
+            email: Yup.string().email('Invalid email address').required('Required'),
         }),
         onSubmit: values => {
-            values&&dispatch(createNewPassword(values));
+            dispatch(setLoginT(values))
             formik.resetForm();
         },
     });
-    if(token===':token')return <Navigate to={PATH.PASSWORD_RECOVERY}/>
+    {
+        if (isAuth) return <Navigate to={PATH.PROFILE}/>
+    }
     return (
-        <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '85vh',
-        }}><Box
+        <Box
             sx={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 margin: 5,
-                padding: 5,
                 border: '2px solid lightgrey',
                 borderRadius: 3,
                 width: 350,
@@ -75,10 +87,18 @@ export const CreatingNewPassword = () => {
                 <Grid item justifyContent={'center'}>
                     <form onSubmit={formik.handleSubmit}>
 
-                        <FormLabel>
-                            <h2 style={{marginBottom: '30%'}}>Create New Password</h2>
+                        <FormLabel sx={{marginBottom: 5}}>
+                            <h2>Sign In</h2>
                         </FormLabel>
-
+                        <FormControl>
+                            <InputLabel  htmlFor="email">Email</InputLabel>
+                            <Input
+                                id={'email'}
+                                type={'text'}
+                                {...formik.getFieldProps('email')}
+                            />
+                            {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+                        </FormControl>
                         <FormControl>
                             <InputLabel htmlFor="password">Password</InputLabel>
                             <Input
@@ -99,26 +119,55 @@ export const CreatingNewPassword = () => {
 
                             />
                             {formik.touched.password && formik.errors.password && <div>{formik.errors.password}</div>}
-                            <FormLabel><p style={{fontSize: '0.8rem', marginTop: '20%'}}>Create new password and we will
-                                send you further instructions to email</p></FormLabel>
+                        </FormControl>
+
+                        <FormControl>
+                            <FormControlLabel
+                                sx={{marginTop: '20px'}}
+                                label={'Remember me'}
+                                control={
+                                    <Checkbox
+                                        size={'small'}
+                                        {...formik.getFieldProps('rememberMe')}
+                                    />
+                                }/>
+                            <p style={{position:'relative', top:'15px',left:'135px',fontSize:'0.8rem'}}>
+                                <NavLink style={{textDecoration:'none'}} to={PATH.PASSWORD_RECOVERY}>Forgot Password</NavLink>
+                            </p>
                             <Button
                                 sx={{
                                     marginTop: '30%',
-                                    marginLeft: '10%',
                                     height: 25,
                                     width: 200,
                                     borderRadius: 10,
                                     fontSize: '0.5rem',
                                 }}
                                 type={'submit'} variant={'contained'} color={'primary'}>
-                                Create New Password
+                                Login
                             </Button>
                         </FormControl>
-
                     </form>
+
+                </Grid>
+                <Grid item
+                      sx={{
+                          marginTop: '30px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexDirection: 'column',
+
+                      }}
+                >
+                    <div style={{fontSize: '0.7rem'}}>don`t have an account?</div>
+                    <div><NavLink
+                        style={{textDecoration: 'none', fontSize: 'small'}}
+                        to={PATH.REGISTRATION}
+                    >Sign Up
+                    </NavLink></div>
                 </Grid>
             </Grid>
         </Box>
-        </div>
     )
 }
+

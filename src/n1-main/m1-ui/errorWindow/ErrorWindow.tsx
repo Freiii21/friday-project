@@ -1,7 +1,7 @@
 import s from "./ErrorWindow.module.css"
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {setError} from "../../m2-bll/authReducer";
+import {setError} from "../../m2-bll/reducers/authReducer";
 import {AppRootStateType} from "../../m2-bll/store";
 
 

@@ -2,20 +2,20 @@ import s from './Registration.module.css'
 import {ChangeEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../../../n1-main/m2-bll/store';
-import {RequestStatusType, setRegistered, setRegisteredT} from '../../../n1-main/m2-bll/authReducer';
-import {Preloader} from '../../../n1-main/m1-ui/common/Preloader/Preloader';
+import {setRegistered, setRegisteredT} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import yeyForHidePassword from './../../../assets/eye.png'
+import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 
 export const Registration = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setRegistered(false, "", false));
-    },[dispatch])
+        dispatch(setRegistered(false, '', false));
+    }, [dispatch])
 
-    const requestStatus = useSelector<AppRootStateType, RequestStatusType>(store => store.auth.status)
+    const requestStatus = useTypedSelector(state => state.app.status)
     const registerStatus = useSelector<AppRootStateType, boolean>(store => store.auth.isRegistered)
     const registrationError = useSelector<AppRootStateType, string>(store => store.auth.errorText)
 
@@ -42,8 +42,12 @@ export const Registration = () => {
         setConfirmError('')
         setConfirm(e.currentTarget.value)
     };
-    const onShowPassword = (hide: boolean) => {setShowPassword(hide)};
-    const onShowConfirm = (hide: boolean) => {setShowConfirm(hide)};
+    const onShowPassword = (hide: boolean) => {
+        setShowPassword(hide)
+    };
+    const onShowConfirm = (hide: boolean) => {
+        setShowConfirm(hide)
+    };
     const emailRegExp = /^[\w][\w-.]*@[\w-]+\.[a-z]{2,7}$/i;
     const emailValidator = (email: string): boolean => emailRegExp.test(email);
 
@@ -78,7 +82,7 @@ export const Registration = () => {
                            placeholder="Enter email"
                            value={email}
                            onChange={onChangeEmail}
-                           disabled={requestStatus === 'loading'}
+                           disabled={requestStatus==='loading'}
                            className={inputClass}
                     />
                     {emailError !== '' && <div className={s.error}>{emailError}</div>}
@@ -102,7 +106,7 @@ export const Registration = () => {
                     }
                     <img src={yeyForHidePassword}
                          className={s.hiddenPassword}
-                         alt={"eye"}
+                         alt={'eye'}
                          onClick={() => onShowPassword(!showPassword)}
                     />
                     {passwordError !== '' && <div className={s.error}>{passwordError}</div>}
@@ -126,7 +130,7 @@ export const Registration = () => {
                     }
                     <img src={yeyForHidePassword}
                          className={s.hiddenPassword}
-                         alt={"eye"}
+                         alt={'eye'}
                          onClick={() => onShowConfirm(!showConfirm)}
                     />
                     {confirmError !== '' && <div className={s.error}>{confirmError}</div>}
@@ -137,8 +141,8 @@ export const Registration = () => {
                     </button>
                 </div>
             </div>
-            {requestStatus === 'loading' && <Preloader/>}
-            {registrationError !== "" && <div className={s.error}>Registation error: {registrationError}</div>}
+            {/* {requestStatus === 'loading' && <Preloader/>}*/}
+            {registrationError !== '' && <div className={s.error}>Registation error: {registrationError}</div>}
         </div>
     )
 }

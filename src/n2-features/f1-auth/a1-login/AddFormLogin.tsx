@@ -2,7 +2,7 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import o from './Login.module.css'
 import {useDispatch, useSelector} from 'react-redux';
-import {setLoginT} from '../../../n1-main/m2-bll/authReducer';
+import {setLoginT} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {AppRootStateType} from '../../../n1-main/m2-bll/store';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import { Navigate } from 'react-router-dom';
