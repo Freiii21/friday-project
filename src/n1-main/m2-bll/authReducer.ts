@@ -11,6 +11,7 @@ const initialAuthState = {
     status: 'idle' as RequestStatusType,
     error: false,
     errorText: "",
+    isToken:false,
 }
 
 export const authReducer = (state = initialAuthState,

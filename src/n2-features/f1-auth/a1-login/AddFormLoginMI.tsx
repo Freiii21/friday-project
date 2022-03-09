@@ -91,7 +91,7 @@ export const AddFormLoginMI = () => {
                             <h2>Sign In</h2>
                         </FormLabel>
                         <FormControl>
-                            <InputLabel htmlFor="email">Email</InputLabel>
+                            <InputLabel  htmlFor="email">Email</InputLabel>
                             <Input
                                 id={'email'}
                                 type={'text'}
