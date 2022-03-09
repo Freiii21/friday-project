@@ -10,7 +10,7 @@ export const instance = axios.create({
  export const authAPI = {
     login: (data: LoginDataType) => instance.post<LoginDataType, AxiosResponse<UserType>>('/auth/login', data),
 
-    getAuthMe: () => instance.post<UserType>('/auth/me'),
+    getAuthMe: (payload: {}) => instance.post<UserType>('/auth/me',payload),
 
     register: (data: Omit<LoginDataType, 'rememberMe'>) =>
         instance.post<Omit<LoginDataType, 'rememberMe'>, AxiosResponse<ResponseRegisterDataType>>('/auth/register', data),
