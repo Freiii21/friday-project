@@ -53,6 +53,7 @@ export const setRegistered = (isRegistered: boolean, errorText: string, newRegis
 export const setError = (error: boolean) => ({type: 'AUTH_REDUCER/SET_ERROR', error} as const);
 export const setErrorText = (errorText: string) => ({type: 'AUTH_REDUCER/SET_ERROR_TEXT', errorText} as const);
 
+
 export const setLoginT = (data: LoginDataType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
 
@@ -75,7 +76,7 @@ export const setLogoutT = () =>
 
         try {
             dispatch(setLoaderStatus('loading'));
-            const res = await authAPI.logOut();
+            await authAPI.logOut();
             dispatch(setLogOut());
 
         } catch (er: any) {
@@ -105,7 +106,7 @@ export const passwordRecoveryTC = (data: ForgotPasswordType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
-            const res = await authAPI.postForgotPassword(data);
+            await authAPI.postForgotPassword(data);
 
         } catch (err: any) {
             // console.log(error.error)
@@ -120,8 +121,21 @@ export const createNewPassword = (date: NewPasswordType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
-            const res = authAPI.setNewPassword(date);
+            await authAPI.setNewPassword(date);
 
+        } catch (e: any) {
+
+        } finally {
+            dispatch(setLoaderStatus('idle'));
+        }
+    }
+
+export const checkAuthMeTC = (payload: {}) =>
+    async (dispatch: Dispatch<ActionAuthReducerType>) => {
+        try {
+            dispatch(setLoaderStatus('loading'));
+            const res = await authAPI.getAuthMe(payload);
+            dispatch(setLogin(res.data, true));
         } catch (e: any) {
 
         } finally {
@@ -136,6 +150,7 @@ export type ActionAuthReducerType =
     | ReturnType<typeof setError>
     | ReturnType<typeof setErrorText>
     | ReturnType<typeof setLoaderStatus>
+
 
 export type InitialAuthStateType = typeof initialAuthState;
 
