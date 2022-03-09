@@ -1,14 +1,12 @@
-import {authAPI, ForgotPasswordType, LoginDataType, NewPasswordType, UserType} from './api/api';
+import {authAPI, ForgotPasswordType, LoginDataType, NewPasswordType, UserType} from '../api/api';
 import {Dispatch} from 'redux';
-
-export type RequestStatusType = 'idle' | 'loading'
+import {setLoaderStatus} from './appReducer';
 
 const initialAuthState = {
     user: {} as UserType,
     isAuth: false,
     isRegistered: false,
     newRegisteredUser: false,
-    status: 'idle' as RequestStatusType,
     error: false,
     errorText: '',
 }
@@ -35,10 +33,6 @@ export const authReducer = (state = initialAuthState,
                 newRegisteredUser: action.newRegisteredUser
             };
         }
-        case 'AUTH_REDUCER/SET_REQUESTSTATUS': {
-            return {...state, status: action.status};
-        }
-
         default:
             return state;
     }
@@ -55,10 +49,12 @@ export const setRegistered = (isRegistered: boolean, errorText: string, newRegis
         newRegisteredUser
     } as const;
 }
+/*
 export const setRequestStatus = (status: RequestStatusType) => ({
     type: 'AUTH_REDUCER/SET_REQUESTSTATUS',
     status
 } as const);
+*/
 export const setError = (error: boolean) => ({type: 'AUTH_REDUCER/SET_ERROR', error} as const);
 export const setErrorText = (errorText: string) => ({type: 'AUTH_REDUCER/SET_ERROR_TEXT', errorText} as const);
 
@@ -92,14 +88,14 @@ export const setLogoutT = () =>
 export const setRegisteredT = (data: Omit<LoginDataType, 'rememberMe'>) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
-            dispatch(setRequestStatus('loading'));
+            dispatch(setLoaderStatus('loading'));
             dispatch(setRegistered(false, '', false))
             await authAPI.register(data);
             dispatch(setRegistered(true, '', true))
         } catch (err: any) {
             dispatch(setRegistered(false, err.response.data.error, false))
         } finally {
-            dispatch(setRequestStatus('idle'))
+            dispatch(setLoaderStatus('idle'))
         }
 
     }
@@ -133,9 +129,9 @@ export type ActionAuthReducerType =
     ReturnType<typeof setLogin>
     | ReturnType<typeof setLogOut>
     | ReturnType<typeof setRegistered>
-    | ReturnType<typeof setRequestStatus>
     | ReturnType<typeof setError>
     | ReturnType<typeof setErrorText>
+    | ReturnType<typeof setLoaderStatus>
 
 export type InitialAuthStateType = typeof initialAuthState;
 

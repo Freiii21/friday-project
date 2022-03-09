@@ -1,8 +1,7 @@
 import o from './Login.module.css';
-import {AddFormLogin} from './AddFormLogin';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {RequestStatusType, setRegistered} from '../../../n1-main/m2-bll/authReducer';
+import {setRegistered} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {AppRootStateType} from '../../../n1-main/m2-bll/store';
 import {AddFormLoginMI} from './AddFormLoginMI';
 

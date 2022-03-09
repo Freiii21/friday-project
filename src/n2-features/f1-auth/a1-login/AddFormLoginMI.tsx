@@ -13,7 +13,7 @@ import {Navigate, NavLink} from 'react-router-dom';
 import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import * as Yup from 'yup';
-import {setLoginT} from '../../../n1-main/m2-bll/authReducer';
+import {setLoginT} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {Box, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 

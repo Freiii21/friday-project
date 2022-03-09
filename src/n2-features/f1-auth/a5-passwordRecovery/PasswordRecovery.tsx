@@ -1,7 +1,7 @@
 import s from './PasswordRecovery.module.css'
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
-import {passwordRecoveryTC} from "../../../n1-main/m2-bll/authReducer";
+import {passwordRecoveryTC} from "../../../n1-main/m2-bll/reducers/authReducer";
 
 
 type ValidateType = {

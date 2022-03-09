@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import React from 'react';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -10,7 +10,8 @@ import {NavLink} from 'react-router-dom';
 import {PATH} from '../routes/RoutesComponent';
 import {useTypedSelector} from '../../m2-bll/redux';
 import {useDispatch} from 'react-redux';
-import {setLogoutT} from '../../m2-bll/authReducer';
+import {setLogoutT} from '../../m2-bll/reducers/authReducer';
+import LinearIndeterminate from '../common/Preloader/LinearMI';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -25,33 +26,37 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     }),
 );
-type PropsType={
-    switchDrawer:(t:boolean)=>void
+type PropsType = {
+    switchDrawer: (t: boolean) => void
 }
-export default function HeaderMI({switchDrawer}:PropsType) {
+export default function HeaderMI({switchDrawer}: PropsType) {
     const classes = useStyles();
-const isAuth=useTypedSelector(state => state.auth.isAuth);
-const dispatch=useDispatch();
-const handleLogOut = () => {
-  dispatch(setLogoutT());
-}
+    const isAuth = useTypedSelector(state => state.auth.isAuth);
+    const status = useTypedSelector(state => state.app.status)
+    const dispatch = useDispatch();
+    const handleLogOut = () => {
+        dispatch(setLogoutT());
+    }
     return (
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton onClick={()=>{switchDrawer(true)}} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
+                    <IconButton onClick={() => {
+                        switchDrawer(true)
+                    }} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
                         cards 2022
                     </Typography>
                     {isAuth
                         ? <Button color="inherit" onClick={handleLogOut}>Log Out</Button>
-                        : <Button color="inherit"><NavLink style={{textDecoration:'none',color:'white'}} to={PATH.LOGIN}>Login</NavLink></Button>
+                        : <Button color="inherit"><NavLink style={{textDecoration: 'none', color: 'white'}}
+                                                           to={PATH.LOGIN}>Login</NavLink></Button>
 
                     }
-                   {/* <Button color="inherit"><NavLink style={{textDecoration:'none',color:'white'}} to={PATH.LOGIN}>Login</NavLink></Button>*/}
                 </Toolbar>
+                {status === 'loading' && <LinearIndeterminate/>}
             </AppBar>
         </div>
     );

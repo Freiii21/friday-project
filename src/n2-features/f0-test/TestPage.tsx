@@ -3,7 +3,7 @@ import SuperButton from '../../n1-main/m1-ui/common/c2-SuperButton/SuperButton';
 import SuperCheckbox from '../../n1-main/m1-ui/common/c3-SuperCheckbox/SuperCheckbox';
 import s from './TestPage.module.css'
 import {useDispatch, useSelector} from 'react-redux';
-import {getPingT} from '../../n1-main/m2-bll/testReducer';
+import {getPingT} from '../../n1-main/m2-bll/reducers/testReducer';
 import {AppRootStateType} from '../../n1-main/m2-bll/store';
 import {ResponsePingType} from '../../n1-main/m2-bll/api/api';
 
