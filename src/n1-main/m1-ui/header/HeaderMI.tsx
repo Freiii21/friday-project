@@ -8,6 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {NavLink} from 'react-router-dom';
 import {PATH} from '../routes/RoutesComponent';
+import {useTypedSelector} from '../../m2-bll/redux';
+import {useDispatch} from 'react-redux';
+import {setLogoutT} from '../../m2-bll/authReducer';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -27,7 +30,11 @@ type PropsType={
 }
 export default function HeaderMI({switchDrawer}:PropsType) {
     const classes = useStyles();
-
+const isAuth=useTypedSelector(state => state.auth.isAuth);
+const dispatch=useDispatch();
+const handleLogOut = () => {
+  dispatch(setLogoutT());
+}
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -38,7 +45,12 @@ export default function HeaderMI({switchDrawer}:PropsType) {
                     <Typography variant="h6" className={classes.title}>
                         cards 2022
                     </Typography>
-                    <Button color="inherit"><NavLink to={PATH.LOGIN}>Login</NavLink></Button>
+                    {isAuth
+                        ? <Button color="inherit" onClick={handleLogOut}>Log Out</Button>
+                        : <Button color="inherit"><NavLink style={{textDecoration:'none',color:'white'}} to={PATH.LOGIN}>Login</NavLink></Button>
+
+                    }
+                   {/* <Button color="inherit"><NavLink style={{textDecoration:'none',color:'white'}} to={PATH.LOGIN}>Login</NavLink></Button>*/}
                 </Toolbar>
             </AppBar>
         </div>
