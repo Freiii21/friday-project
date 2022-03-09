@@ -14,8 +14,6 @@ import s from './Profile.module.css'
 
 export const Profile = () => {
     const dispatch = useDispatch();
-    const handleLogout = () => dispatch(setLogoutT());
-
     const user = useTypedSelector(state => state.auth.user)
 
     const registerData = DateTime.fromISO(user.created).toFormat('DDD')
@@ -34,9 +32,7 @@ export const Profile = () => {
             <span>Your Email: {user.email}</span>
             <span>Your NickName: {user.email}</span>
             <span>Date of registration: {registerData}</span>
-            <div>
-                <SuperButton onClick={handleLogout}>Logout</SuperButton>
-            </div>
+
         </div>
     )
 }
