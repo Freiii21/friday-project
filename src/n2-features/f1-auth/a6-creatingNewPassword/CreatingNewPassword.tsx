@@ -42,7 +42,6 @@ export const CreatingNewPassword = () => {
                 .required('Required'),
         }),
         onSubmit: values => {
-            alert(JSON.stringify(values,null,2))
             values&&dispatch(createNewPassword(values));
             formik.resetForm();
         },

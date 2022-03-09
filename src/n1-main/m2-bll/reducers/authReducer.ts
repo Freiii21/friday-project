@@ -49,12 +49,7 @@ export const setRegistered = (isRegistered: boolean, errorText: string, newRegis
         newRegisteredUser
     } as const;
 }
-/*
-export const setRequestStatus = (status: RequestStatusType) => ({
-    type: 'AUTH_REDUCER/SET_REQUESTSTATUS',
-    status
-} as const);
-*/
+
 export const setError = (error: boolean) => ({type: 'AUTH_REDUCER/SET_ERROR', error} as const);
 export const setErrorText = (errorText: string) => ({type: 'AUTH_REDUCER/SET_ERROR_TEXT', errorText} as const);
 
@@ -62,12 +57,15 @@ export const setLoginT = (data: LoginDataType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
 
         try {
+            dispatch(setLoaderStatus('loading'))
             const res = await authAPI.login(data);
             dispatch(setLogin(res.data, true));
 
         } catch (er: any) {
             dispatch(setError(true))
             dispatch(setErrorText(er.response.data.error))
+        } finally {
+            dispatch(setLoaderStatus('idle'));
         }
 
     }
@@ -76,11 +74,14 @@ export const setLogoutT = () =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
 
         try {
+            dispatch(setLoaderStatus('loading'));
             const res = await authAPI.logOut();
             dispatch(setLogOut());
 
         } catch (er: any) {
             console.log(er)
+        } finally {
+            dispatch(setLoaderStatus('idle'));
         }
 
     }
@@ -103,25 +104,28 @@ export const setRegisteredT = (data: Omit<LoginDataType, 'rememberMe'>) =>
 export const passwordRecoveryTC = (data: ForgotPasswordType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
-            debugger
+            dispatch(setLoaderStatus('loading'));
             const res = await authAPI.postForgotPassword(data);
 
         } catch (err: any) {
             // console.log(error.error)
             dispatch(setError(true))
             dispatch(setErrorText(err.response.data.error))
+        } finally {
+            dispatch(setLoaderStatus('idle'))
         }
 
     };
 export const createNewPassword = (date: NewPasswordType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
+            dispatch(setLoaderStatus('loading'));
             const res = authAPI.setNewPassword(date);
 
         } catch (e: any) {
 
         } finally {
-
+            dispatch(setLoaderStatus('idle'));
         }
     }
 
