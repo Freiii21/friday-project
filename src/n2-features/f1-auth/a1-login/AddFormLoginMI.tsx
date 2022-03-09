@@ -53,7 +53,7 @@ export const AddFormLoginMI = () => {
         validationSchema: Yup.object({
 
             password: Yup.string()
-                .min(3, 'Must be 3 characters or more')
+                .min(8, 'Must be 8 characters or more')
                 .required('Required'),
             email: Yup.string().email('Invalid email address').required('Required'),
         }),

@@ -35,6 +35,7 @@ export const PasswordRecovery = () => {
             return errors;
         },
         onSubmit: values => {
+
             dispatch(passwordRecoveryTC(values))
             formik.resetForm()
         },

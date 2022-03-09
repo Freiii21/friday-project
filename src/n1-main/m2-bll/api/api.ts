@@ -1,4 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
+import {Params} from 'react-router-dom';
 
 export const instance = axios.create({
     //baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
@@ -32,7 +33,7 @@ export type ResponsePingType={
 }
 export type NewPasswordType = {
     password: string;
-    resetPasswordToken: string;
+    resetPasswordToken: string|undefined;
 }
 export type ForgotPasswordType = {
     email: string;

@@ -5,25 +5,25 @@ import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
-import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 import * as Yup from 'yup';
 import {Box, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
-import {NewPasswordType} from '../../../n1-main/m2-bll/api/api';
-import {useParams} from 'react-router-dom';
+import {Navigate, useParams} from 'react-router-dom';
+import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
+import {createNewPassword} from '../../../n1-main/m2-bll/authReducer';
 
 
 export const CreatingNewPassword = () => {
+    debugger
     const dispatch = useDispatch();
-    const [values, setValues] = useState<NewPasswordType & { showPassword: boolean }>({
-        password: '',
-        resetPasswordToken: '',
+    const [values, setValues] = useState<{ showPassword: boolean }>({
         showPassword: false,
     });
-const token=useParams();
+
+    const {token} = useParams();
+
     const handleClickShowPassword = () => {
         setValues({
-            ...values,
             showPassword: !values.showPassword,
         });
     };
@@ -33,20 +33,21 @@ const token=useParams();
     const formik = useFormik({
         initialValues: {
             password: '',
-            token:token,
+            resetPasswordToken:token,
         },
         validationSchema: Yup.object({
 
             password: Yup.string()
-                .min(3, 'Must be 3 characters or more')
+                .min(8, 'Must be 8 characters or more')
                 .required('Required'),
         }),
         onSubmit: values => {
             alert(JSON.stringify(values,null,2))
+            values&&dispatch(createNewPassword(values));
             formik.resetForm();
         },
     });
-
+    if(token===':token')return <Navigate to={PATH.PASSWORD_RECOVERY}/>
     return (
         <div style={{
             display: 'flex',
@@ -59,7 +60,7 @@ const token=useParams();
                 justifyContent: 'center',
                 alignItems: 'center',
                 margin: 5,
-                padding:5,
+                padding: 5,
                 border: '2px solid lightgrey',
                 borderRadius: 3,
                 width: 350,
@@ -76,7 +77,7 @@ const token=useParams();
                     <form onSubmit={formik.handleSubmit}>
 
                         <FormLabel>
-                            <h2 style={{marginBottom:'30%'}}>Create New Password</h2>
+                            <h2 style={{marginBottom: '30%'}}>Create New Password</h2>
                         </FormLabel>
 
                         <FormControl>
@@ -99,11 +100,12 @@ const token=useParams();
 
                             />
                             {formik.touched.password && formik.errors.password && <div>{formik.errors.password}</div>}
-                            <FormLabel><p style={{fontSize:'0.8rem',marginTop:'20%'}}>Create new password and we will send you further instructions to email</p></FormLabel>
+                            <FormLabel><p style={{fontSize: '0.8rem', marginTop: '20%'}}>Create new password and we will
+                                send you further instructions to email</p></FormLabel>
                             <Button
                                 sx={{
                                     marginTop: '30%',
-                                    marginLeft:'10%',
+                                    marginLeft: '10%',
                                     height: 25,
                                     width: 200,
                                     borderRadius: 10,

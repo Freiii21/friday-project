@@ -1,4 +1,4 @@
-import {authAPI, ForgotPasswordType, LoginDataType, UserType} from './api/api';
+import {authAPI, ForgotPasswordType, LoginDataType, NewPasswordType, UserType} from './api/api';
 import {Dispatch} from 'redux';
 
 export type RequestStatusType = 'idle' | 'loading'
@@ -10,8 +10,7 @@ const initialAuthState = {
     newRegisteredUser: false,
     status: 'idle' as RequestStatusType,
     error: false,
-    errorText: "",
-    isToken:false,
+    errorText: '',
 }
 
 export const authReducer = (state = initialAuthState,
@@ -22,25 +21,29 @@ export const authReducer = (state = initialAuthState,
         case 'AUTH_REDUCER/SET_LOGOUT': {
             return {...state, isAuth: false};
         }
-        case "AUTH_REDUCER/SET_ERROR":{
+        case 'AUTH_REDUCER/SET_ERROR': {
             return {...state, error: action.error}
         }
-        case "AUTH_REDUCER/SET_ERROR_TEXT":{
+        case 'AUTH_REDUCER/SET_ERROR_TEXT': {
             return {...state, errorText: action.errorText}
         }
         case 'AUTH_REDUCER/SET_REGISTERED': {
-            return {...state,
+            return {
+                ...state,
                 isRegistered: action.isRegistered,
                 errorText: action.errorText,
-                newRegisteredUser: action.newRegisteredUser};
+                newRegisteredUser: action.newRegisteredUser
+            };
         }
         case 'AUTH_REDUCER/SET_REQUESTSTATUS': {
             return {...state, status: action.status};
         }
+
         default:
             return state;
     }
 }
+
 
 export const setLogin = (user: UserType, isAuth: boolean) => ({type: 'AUTH_REDUCER/SET_LOGIN', user, isAuth} as const);
 export const setLogOut = () => ({type: 'AUTH_REDUCER/SET_LOGOUT'} as const);
@@ -52,9 +55,12 @@ export const setRegistered = (isRegistered: boolean, errorText: string, newRegis
         newRegisteredUser
     } as const;
 }
-export const setRequestStatus = (status: RequestStatusType) => ({type: 'AUTH_REDUCER/SET_REQUESTSTATUS', status} as const);
-export const setError = (error:boolean) => ({type: 'AUTH_REDUCER/SET_ERROR', error} as const);
-export const setErrorText = (errorText:string) => ({type: 'AUTH_REDUCER/SET_ERROR_TEXT', errorText} as const);
+export const setRequestStatus = (status: RequestStatusType) => ({
+    type: 'AUTH_REDUCER/SET_REQUESTSTATUS',
+    status
+} as const);
+export const setError = (error: boolean) => ({type: 'AUTH_REDUCER/SET_ERROR', error} as const);
+export const setErrorText = (errorText: string) => ({type: 'AUTH_REDUCER/SET_ERROR_TEXT', errorText} as const);
 
 export const setLoginT = (data: LoginDataType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
@@ -86,15 +92,14 @@ export const setLogoutT = () =>
 export const setRegisteredT = (data: Omit<LoginDataType, 'rememberMe'>) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
-            dispatch(setRequestStatus("loading"));
-            dispatch(setRegistered(false, "", false))
+            dispatch(setRequestStatus('loading'));
+            dispatch(setRegistered(false, '', false))
             await authAPI.register(data);
-            dispatch(setRegistered(true, "", true))
+            dispatch(setRegistered(true, '', true))
         } catch (err: any) {
             dispatch(setRegistered(false, err.response.data.error, false))
-        }
-        finally {
-            dispatch(setRequestStatus("idle"))
+        } finally {
+            dispatch(setRequestStatus('idle'))
         }
 
     }
@@ -102,8 +107,8 @@ export const setRegisteredT = (data: Omit<LoginDataType, 'rememberMe'>) =>
 export const passwordRecoveryTC = (data: ForgotPasswordType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
+            debugger
             const res = await authAPI.postForgotPassword(data);
-            console.log(res)
 
         } catch (err: any) {
             // console.log(error.error)
@@ -111,10 +116,27 @@ export const passwordRecoveryTC = (data: ForgotPasswordType) =>
             dispatch(setErrorText(err.response.data.error))
         }
 
+    };
+export const createNewPassword = (date: NewPasswordType) =>
+    async (dispatch: Dispatch<ActionAuthReducerType>) => {
+        try {
+            const res = authAPI.setNewPassword(date);
+
+        } catch (e: any) {
+
+        } finally {
+
+        }
     }
 
-export type ActionAuthReducerType = ReturnType<typeof setLogin | typeof setLogOut | typeof setRegistered
-    | typeof setRequestStatus | typeof setError | typeof setErrorText>
+export type ActionAuthReducerType =
+    ReturnType<typeof setLogin>
+    | ReturnType<typeof setLogOut>
+    | ReturnType<typeof setRegistered>
+    | ReturnType<typeof setRequestStatus>
+    | ReturnType<typeof setError>
+    | ReturnType<typeof setErrorText>
+
 export type InitialAuthStateType = typeof initialAuthState;
 
 
