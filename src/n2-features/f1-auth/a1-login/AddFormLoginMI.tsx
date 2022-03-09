@@ -99,6 +99,7 @@ export const AddFormLoginMI = () => {
                             />
                             {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
                         </FormControl>
+                        <div style={{height:"10px"}}></div>
                         <FormControl>
                             <InputLabel htmlFor="password">Password</InputLabel>
                             <Input
