@@ -13,6 +13,7 @@ import {useDispatch} from 'react-redux';
 import {setLogoutT} from '../../m2-bll/reducers/authReducer';
 import LinearIndeterminate from '../common/Preloader/LinearMI';
 import SnackBarError from '../common/info_messages/SnackBarError';
+import SnackBarSuccess from '../common/info_messages/SnackBarSuccess';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,13 +57,12 @@ export default function HeaderMI({switchDrawer}: PropsType) {
                         ? <Button color="inherit" onClick={handleLogOut}>Log Out</Button>
                         : <Button color="inherit"><NavLink style={{textDecoration: 'none', color: 'white'}}
                                                            to={PATH.LOGIN}>Login</NavLink></Button>
-
                     }
                 </Toolbar>
                 {status === 'loading' && <LinearIndeterminate/>}
-
             </AppBar>
             <SnackBarError/>
+            <SnackBarSuccess/>
         </div>
     );
 }
