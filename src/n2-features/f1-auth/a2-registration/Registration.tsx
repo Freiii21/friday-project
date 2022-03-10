@@ -141,8 +141,6 @@ export const Registration = () => {
                     </button>
                 </div>
             </div>
-            {/* {requestStatus === 'loading' && <Preloader/>}*/}
-            {registrationError !== '' && <div className={s.error}>Registation error: {registrationError}</div>}
         </div>
     )
 }

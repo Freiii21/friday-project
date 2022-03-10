@@ -16,8 +16,6 @@ export const Login = () => {
     return (
         <div className={o.wrapper}>
             <AddFormLoginMI/>
-            {newRegisteredUser &&
-            <span className={o.newUser}>Registration is successful. Please enter your email and password.</span>}
         </div>
     )
 }
