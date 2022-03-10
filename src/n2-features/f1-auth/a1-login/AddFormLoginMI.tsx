@@ -14,6 +14,7 @@ import * as Yup from 'yup';
 import {setLoginT} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {Box, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
+import {redStyle} from '../../../n1-main/m1-ui/utilities/for css';
 
 type State = {
     password: string;
@@ -27,17 +28,14 @@ export const AddFormLoginMI = () => {
         showPassword: false,
         email: '',
     });
-    /* const handleChange =
-         (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-             setValues({ ...values, [prop]: event.target.value });
-         };
- */
+
     const handleClickShowPassword = () => {
         setValues({
             ...values,
             showPassword: !values.showPassword,
         });
     };
+
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
@@ -95,7 +93,9 @@ export const AddFormLoginMI = () => {
                                 type={'text'}
                                 {...formik.getFieldProps('email')}
                             />
-                            {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+                            {formik.touched.email && formik.errors.email
+                                ? <div style={redStyle}>{formik.errors.email}</div>
+                                : null}
                         </FormControl>
                         <div style={{height: '10px'}}></div>
                         <FormControl>
@@ -117,7 +117,8 @@ export const AddFormLoginMI = () => {
                                 }
 
                             />
-                            {formik.touched.password && formik.errors.password && <div>{formik.errors.password}</div>}
+                            {formik.touched.password && formik.errors.password
+                            && <div style={redStyle}>{formik.errors.password}</div>}
                         </FormControl>
 
                         <FormControl>
@@ -159,7 +160,7 @@ export const AddFormLoginMI = () => {
 
                       }}
                 >
-                    <div style={{fontSize: '0.7rem'}}>don`t have an account?</div>
+                    <div style={{fontSize: '0.7rem'}}>Don`t have an account?</div>
                     <div><NavLink
                         style={{textDecoration: 'none', fontSize: 'small'}}
                         to={PATH.REGISTRATION}

@@ -1,7 +1,10 @@
+import img_404 from './img/Error 404 White.jpg'
+import Grid from '@mui/material/Grid';
+
 export const PageNotFound = () => {
     return (
-        <div>
-            404 Page Not Found
-        </div>
+        <Grid container justifyContent={'center'}>
+            <img src={img_404}/>
+        </Grid>
     )
 }
