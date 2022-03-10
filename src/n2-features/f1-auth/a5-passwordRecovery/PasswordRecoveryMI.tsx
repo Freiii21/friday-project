@@ -10,7 +10,7 @@ import {Box, Input, InputLabel} from '@mui/material';
 import {NavLink} from 'react-router-dom';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import {passwordRecoveryTC} from '../../../n1-main/m2-bll/reducers/authReducer';
-import {redStyle} from '../../../n1-main/m1-ui/common/utilities/for css';
+import {redStyle} from '../../../n1-main/m1-ui/utilities/for css';
 
 
 export const PasswordRecoveryMI = () => {

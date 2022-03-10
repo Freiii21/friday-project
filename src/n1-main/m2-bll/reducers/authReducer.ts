@@ -1,7 +1,7 @@
 import {authAPI, ForgotPasswordType, LoginDataType, NewPasswordType, UserType} from '../api/api';
 import {Dispatch} from 'redux';
 import {setErrorN, setLoaderStatus, setSuccess} from './appReducer';
-import {handleError} from '../../m1-ui/common/utilities/handleError';
+import {handleError} from '../../m1-ui/utilities/handleError';
 
 const initialAuthState = {
     user: {} as UserType,

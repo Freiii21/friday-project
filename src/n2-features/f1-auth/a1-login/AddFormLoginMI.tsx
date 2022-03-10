@@ -14,7 +14,7 @@ import * as Yup from 'yup';
 import {setLoginT} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {Box, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
-import {redStyle} from '../../../n1-main/m1-ui/common/utilities/for css';
+import {redStyle} from '../../../n1-main/m1-ui/utilities/for css';
 
 type State = {
     password: string;
