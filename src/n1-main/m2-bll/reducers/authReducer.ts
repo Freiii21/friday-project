@@ -1,6 +1,7 @@
 import {authAPI, ForgotPasswordType, LoginDataType, NewPasswordType, UserType} from '../api/api';
 import {Dispatch} from 'redux';
-import {setLoaderStatus} from './appReducer';
+import {setErrorN, setLoaderStatus} from './appReducer';
+import {handleError} from '../../m1-ui/common/utilities/handleError';
 
 const initialAuthState = {
     user: {} as UserType,
@@ -63,8 +64,7 @@ export const setLoginT = (data: LoginDataType) =>
             dispatch(setLogin(res.data, true));
 
         } catch (er: any) {
-            dispatch(setError(true))
-            dispatch(setErrorText(er.response.data.error))
+            handleError(er, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
@@ -73,14 +73,13 @@ export const setLoginT = (data: LoginDataType) =>
 
 export const setLogoutT = () =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
-
         try {
             dispatch(setLoaderStatus('loading'));
             await authAPI.logOut();
             dispatch(setLogOut());
 
-        } catch (er: any) {
-            console.log(er)
+        } catch (e: any) {
+            handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
@@ -96,6 +95,7 @@ export const setRegisteredT = (data: Omit<LoginDataType, 'rememberMe'>) =>
             dispatch(setRegistered(true, '', true))
         } catch (err: any) {
             dispatch(setRegistered(false, err.response.data.error, false))
+            handleError(err, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'))
         }
@@ -109,9 +109,7 @@ export const passwordRecoveryTC = (data: ForgotPasswordType) =>
             await authAPI.postForgotPassword(data);
 
         } catch (err: any) {
-            // console.log(error.error)
-            dispatch(setError(true))
-            dispatch(setErrorText(err.response.data.error))
+            handleError(err, dispatch)
         } finally {
             dispatch(setLoaderStatus('idle'))
         }
@@ -124,7 +122,7 @@ export const createNewPassword = (date: NewPasswordType) =>
             await authAPI.setNewPassword(date);
 
         } catch (e: any) {
-
+            handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
@@ -137,7 +135,7 @@ export const checkAuthMeTC = (payload: {}) =>
             const res = await authAPI.getAuthMe(payload);
             dispatch(setLogin(res.data, true));
         } catch (e: any) {
-
+            handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
@@ -150,7 +148,7 @@ export type ActionAuthReducerType =
     | ReturnType<typeof setError>
     | ReturnType<typeof setErrorText>
     | ReturnType<typeof setLoaderStatus>
-
+    | ReturnType<typeof setErrorN>
 
 export type InitialAuthStateType = typeof initialAuthState;
 
