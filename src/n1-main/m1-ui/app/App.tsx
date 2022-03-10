@@ -1,16 +1,28 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-import {useSelector} from 'react-redux';
-import {AppRootStateType} from '../../m2-bll/store';
+import {useDispatch} from 'react-redux';
 import {ErrorWindow} from '../errorWindow/ErrorWindow';
-
 import {AppDrawer} from './AppDrawer';
 import HeaderMI from '../header/HeaderMI';
 import {RoutesComponent} from '../routes/RoutesComponent';
+import {checkAuthMeTC} from "../../m2-bll/reducers/authReducer";
+import {useTypedSelector} from "../../m2-bll/redux";
+
+
 
 const App = () => {
-const [toggleDrawer,setToggleDrawer]=useState(false);
-    const error = useSelector<AppRootStateType, boolean>(state => state.auth.error)
+    const dispatch = useDispatch()
+    const [toggleDrawer,setToggleDrawer]=useState(false)
+    const error = useTypedSelector(state => state.auth.error)
+    const status = useTypedSelector(state => state.app.status)
+
+
+    useEffect(() => {
+        dispatch(checkAuthMeTC({}))
+    }, [])
+
+    if (status === "loading") return <div>LOADING...</div>
+
 
     return (
         <div className="App">
