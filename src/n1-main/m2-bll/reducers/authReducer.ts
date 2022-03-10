@@ -1,6 +1,6 @@
 import {authAPI, ForgotPasswordType, LoginDataType, NewPasswordType, UserType} from '../api/api';
 import {Dispatch} from 'redux';
-import {setErrorN, setLoaderStatus, setSuccess} from './appReducer';
+import {setErrorN, setIsSent, setLoaderStatus, setSuccess} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
 
 const initialAuthState = {
@@ -116,11 +116,13 @@ export const passwordRecoveryTC = (data: ForgotPasswordType) =>
             const res = await authAPI.postForgotPassword(data);
             if (res.data.info) {
                 dispatch(setSuccess(res.data.info));
+                dispatch(setIsSent(true));
             }
         } catch (err: any) {
             handleError(err, dispatch)
         } finally {
             dispatch(setLoaderStatus('idle'))
+            dispatch(setIsSent(false));
         }
 
     };
@@ -164,6 +166,7 @@ export type ActionAuthReducerType =
     | ReturnType<typeof setLoaderStatus>
     | ReturnType<typeof setErrorN>
     | ReturnType<typeof setSuccess>
+    | ReturnType<typeof setIsSent>
 export type InitialAuthStateType = typeof initialAuthState;
 
 

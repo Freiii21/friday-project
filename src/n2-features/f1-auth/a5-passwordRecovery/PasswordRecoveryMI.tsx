@@ -7,14 +7,16 @@ import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
 import * as Yup from 'yup';
 import {Box, Input, InputLabel} from '@mui/material';
-import {NavLink} from 'react-router-dom';
+import {Navigate, NavLink} from 'react-router-dom';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import {passwordRecoveryTC} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {redStyle} from '../../../n1-main/m1-ui/utilities/for css';
+import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 
 
 export const PasswordRecoveryMI = () => {
     const dispatch = useDispatch();
+    const isSent = useTypedSelector(state => state.app.isSent);
     let message = `<div style="background-color: lime; padding: 15px">
                              password recovery link: 
                         <a href='http://localhost:3000/friday-project#/creatingNewPassword/$token$'>
@@ -33,6 +35,7 @@ export const PasswordRecoveryMI = () => {
             formik.resetForm();
         },
     });
+    if (isSent) return <Navigate to={PATH.CHECK_EMAIL}/>
     return (
         <div style={{
             display: 'flex',
