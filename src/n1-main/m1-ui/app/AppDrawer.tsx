@@ -2,7 +2,6 @@ import {Drawer, MenuItem} from '@mui/material';
 import {NavLink} from 'react-router-dom';
 import {PATH} from '../routes/RoutesComponent';
 import s from '../header/Header.module.css';
-import {swap} from 'formik';
 
 type PropsType = {
     toggle: boolean;

@@ -14,7 +14,6 @@ import {createNewPassword} from '../../../n1-main/m2-bll/reducers/authReducer';
 
 
 export const CreatingNewPassword = () => {
-    debugger
     const dispatch = useDispatch();
     const [values, setValues] = useState<{ showPassword: boolean }>({
         showPassword: false,

@@ -1,5 +1,4 @@
 import axios, {AxiosResponse} from 'axios';
-import {Params} from 'react-router-dom';
 
 export const instance = axios.create({
     //baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
@@ -7,10 +6,10 @@ export const instance = axios.create({
     withCredentials: true,
 });
 
- export const authAPI = {
+export const authAPI = {
     login: (data: LoginDataType) => instance.post<LoginDataType, AxiosResponse<UserType>>('/auth/login', data),
 
-    getAuthMe: (payload: {}) => instance.post<UserType>('/auth/me',payload),
+    getAuthMe: (payload: {}) => instance.post<UserType>('/auth/me', payload),
 
     register: (data: Omit<LoginDataType, 'rememberMe'>) =>
         instance.post<Omit<LoginDataType, 'rememberMe'>, AxiosResponse<ResponseRegisterDataType>>('/auth/register', data),
@@ -23,17 +22,17 @@ export const instance = axios.create({
 
     setNewPassword: (data: NewPasswordType) => instance.post<NewPasswordType, AxiosResponse<ResponseCommonType>>('/auth/set-new-password', data),
 }
- export const appPing={
-  getPing:()=>instance.get<ResponsePingType>('/ping'),
+export const appPing = {
+    getPing: () => instance.get<ResponsePingType>('/ping'),
 }
-export type ResponsePingType={
-     ping:number;
-     backTime:number;
-     info:string;
+export type ResponsePingType = {
+    ping: number;
+    backTime: number;
+    info: string;
 }
 export type NewPasswordType = {
     password: string;
-    resetPasswordToken: string|undefined;
+    resetPasswordToken: string | undefined;
 }
 export type ForgotPasswordType = {
     email: string;

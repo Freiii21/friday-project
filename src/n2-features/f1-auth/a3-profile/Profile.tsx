@@ -30,9 +30,6 @@ export const Profile = () => {
             <span>Your Email: {user.email}</span>
             <span>Your NickName: {user.email}</span>
             <span>Date of registration: {registerData}</span>
-            <div>
-                <SuperButton onClick={handleLogout}>Logout</SuperButton>
-            </div>
         </div>
     )
 }

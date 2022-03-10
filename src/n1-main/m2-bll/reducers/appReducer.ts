@@ -25,6 +25,7 @@ export type AppReducerActionType =
     ReturnType<typeof setLoaderStatus>
     | ReturnType<typeof setErrorN>
     | ReturnType<typeof setSuccess>
+
 export type StatusType = 'idle' | 'loading';
 type InitialStateType = {
     status: StatusType;
