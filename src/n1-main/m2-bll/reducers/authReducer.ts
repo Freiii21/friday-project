@@ -1,6 +1,7 @@
 import {authAPI, ForgotPasswordType, LoginDataType, NewPasswordType, UserType} from '../api/api';
 import {Dispatch} from 'redux';
-import {setLoaderStatus} from './appReducer';
+import {setErrorN, setLoaderStatus, setSuccess} from './appReducer';
+import {handleError} from '../../m1-ui/common/utilities/handleError';
 
 const initialAuthState = {
     user: {} as UserType,
@@ -53,7 +54,7 @@ export const setRegistered = (isRegistered: boolean, errorText: string, newRegis
 export const setError = (error: boolean) => ({type: 'AUTH_REDUCER/SET_ERROR', error} as const);
 export const setErrorText = (errorText: string) => ({type: 'AUTH_REDUCER/SET_ERROR_TEXT', errorText} as const);
 
-
+//thunks
 export const setLoginT = (data: LoginDataType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
 
@@ -61,10 +62,10 @@ export const setLoginT = (data: LoginDataType) =>
             dispatch(setLoaderStatus('loading'))
             const res = await authAPI.login(data);
             dispatch(setLogin(res.data, true));
+            if (res) dispatch(setSuccess('login is successful'))
 
         } catch (er: any) {
-            dispatch(setError(true))
-            dispatch(setErrorText(er.response.data.error))
+            handleError(er, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
@@ -73,14 +74,16 @@ export const setLoginT = (data: LoginDataType) =>
 
 export const setLogoutT = () =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
-
         try {
             dispatch(setLoaderStatus('loading'));
-            await authAPI.logOut();
+            const res = await authAPI.logOut();
             dispatch(setLogOut());
+            if (res.data.info) {
+                dispatch(setSuccess(res.data.info));
+            }
 
-        } catch (er: any) {
-            console.log(er)
+        } catch (e: any) {
+            handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
@@ -92,10 +95,14 @@ export const setRegisteredT = (data: Omit<LoginDataType, 'rememberMe'>) =>
         try {
             dispatch(setLoaderStatus('loading'));
             dispatch(setRegistered(false, '', false))
-            await authAPI.register(data);
-            dispatch(setRegistered(true, '', true))
+            const res = await authAPI.register(data);
+            dispatch(setRegistered(true, '', true));
+            if (res.data) {
+                dispatch(setSuccess('registration is successful. Please log in.'))
+            }
         } catch (err: any) {
             dispatch(setRegistered(false, err.response.data.error, false))
+            handleError(err, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'))
         }
@@ -106,12 +113,12 @@ export const passwordRecoveryTC = (data: ForgotPasswordType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
-            await authAPI.postForgotPassword(data);
-
+            const res = await authAPI.postForgotPassword(data);
+            if (res.data.info) {
+                dispatch(setSuccess(res.data.info));
+            }
         } catch (err: any) {
-            // console.log(error.error)
-            dispatch(setError(true))
-            dispatch(setErrorText(err.response.data.error))
+            handleError(err, dispatch)
         } finally {
             dispatch(setLoaderStatus('idle'))
         }
@@ -121,10 +128,12 @@ export const createNewPassword = (date: NewPasswordType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
-            await authAPI.setNewPassword(date);
-
+            const res = await authAPI.setNewPassword(date);
+            if (res.data.info) {
+                dispatch(setSuccess(res.data.info));
+            }
         } catch (e: any) {
-
+            handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
@@ -136,8 +145,11 @@ export const checkAuthMeTC = (payload: {}) =>
             dispatch(setLoaderStatus('loading'));
             const res = await authAPI.getAuthMe(payload);
             dispatch(setLogin(res.data, true));
+            if (res) {
+                dispatch(setSuccess('authorization is successful'))
+            }
         } catch (e: any) {
-
+            handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
@@ -150,8 +162,8 @@ export type ActionAuthReducerType =
     | ReturnType<typeof setError>
     | ReturnType<typeof setErrorText>
     | ReturnType<typeof setLoaderStatus>
-
-
+    | ReturnType<typeof setErrorN>
+    | ReturnType<typeof setSuccess>
 export type InitialAuthStateType = typeof initialAuthState;
 
 

@@ -5,11 +5,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setLoginT} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {AppRootStateType} from '../../../n1-main/m2-bll/store';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
-import { Navigate } from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 
 export const AddFormLogin = () => {
-    const dispatch=useDispatch();
-    const isAuth=useSelector<AppRootStateType,boolean>((state => state.auth.isAuth));
+    const dispatch = useDispatch();
+    const isAuth = useSelector<AppRootStateType, boolean>((state => state.auth.isAuth));
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -28,7 +28,7 @@ export const AddFormLogin = () => {
             formik.resetForm();
         },
     });
-    if(isAuth) return <Navigate to={PATH.PROFILE}/>
+    if (isAuth) return <Navigate to={PATH.PROFILE}/>
     return (
         <div className={o.container_form}>
             <form onSubmit={formik.handleSubmit}>
