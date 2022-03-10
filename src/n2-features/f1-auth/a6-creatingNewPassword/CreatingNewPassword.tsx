@@ -33,7 +33,7 @@ export const CreatingNewPassword = () => {
     const formik = useFormik({
         initialValues: {
             password: '',
-            resetPasswordToken:token,
+            resetPasswordToken: token,
         },
         validationSchema: Yup.object({
 
@@ -42,11 +42,11 @@ export const CreatingNewPassword = () => {
                 .required('Required'),
         }),
         onSubmit: values => {
-            values&&dispatch(createNewPassword(values));
+            values && dispatch(createNewPassword(values));
             formik.resetForm();
         },
     });
-    if(token===':token')return <Navigate to={PATH.PASSWORD_RECOVERY}/>
+    if (token === ':token') return <Navigate to={PATH.PASSWORD_RECOVERY}/>
     return (
         <div style={{
             display: 'flex',

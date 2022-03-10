@@ -3,7 +3,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, {AlertProps} from '@material-ui/lab/Alert';
 import {useTypedSelector} from '../../../m2-bll/redux';
 import {useDispatch} from 'react-redux';
-import {setErrorN, setSuccess} from '../../../m2-bll/reducers/appReducer';
+import {setSuccess} from '../../../m2-bll/reducers/appReducer';
 
 
 function Alert(props: AlertProps) {

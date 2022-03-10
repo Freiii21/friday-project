@@ -3,9 +3,7 @@ import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
@@ -91,7 +89,7 @@ export const AddFormLoginMI = () => {
                             <h2>Sign In</h2>
                         </FormLabel>
                         <FormControl>
-                            <InputLabel  htmlFor="email">Email</InputLabel>
+                            <InputLabel htmlFor="email">Email</InputLabel>
                             <Input
                                 id={'email'}
                                 type={'text'}
@@ -99,7 +97,7 @@ export const AddFormLoginMI = () => {
                             />
                             {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
                         </FormControl>
-                        <div style={{height:"10px"}}></div>
+                        <div style={{height: '10px'}}></div>
                         <FormControl>
                             <InputLabel htmlFor="password">Password</InputLabel>
                             <Input
@@ -132,8 +130,9 @@ export const AddFormLoginMI = () => {
                                         {...formik.getFieldProps('rememberMe')}
                                     />
                                 }/>
-                            <p style={{position:'relative', top:'15px',left:'135px',fontSize:'0.8rem'}}>
-                                <NavLink style={{textDecoration:'none'}} to={PATH.PASSWORD_RECOVERY}>Forgot Password</NavLink>
+                            <p style={{position: 'relative', top: '15px', left: '135px', fontSize: '0.8rem'}}>
+                                <NavLink style={{textDecoration: 'none'}} to={PATH.PASSWORD_RECOVERY}>Forgot
+                                    Password</NavLink>
                             </p>
                             <Button
                                 sx={{

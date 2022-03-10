@@ -18,11 +18,11 @@ export const PATH = {
     TEST_PAGE: '/testPage',
 }
 
-export const RoutesComponent = () =>{
+export const RoutesComponent = () => {
     return (
         <div>
             <Routes>
-                <Route path="/" element={<Navigate to={PATH.PROFILE} />} />
+                <Route path="/" element={<Navigate to={PATH.PROFILE}/>}/>
 
                 <Route path={PATH.LOGIN} element={<Login/>}/>
                 <Route path={PATH.REGISTRATION} element={<Registration/>}/>
@@ -32,7 +32,7 @@ export const RoutesComponent = () =>{
                 <Route path={PATH.CREATING_NEW_PASSWORD} element={<CreatingNewPassword/>}/>
                 <Route path={PATH.TEST_PAGE} element={<TestPage/>}/>
 
-                <Route path='*' element={<Navigate to={PATH.PAGE_NOT_FOUND}/>}/>
+                <Route path="*" element={<Navigate to={PATH.PAGE_NOT_FOUND}/>}/>
             </Routes>
         </div>
     )

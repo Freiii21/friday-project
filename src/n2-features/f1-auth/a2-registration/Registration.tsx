@@ -82,7 +82,7 @@ export const Registration = () => {
                            placeholder="Enter email"
                            value={email}
                            onChange={onChangeEmail}
-                           disabled={requestStatus==='loading'}
+                           disabled={requestStatus === 'loading'}
                            className={inputClass}
                     />
                     {emailError !== '' && <div className={s.error}>{emailError}</div>}

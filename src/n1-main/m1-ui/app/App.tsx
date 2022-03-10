@@ -5,7 +5,6 @@ import {AppDrawer} from './AppDrawer';
 import HeaderMI from '../header/HeaderMI';
 import {RoutesComponent} from '../routes/RoutesComponent';
 import {checkAuthMeTC} from '../../m2-bll/reducers/authReducer';
-import {useTypedSelector} from '../../m2-bll/redux';
 
 
 const App = () => {
