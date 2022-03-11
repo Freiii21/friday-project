@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 export const PageNotFound = () => {
     return (
         <Grid container justifyContent={'center'}>
-            <img src={img_404}/>
+            <img src={img_404} alt={'page not found '}/>
         </Grid>
     )
 }

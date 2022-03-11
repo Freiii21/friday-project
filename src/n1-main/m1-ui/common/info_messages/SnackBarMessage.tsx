@@ -14,24 +14,19 @@ export default function SnackBarMessage() {
     const error = useTypedSelector(state => state.app.error);
     const success = useTypedSelector(state => state.app.success)
     const dispatch = useDispatch();
-    const [open, setOpen] = React.useState(false);
 
-    const handleClick = () => {
-        setOpen(true);
-    };
 
     const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
-
-        setOpen(false);
         dispatch(setErrorN(null));
         dispatch(setSuccess(null));
     };
 
     return (
-        <div><Snackbar open={error !== null} autoHideDuration={6000} onClose={handleClose}
+        <div>
+            <Snackbar open={error !== null} autoHideDuration={6000} onClose={handleClose}
                        anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}>
             <Alert onClose={handleClose} severity="error">
                 {error}
@@ -42,6 +37,7 @@ export default function SnackBarMessage() {
                 <Alert onClose={handleClose} severity="success">
                     {success}
                 </Alert>
-            </Snackbar></div>
+            </Snackbar>
+        </div>
     );
 }

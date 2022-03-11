@@ -1,3 +1,5 @@
+import React from 'react';
+/*
 import s from './Registration.module.css'
 import {ChangeEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -143,4 +145,4 @@ export const Registration = () => {
             </div>
         </div>
     )
-}
+}*/

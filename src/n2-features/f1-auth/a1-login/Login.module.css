@@ -3,14 +3,16 @@
     justify-content: center;
     align-items: center;
     height: 85vh;
-flex-direction: column;
+
 }
-.wrapper .container_form{
+
+.wrapper .container_form {
     width: 50%;
     height: 50%;
     border: 2px lightgrey solid;
 }
-.wrapper form{
+
+.wrapper form {
 
     display: flex;
     flex-direction: column;
@@ -19,25 +21,30 @@ flex-direction: column;
     height: 100%;
     width: 100%;
 }
-.submit{
+
+.submit {
     margin-top: 5%;
     width: 50%;
     display: flex;
     justify-content: space-between;
 }
-.submit button{
+
+.submit button {
     margin-left: 5%;
 }
-.submit input{
+
+.submit input {
     position: relative;
     top: 2px;
     left: 2px;
 }
-.red{
+
+.red {
     color: red;
     font-size: 0.7rem;
 }
-.newUser{
+
+.newUser {
     color: green;
     font-weight: bold;
 }

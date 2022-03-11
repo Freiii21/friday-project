@@ -30,7 +30,7 @@ export const CheckEmail = () => {
         >
             <Grid container justifyContent={'center'}>
                 <Grid item justifyContent={'center'}>
-                    <img src={img_envelope}/>
+                    <img src={img_envelope} alt={'envelope'}/>
                     <h1>Check Email</h1>
                 </Grid>
                 <Grid item
