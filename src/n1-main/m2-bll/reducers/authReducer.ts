@@ -40,10 +40,8 @@ export const setLoginT = (data: LoginDataType) =>
             dispatch(setLoaderStatus('loading'))
             const res = await authAPI.login(data);
             dispatch(setLogin(res.data, true));
-            if (res) {
-                dispatch(setSuccess('login is successful'));
-                dispatch(setRegistered(true));
-            }
+            dispatch(setSuccess('login is successful'));
+            dispatch(setRegistered(true));
 
         } catch (er: any) {
             handleError(er, dispatch);
@@ -60,11 +58,8 @@ export const setLogoutT = () =>
             dispatch(setLoaderStatus('loading'));
             const res = await authAPI.logOut();
             dispatch(setLogOut());
-            if (res.data.info) {
-                dispatch(setSuccess(res.data.info));
-                dispatch(setRegistered(false));
-            }
-
+            dispatch(setSuccess(res.data.info));
+            dispatch(setRegistered(false));
         } catch (e: any) {
             handleError(e, dispatch);
         } finally {
@@ -77,11 +72,9 @@ export const setRegisteredT = (data: Omit<LoginDataType, 'rememberMe'>) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
-            const res = await authAPI.register(data);
+            await authAPI.register(data);
             dispatch(setRegistered(true));
-            if (res.data) {
-                dispatch(setSuccess('registration is successful. Please log in.'))
-            }
+            dispatch(setSuccess('registration is successful. Please log in.'));
         } catch (err: any) {
             handleError(err, dispatch);
         } finally {
@@ -95,10 +88,8 @@ export const passwordRecoveryTC = (data: ForgotPasswordType) =>
         try {
             dispatch(setLoaderStatus('loading'));
             const res = await authAPI.postForgotPassword(data);
-            if (res.data.info) {
-                dispatch(setSuccess(res.data.info));
-                dispatch(setIsSent(true));
-            }
+            dispatch(setSuccess(res.data.info));
+            dispatch(setIsSent(true));
         } catch (err: any) {
             handleError(err, dispatch)
         } finally {
@@ -112,9 +103,7 @@ export const createNewPassword = (date: NewPasswordType) =>
         try {
             dispatch(setLoaderStatus('loading'));
             const res = await authAPI.setNewPassword(date);
-            if (res.data.info) {
-                dispatch(setSuccess(res.data.info));
-            }
+            dispatch(setSuccess(res.data.info));
         } catch (e: any) {
             handleError(e, dispatch);
         } finally {
@@ -128,9 +117,7 @@ export const checkAuthMeTC = (payload: {}) =>
             dispatch(setLoaderStatus('loading'));
             const res = await authAPI.getAuthMe(payload);
             dispatch(setLogin(res.data, true));
-            if (res) {
-                dispatch(setSuccess('authorization is successful'))
-            }
+            dispatch(setSuccess('authorization is successful'))
         } catch (e: any) {
             handleError(e, dispatch);
         } finally {
