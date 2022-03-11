@@ -8,3 +8,6 @@ export const wrapper = {
     alignItems: 'center',
     height: '85vh'
 }
+export const widthLogo = {
+    width: '150px',
+}

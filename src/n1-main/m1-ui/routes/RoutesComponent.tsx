@@ -8,6 +8,8 @@ import {PageNotFound} from '../../../n2-features/f1-auth/a4-pageNotFound/PageNot
 import {PasswordRecoveryMI} from '../../../n2-features/f1-auth/a5-passwordRecovery/PasswordRecoveryMI';
 import {CheckEmail} from '../../../n2-features/f1-auth/a5-passwordRecovery/CheckEmail';
 import {RegistrationMI} from '../../../n2-features/f1-auth/a2-registration/RegistrationMI';
+import Container from '@mui/material/Container';
+import {ProfileMI} from '../../../n2-features/f1-auth/a3-profile/ProfileMI';
 
 export const PATH = {
     LOGIN: '/login',
@@ -22,13 +24,13 @@ export const PATH = {
 
 export const RoutesComponent = () => {
     return (
-        <div>
+        <Container fixed>
             <Routes>
                 <Route path="/" element={<Navigate to={PATH.PROFILE}/>}/>
 
                 <Route path={PATH.LOGIN} element={<Login/>}/>
                 <Route path={PATH.REGISTRATION} element={<RegistrationMI/>}/>
-                <Route path={PATH.PROFILE} element={<Profile/>}/>
+                <Route path={PATH.PROFILE} element={<ProfileMI/>}/>
                 <Route path={PATH.PAGE_NOT_FOUND} element={<PageNotFound/>}/>
                 <Route path={PATH.PASSWORD_RECOVERY} element={<PasswordRecoveryMI/>}/>
                 <Route path={PATH.CREATING_NEW_PASSWORD} element={<CreatingNewPassword/>}/>
@@ -37,6 +39,6 @@ export const RoutesComponent = () => {
 
                 <Route path="*" element={<Navigate to={PATH.PAGE_NOT_FOUND}/>}/>
             </Routes>
-        </div>
+        </Container>
     )
 }
