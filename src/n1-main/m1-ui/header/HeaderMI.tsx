@@ -12,8 +12,6 @@ import {useTypedSelector} from '../../m2-bll/redux';
 import {useDispatch} from 'react-redux';
 import {setLogoutT} from '../../m2-bll/reducers/authReducer';
 import LinearIndeterminate from '../common/Preloader/LinearMI';
-import SnackBarError from '../common/info_messages/SnackBarError';
-import SnackBarSuccess from '../common/info_messages/SnackBarSuccess';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -61,8 +59,6 @@ export default function HeaderMI({switchDrawer}: PropsType) {
                 </Toolbar>
                 {status === 'loading' && <LinearIndeterminate/>}
             </AppBar>
-            <SnackBarError/>
-            <SnackBarSuccess/>
         </div>
     );
 }

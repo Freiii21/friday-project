@@ -11,10 +11,11 @@ import {Navigate, NavLink} from 'react-router-dom';
 import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import * as Yup from 'yup';
-import {setLoginT} from '../../../n1-main/m2-bll/reducers/authReducer';
+import {setLoginT, setRegistered} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {Box, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {redStyle} from '../../../n1-main/m1-ui/utilities/for css';
+import {BlankDiv} from '../../../n1-main/m1-ui/common/BlankDiv';
 
 type State = {
     password: string;
@@ -61,6 +62,7 @@ export const AddFormLoginMI = () => {
     {
         if (isAuth) return <Navigate to={PATH.PROFILE}/>
     }
+    let onClick = ()=>dispatch(setRegistered(false));
     return (
         <Box
             sx={{
@@ -97,7 +99,7 @@ export const AddFormLoginMI = () => {
                                 ? <div style={redStyle}>{formik.errors.email}</div>
                                 : null}
                         </FormControl>
-                        <div style={{height: '10px'}}></div>
+                        <BlankDiv/>
                         <FormControl>
                             <InputLabel htmlFor="password">Password</InputLabel>
                             <Input
@@ -164,6 +166,7 @@ export const AddFormLoginMI = () => {
                     <div><NavLink
                         style={{textDecoration: 'none', fontSize: 'small'}}
                         to={PATH.REGISTRATION}
+                        onClick={onClick}
                     >Sign Up
                     </NavLink></div>
                 </Grid>

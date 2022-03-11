@@ -5,6 +5,7 @@ import {AppDrawer} from './AppDrawer';
 import HeaderMI from '../header/HeaderMI';
 import {RoutesComponent} from '../routes/RoutesComponent';
 import {checkAuthMeTC} from '../../m2-bll/reducers/authReducer';
+import SnackBarMessage from '../common/info_messages/SnackBarMessage';
 
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
     }, [])
     return (
         <div className="App">
+            <SnackBarMessage/>
             <HeaderMI switchDrawer={setToggleDrawer}/>
             <AppDrawer toggle={toggleDrawer} switchDrawer={setToggleDrawer}/>
             <RoutesComponent/>

@@ -1,9 +1,24 @@
-import Grid from '@mui/material/Grid';
-import img_envelope from './img/envelope-4313721_640 (3).png';
 import {Box} from '@mui/material';
+import Grid from '@mui/material/Grid';
+import img_log from './img/jester1.png';
 import React from 'react';
+import {Navigate} from 'react-router-dom';
+import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
+import {useDispatch} from 'react-redux';
+import {setLogoutT} from '../../../n1-main/m2-bll/reducers/authReducer';
+import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
+import {DateTime} from 'luxon';
+import {widthLogo} from '../../../n1-main/m1-ui/utilities/for css';
 
-export const CheckEmail = () => {
+export const ProfileMI = () => {
+    const dispatch = useDispatch()
+    const handleLogout = () => dispatch(setLogoutT())
+    const user = useTypedSelector(state => state.auth.user)
+    const isAuth = useTypedSelector(state => state.auth.isAuth)
+    const registerData = DateTime.fromISO(user.created).toFormat('DDD')
+
+
+    if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
         <div style={{
             display: 'flex',
@@ -30,8 +45,12 @@ export const CheckEmail = () => {
         >
             <Grid container justifyContent={'center'}>
                 <Grid item justifyContent={'center'}>
-                    <img src={img_envelope} alt={'envelope'}/>
-                    <h1>Check Email</h1>
+                    <h1 style={{marginBottom: '20px', textAlign: 'center'}}>Profile</h1>
+                    {user.avatar
+                        ? <img src={user.avatar} style={widthLogo} alt="AVATAR"/>
+                        : <img src={img_log} style={widthLogo} alt={'logo'}/>
+                    }
+
                 </Grid>
                 <Grid item
                       sx={{
@@ -45,8 +64,10 @@ export const CheckEmail = () => {
                           lineHeight: '1.3rem',
                       }}
                 >
-                    <span>We`ve sent an Email with instructions
-                        to example@gmail.com</span>
+                    <span>Email: {user.email}</span>
+                    <span>NickName: {user.email}</span>
+                    <span>Card count: {user.publicCardPacksCount}</span>
+                    <span>Date of registration: {registerData}</span>
                 </Grid>
             </Grid>
         </Box>
