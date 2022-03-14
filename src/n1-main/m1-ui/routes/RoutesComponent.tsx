@@ -9,6 +9,7 @@ import {RegistrationMI} from '../../../n2-features/f1-auth/a2-registration/Regis
 import Container from '@mui/material/Container';
 import {ProfileMI} from '../../../n2-features/f1-auth/a3-profile/ProfileMI';
 import {TestPageMI} from '../../../n2-features/f0-test/TestPageMI';
+import {PacksCards} from '../../../n2-features/f1-auth/packsCards/PacksCards';
 
 export const PATH = {
     LOGIN: '/login',
@@ -19,6 +20,7 @@ export const PATH = {
     CREATING_NEW_PASSWORD: '/creatingNewPassword/:token',
     TEST_PAGE: '/testPage',
     CHECK_EMAIL: '/checkEmail',
+    PACKS_CARDS:'/packsCards',
 }
 
 export const RoutesComponent = () => {
@@ -35,6 +37,7 @@ export const RoutesComponent = () => {
                 <Route path={PATH.CREATING_NEW_PASSWORD} element={<CreatingNewPassword/>}/>
                 <Route path={PATH.TEST_PAGE} element={<TestPageMI/>}/>
                 <Route path={PATH.CHECK_EMAIL} element={<CheckEmail/>}/>
+                <Route path={PATH.PACKS_CARDS} element={<PacksCards/>}/>
 
                 <Route path="*" element={<Navigate to={PATH.PAGE_NOT_FOUND}/>}/>
             </Routes>

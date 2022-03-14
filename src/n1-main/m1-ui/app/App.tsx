@@ -6,6 +6,7 @@ import HeaderMI from '../header/HeaderMI';
 import {RoutesComponent} from '../routes/RoutesComponent';
 import {checkAuthMeTC} from '../../m2-bll/reducers/authReducer';
 import SnackBarMessage from '../common/info_messages/SnackBarMessage';
+import Container from '@mui/material/Container';
 
 
 const App = () => {
@@ -15,12 +16,12 @@ const App = () => {
         dispatch(checkAuthMeTC({}))
     }, [])
     return (
-        <div className="App">
+        <Container fixed>
             <SnackBarMessage/>
             <HeaderMI switchDrawer={setToggleDrawer}/>
             <AppDrawer toggle={toggleDrawer} switchDrawer={setToggleDrawer}/>
             <RoutesComponent/>
-        </div>
+        </Container>
     );
 }
 
