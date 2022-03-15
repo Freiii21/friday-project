@@ -14,7 +14,7 @@ export const authAPI = {
     register: (data: Omit<LoginDataType, 'rememberMe'>) =>
         instance.post<Omit<LoginDataType, 'rememberMe'>, AxiosResponse<ResponseRegisterDataType>>('/auth/register', data),
 
-    changeUserName: (data: NewNameUserType) => instance.put<NewNameUserType, AxiosResponse<ResponseUpdateUserType>>('/auth/me'),
+    changeUserName: (data: NewNameUserType) => instance.put<NewNameUserType, AxiosResponse<ResponseUpdateUserType>>('/auth/me', data),
 
     logOut: () => instance.delete<ResponseCommonType>('/auth/me'),
 
@@ -44,11 +44,11 @@ export type ResponseCommonType = {
     error: string;
 }
 export type ResponseUpdateUserType = {
-    updateUser: UserType;
+    updatedUser: UserType;
     error?: string;
 }
 export type NewNameUserType = {
-    name: string;
+    name?: string;
     avatar: string;
 }
 export type ResponseRegisterDataType = {

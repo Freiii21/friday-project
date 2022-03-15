@@ -1,22 +1,34 @@
-import {Box} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import img_log from './img/jester1.png';
-import React from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
-import {useDispatch} from 'react-redux';
-import {setLogoutT} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
 import {widthLogo} from '../../../n1-main/m1-ui/utilities/for css';
+import {setNewNameAvatarTC} from "../../../n1-main/m2-bll/reducers/authReducer";
+import {useDispatch} from "react-redux";
 
 export const ProfileMI = () => {
-    const dispatch = useDispatch()
-    const handleLogout = () => dispatch(setLogoutT())
     const user = useTypedSelector(state => state.auth.user)
     const isAuth = useTypedSelector(state => state.auth.isAuth)
     const registerData = DateTime.fromISO(user.created).toFormat('DDD')
+    const [photo, setPhoto] = useState('')
+    const [name, setName] = useState('')
+    const dispatch = useDispatch()
 
+    const setAvatar = () => {
+        dispatch(setNewNameAvatarTC({avatar:photo, name}))
+}
+
+    const setNickName = (e:ChangeEvent<HTMLInputElement>) =>{
+        setName(e.currentTarget.value)
+    }
+    const setPhotos = (e:ChangeEvent<HTMLInputElement>) =>{
+        console.log(e.currentTarget.value)
+        setPhoto(e.currentTarget.value)
+    }
 
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
@@ -66,9 +78,15 @@ export const ProfileMI = () => {
                           }}
                     >
                         <span>Email: {user.email}</span>
-                        <span>NickName: {user.email}</span>
+                        <span>NickName: {user.name}</span>
                         <span>Card count: {user.publicCardPacksCount}</span>
                         <span>Date of registration: {registerData}</span>
+                        <label> new avatar: </label>
+                        <input type={'text'} onChange={setPhotos}/>
+                        <label> new name: </label>
+                        <input type={'text'} onChange={setNickName}/>
+
+                        <Button onClick={setAvatar}> CHANGE AVATAR OR NAME </Button>
                     </Grid>
                 </Grid>
             </Box>
