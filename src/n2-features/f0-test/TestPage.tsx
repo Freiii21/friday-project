@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getPingT} from '../../n1-main/m2-bll/reducers/testReducer';
 import {AppRootStateType} from '../../n1-main/m2-bll/store';
 import {ResponsePingType} from '../../n1-main/m2-bll/api/api';
+import {TestSearchBlock} from "../../n1-main/m1-ui/common/с4-Sarch_Sort/testserchblock/TestSerachBlock";
 
 export const TestPage = () => {
    const dispatch=useDispatch();
@@ -32,6 +33,8 @@ export const TestPage = () => {
                 <p>backTime: {dataPing.backTime}</p>
                 <p>info: {dataPing.info}</p>
             </div>}
+
+
         </div>
     )
 }

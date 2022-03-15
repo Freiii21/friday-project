@@ -8,6 +8,7 @@ import {getPingT} from '../../n1-main/m2-bll/reducers/testReducer';
 import SuperInputText from '../../n1-main/m1-ui/common/c1-SuperInputText/SuperInputText';
 import SuperButton from '../../n1-main/m1-ui/common/c2-SuperButton/SuperButton';
 import SuperCheckbox from '../../n1-main/m1-ui/common/c3-SuperCheckbox/SuperCheckbox';
+import {TestSearchBlock} from "../../n1-main/m1-ui/common/с4-Sarch_Sort/testserchblock/TestSerachBlock";
 
 export const TestPageMI = () => {
     const dispatch = useDispatch();
@@ -78,6 +79,8 @@ export const TestPageMI = () => {
                 </Grid>
             </Grid>
         </Box>
+
+            <TestSearchBlock/>
         </div>
     )
 }
