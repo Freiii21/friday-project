@@ -5,8 +5,8 @@ import {TablePacks} from '../../../../n1-main/m1-ui/common/TablePacks';
 
 export const RightPanel = () => {
     return (
-        <Grid container xs={8}
-            sx={{backgroundColor:'gray',padding:' 0 0.5%'}}
+        <Grid container xs={8} md={9} xl={10}
+              sx={{backgroundColor: 'gray', padding: ' 0 0.5%'}}
         >
             <Search/>
             <TablePacks/>
