@@ -23,7 +23,7 @@ export const authAPI = {
     setNewPassword: (data: NewPasswordType) => instance.post<NewPasswordType, AxiosResponse<ResponseCommonType>>('/auth/set-new-password', data),
 }
 
-export const cardsAPI = {
+export const packsAPI = {
     getPacks: (data?: Partial<RequestPacksType>) =>
         instance.get<Partial<RequestPacksType>, AxiosResponse<ResponsePacksType>>
         (urlForPackCards, {
