@@ -16,7 +16,7 @@ const App = () => {
         dispatch(checkAuthMeTC({}))
     }, [])
     return (
-        <Container fixed>
+        <Container fixed sx={{mt:'0.5rem'}}>
             <SnackBarMessage/>
             <HeaderMI switchDrawer={setToggleDrawer}/>
             <AppDrawer toggle={toggleDrawer} switchDrawer={setToggleDrawer}/>

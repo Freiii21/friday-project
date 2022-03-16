@@ -1,10 +1,17 @@
 import React from 'react';
-import Container from '@mui/material/Container';
+import {LeftPanel} from './leftPanel/LeftPanel';
+import {RightPanel} from './rightPanel/RightPanel';
+import Grid from '@mui/material/Grid';
+
 
 export const PacksCards = () => {
-  return(
-      <Container fixed>
 
-      </Container>
-  )
+    return (
+        <Grid container
+              sx={{marginTop:1}}
+        >
+            <LeftPanel/>
+           <RightPanel/>
+        </Grid>
+    )
 }

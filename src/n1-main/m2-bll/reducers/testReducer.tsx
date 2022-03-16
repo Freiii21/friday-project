@@ -1,4 +1,4 @@
-import {appPing, ResponsePingType} from '../api/api';
+import {pingAPI, ResponsePingType} from '../api/api';
 import {Dispatch} from 'redux';
 
 const initialState = {
@@ -18,7 +18,7 @@ export const getPing = (data: ResponsePingType) => ({type: 'TEST_REDUCER/GET_PIN
 export const getPingT = () =>
     async (dispatch: Dispatch<TestReducerActionType>) => {
         try {
-            const res = await appPing.getPing();
+            const res = await pingAPI.getPing();
             dispatch(getPing(res.data));
         } catch (e: any) {
             alert(e.message)
