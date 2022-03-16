@@ -5,7 +5,7 @@ export const instance = axios.create({
     baseURL: 'https://neko-back.herokuapp.com/2.0',
     withCredentials: true,
 });
-
+const urlForPackCards = '/cards/pack';
 export const authAPI = {
     login: (data: LoginDataType) => instance.post<LoginDataType, AxiosResponse<UserType>>('/auth/login', data),
 
@@ -22,8 +22,66 @@ export const authAPI = {
 
     setNewPassword: (data: NewPasswordType) => instance.post<NewPasswordType, AxiosResponse<ResponseCommonType>>('/auth/set-new-password', data),
 }
-export const appPing = {
+
+export const cardsAPI = {
+    getPacks: (data?: Partial<RequestPacksType>) =>
+        instance.get<Partial<RequestPacksType>, AxiosResponse<ResponsePacksType>>
+        (urlForPackCards, {
+            params: data,
+        }),
+    setPackCards: (data?: Partial<RequestOnePackType>) =>
+        instance.post<Partial<RequestOnePackType>, AxiosResponse<{}>>(urlForPackCards, data),
+    deletePackCards: (id?: string) => instance.delete<string, AxiosResponse<{}>>(urlForPackCards, {
+        params: {
+            id,
+        }
+    }),
+    changeNamePackCards: (data: RequestChangeNamePackType) =>
+        instance.put<RequestChangeNamePackType, AxiosResponse<{}>>(urlForPackCards, data),
+}
+export const pingAPI = {
     getPing: () => instance.get<ResponsePingType>('/ping'),
+}
+//types
+//for cardsAPI
+export type RequestChangeNamePackType = {
+    cardsPack: {
+        _id: string;
+        name?: string;
+        rest?: {}
+    }
+}
+export type RequestOnePackType = {
+    cardsPack: {
+        name: string;
+        deckCover: string;
+        private: boolean;
+    }
+}
+export type PackType = {
+    _id: string;
+    user_id: string;
+    name: string;
+    cardsCount: number;
+    created: string;
+    update: string;
+}
+export type ResponsePacksType = {
+    cardPacks: PackType[];
+    cardPacksTotalCount: number;
+    maxCardsCount: number;
+    minCardsCount: number;
+    page: number;
+    pageCount: number;
+}
+export type RequestPacksType = {
+    packName: string;
+    min: number;
+    max: number;
+    sortPacks: string;
+    page: number;
+    pageCount: number;
+    user_id: string;
 }
 export type ResponsePingType = {
     ping: number;

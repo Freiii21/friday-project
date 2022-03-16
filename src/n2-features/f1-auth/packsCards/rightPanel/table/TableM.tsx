@@ -9,53 +9,52 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import {useTypedSelector} from '../../../../../n1-main/m2-bll/redux';
+import {DateTime} from 'luxon';
+import BasicButtonGroup from '../../../../../n1-main/m1-ui/common/BasicButtonGroup';
+
 
 interface Column {
-    id: 'name' | 'cardsCount' | 'update' | 'created' | 'actions';
+    id: 'name' | 'cardsCount' | 'updated' | 'created' | 'actions';
     label: string;
     minWidth?: number;
     align?: 'right';
-    format?: (value: number) => string;
+    format?: (value: string) => string;
+    formatB?: () => void;
 }
 
 const columns: Column[] = [
-    {id: 'name', label: 'Name', minWidth: 120},
-    {id: 'cardsCount', label: 'Cards Count', minWidth: 50},
+    {id: 'name', label: 'Name', minWidth: 150},
+    {id: 'cardsCount', label: 'Cards Count', minWidth: 20},
     {
-        id: 'update',
+        id: 'updated',
         label: 'Last Update',
-        minWidth: 120,
+        minWidth: 100,
         align: 'right',
-        format: (value: number) => value.toLocaleString('en-US'),
+        format: (value: string) => DateTime.fromISO(value).toFormat('DDD')
     },
     {
         id: 'created',
         label: 'Created By',
-        minWidth: 120,
+        minWidth: 100,
         align: 'right',
-        format: (value: number) => value.toLocaleString('en-US'),
+        format: (value: string) => DateTime.fromISO(value).toFormat('DDD')
     },
     {
         id: 'actions',
         label: 'Actions',
-        minWidth: 150,
+        minWidth: 170,
         align: 'right',
-        format: (value: number) => value.toFixed(2),
+        formatB: () => <button>hello</button>
     },
 ];
 
 interface Data {
     name: string;
-    cards: number;
-    lastUpdate: number;
+    cardsCount: number;
+    update: string;
     createdBy: string;
-    Actions: string;
+    actions: string;
 }
-
-/*function createData(name: string, code: string, population: number, size: number): Data {
-    const density = population / size;
-    return {name, code, population, size, density};
-}*/
 
 
 const useStyles = makeStyles({
@@ -63,18 +62,18 @@ const useStyles = makeStyles({
         width: '100%',
     },
     container: {
-        maxHeight: 440,
+        maxHeight: 480,
     },
 });
 
 export function TableM() {
 
-    const packs = useTypedSelector(state => state.packs.data.cardPacks);
-    const rows = packs
+    const rows = useTypedSelector(state => state.cards.data.cardPacks);
+    const _userId = useTypedSelector(state => state.auth.user._id);
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+    //const registerData = DateTime.fromISO(user.created).toFormat('DDD')
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -91,7 +90,6 @@ export function TableM() {
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => {
-                                debugger
                                 return (
 
                                     <TableCell
@@ -110,12 +108,15 @@ export function TableM() {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                                     {columns.map((column) => {
-                                        debugger
                                         //@ts-ignore
                                         const value = row[column.id];
                                         return (
                                             <TableCell key={column.id} align={column.align}>
-                                                {column.format && typeof value === 'number' ? column.format(value) : value}
+
+                                                {column.id === 'actions'
+                                                    ? <BasicButtonGroup userId={_userId === row.user_id}/>
+                                                    : column.format && typeof value === 'string' ? column.format(value) : value
+                                                }
                                             </TableCell>
                                         );
                                     })}

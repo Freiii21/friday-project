@@ -23,7 +23,7 @@ const initialState = {
        pageCount: 0,
    }
 }
-export const packsReducer = (state = initialState, action: PacksReducerActionType): InitialStateType => {
+export const cardsReducer = (state = initialState, action: PacksReducerActionType): InitialStateType => {
     switch (action.type) {
         case 'PACKS_REDUCER/GET_PACKS':
             return {...state,data: action.data}

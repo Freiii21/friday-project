@@ -1,9 +1,7 @@
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import {Search} from './Search';
-import {TablePacks} from './table/TablePacks';
-import {Pagination} from './Pagination';
+import {TablePacks} from '../../../../n1-main/m1-ui/common/TablePacks';
 
 export const RightPanel = () => {
     return (
@@ -12,7 +10,6 @@ export const RightPanel = () => {
         >
             <Search/>
             <TablePacks/>
-            <Pagination/>
         </Grid>
     )
 }
