@@ -56,8 +56,8 @@ export const PasswordRecoveryMI = () => {
                     },
                 }}
             >
-                <Grid container justifyContent={'center'}>
-                    <Grid item justifyContent={'center'}>
+                <Grid container justifyContent={'center'} alignContent={'center'}>
+                    <Grid item>
                         <form onSubmit={formik.handleSubmit}>
 
                             <FormLabel>
@@ -74,21 +74,24 @@ export const PasswordRecoveryMI = () => {
                                 {formik.touched.email && formik.errors.email
                                     ? <div style={redStyle}>{formik.errors.email}</div>
                                     : null}
-                                <FormLabel><p style={{fontSize: '0.8rem', marginTop: '20%'}}>Enter your email address
-                                    and
-                                    we will send you further instructions</p></FormLabel>
-                                <Button
-                                    sx={{
-                                        marginTop: '30%',
-                                        marginLeft: '10%',
-                                        height: 25,
-                                        width: 200,
-                                        borderRadius: 10,
-                                        fontSize: '0.5rem',
-                                    }}
-                                    type={'submit'} variant={'contained'} color={'primary'}>
-                                    Send instructions
-                                </Button>
+                                <FormLabel>
+                                    <p style={{fontSize: '0.8rem', margin: '20% 0 '}}>
+                                        Enter your email address
+                                        and
+                                        we will send you further instructions
+                                    </p>
+                                </FormLabel>
+                                    <Button
+                                        style={{marginLeft:'30px'}}
+                                        sx={{
+                                            height: 25,
+                                            width: 200,
+                                            borderRadius: 10,
+                                            fontSize: '0.5rem',
+                                        }}
+                                        type={'submit'} variant={'contained'} color={'primary'}>
+                                        Send instructions
+                                    </Button>
                             </FormControl>
 
                         </form>

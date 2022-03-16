@@ -157,16 +157,18 @@ export const RegistrationMI = () => {
                                         display: 'flex',
                                         flexDirection: 'row',
                                         justifyContent: 'space-between',
-                                        width: '100%'
+                                        width: '100%',
+                                        marginTop: '90px',
                                     }}>
                                     <Button
                                         sx={{
                                             marginTop: '30%',
-                                            height: 25,
-                                            width: 100,
+                                            height: 20,
+                                            width: 90,
                                             borderRadius: 10,
                                             fontSize: '0.5rem',
                                         }}
+                                        size={'small'}
                                         type={'button'} variant={'contained'} color={'primary'}
                                     >
                                         <NavLink to={PATH.LOGIN}
@@ -178,11 +180,12 @@ export const RegistrationMI = () => {
                                         sx={{
                                             marginTop: '30%',
                                             marginLeft: '10%',
-                                            height: 25,
-                                            width: 100,
+                                            height: 20,
+                                            width: 90,
                                             borderRadius: 10,
                                             fontSize: '0.5rem',
                                         }}
+                                        size={'small'}
                                         type={'submit'} variant={'contained'} color={'primary'}>
                                         Register
                                     </Button>

@@ -14,7 +14,7 @@ import BasicButtonGroup from '../../../../../n1-main/m1-ui/common/BasicButtonGro
 import {ButtonForTableCell} from '../../../../../n1-main/m1-ui/common/ButtonForTableCell';
 
 interface Column {
-    id: 'name' | 'cardsCount' | 'update' | 'created' | 'actions';
+    id: 'name' | 'cardsCount' | 'updated' | 'created' | 'actions';
     label: string;
     minWidth?: number;
     align?: 'right';
@@ -26,7 +26,7 @@ const columns: Column[] = [
     {id: 'name', label: 'Name', minWidth: 150},
     {id: 'cardsCount', label: 'Cards Count', minWidth: 20},
     {
-        id: 'update',
+        id: 'updated',
         label: 'Last Update',
         minWidth: 100,
         align: 'right',

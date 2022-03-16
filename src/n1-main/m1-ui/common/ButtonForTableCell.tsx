@@ -9,8 +9,8 @@ export const ButtonForTableCell = ({text}: PropsType) => {
     return (
         <>
             <span>{text} </span>
-            <Button variant="text" size={'small'}style={{marginLeft:'25px'}}>
-                To Cards
+            <Button variant="text" size={'small'}style={{marginLeft:'5px'}}>
+                Cards
                 <ExitToAppIcon/>
             </Button>
 
