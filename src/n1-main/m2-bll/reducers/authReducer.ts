@@ -14,9 +14,8 @@ export const authReducer = (state = initialAuthState,
     switch (action.type) {
         case 'AUTH_REDUCER/SET_LOGIN':
             return {...state, user: action.user, isAuth: action.isAuth};
-        case 'AUTH_REDUCER/SET_LOGOUT': {
+        case 'AUTH_REDUCER/SET_LOGOUT':
             return {...state, isAuth: false};
-        }
         case 'AUTH_REDUCER/SET_REGISTERED':
             return {...state, isRegistered: action.isRegistered}
         default:
@@ -140,6 +139,7 @@ export const setNewNameAvatarTC = (payload:NewNameUserType) =>
     }
 
 
+//types
 export type ActionAuthReducerType =
     ReturnType<typeof setLogin>
     | ReturnType<typeof setLogOut>

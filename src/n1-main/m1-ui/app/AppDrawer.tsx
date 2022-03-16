@@ -18,8 +18,14 @@ export const AppDrawer = ({toggle, switchDrawer}: PropsType) => {
                                    : s.links)}>Registration</NavLink></MenuItem>
             <MenuItem><NavLink to={PATH.PROFILE} className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
                 : s.links)}>Profile</NavLink></MenuItem>
+
+            <MenuItem><NavLink to={PATH.PACKS_CARDS}
+                               className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
+                                  : s.links)}>Packs of Cards</NavLink></MenuItem>
+
             <MenuItem><NavLink to={PATH.CARDS} className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
                 : s.links)}>Cards</NavLink></MenuItem>
+
             <MenuItem><NavLink to={PATH.PAGE_NOT_FOUND}
                                className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
                                    : s.links)}>Page not found</NavLink></MenuItem>
@@ -31,6 +37,7 @@ export const AppDrawer = ({toggle, switchDrawer}: PropsType) => {
                                    : s.links)}>Create new password</NavLink></MenuItem>
             <MenuItem><NavLink to={PATH.TEST_PAGE} className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
                 : s.links)}>Test page</NavLink></MenuItem>
+
         </Drawer>
     );
 }
