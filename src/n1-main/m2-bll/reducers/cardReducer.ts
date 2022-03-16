@@ -51,10 +51,9 @@ export const setCardsAC = (data: CardsDataType, id: string) => {
 }
 export const getCardsTC = (page: number, pageCount: number, id: string) => (dispatch: Dispatch): void => {
     apiCards.getCards(page, pageCount, id).then((res) => {
-        console.log(res)
+
         dispatch(setCardsAC(res.data, id))
     }).catch((err) => {
-        console.log(err)
 
     })
 }
@@ -66,7 +65,7 @@ export const addNewCardTC = (page: number, pageCount: number, idPack: string, qu
             dispatch(setCardsAC(res.data, idPack))
         })
     }).catch((err) => {
-        console.log(err)
+
     })
 }
 
@@ -77,7 +76,6 @@ export const deleteCardTC = (page: number, pageCount: number, idCard: string, id
             dispatch(setCardsAC(res.data, idPack))
         })
     }).catch((err) => {
-        console.log(err)
 
     })
 }
@@ -90,7 +88,7 @@ export const updateCardTC = (idCard: string, idPack: string, page: number,
             dispatch(setCardsAC(res.data, idPack))
         })
     }).catch((err) => {
-        console.log(err)
+
 
     })
 }
