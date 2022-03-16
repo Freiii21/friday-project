@@ -3,12 +3,14 @@ import thunk from 'redux-thunk';
 import {authReducer} from './reducers/authReducer';
 import {testReducer} from './reducers/testReducer';
 import {appReducer} from './reducers/appReducer';
+import {cardsReducer} from "./reducers/cardReducer";
 
 
 const rootReducer = combineReducers({
     auth: authReducer,
     test: testReducer,
     app: appReducer,
+    cards:cardsReducer,
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
