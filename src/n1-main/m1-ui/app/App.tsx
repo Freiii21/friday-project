@@ -8,7 +8,7 @@ import {checkAuthMeTC} from '../../m2-bll/reducers/authReducer';
 import SnackBarMessage from '../common/info_messages/SnackBarMessage';
 import Container from '@mui/material/Container';
 import {useTypedSelector} from '../../m2-bll/redux';
-import {getPacksCards} from '../../m2-bll/reducers/cardsReducer';
+import {getPacksCards} from '../../m2-bll/reducers/packsReducer';
 
 
 const App = () => {

@@ -68,7 +68,7 @@ const useStyles = makeStyles({
 
 export function TableM() {
 
-    const rows = useTypedSelector(state => state.cards.data.cardPacks);
+    const rows = useTypedSelector(state => state.packs.data.cardPacks);
     const _userId = useTypedSelector(state => state.auth.user._id);
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
