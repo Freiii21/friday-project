@@ -8,11 +8,19 @@ import {useTypedSelector} from '../../m2-bll/redux';
 
 export const TablePacks = () => {
     const dispatch = useDispatch();
+
     const cardPacksTotalCount = useTypedSelector(state => state.packs.data.cardPacksTotalCount);
+    const cardPacksMaxCardsCount = useTypedSelector(state => state.packs.data.maxCardsCount);
+    const cardPacksMinCardsCount = useTypedSelector(state => state.packs.data.minCardsCount);
+    const cardUserID = useTypedSelector(state => state.packs.userId);
+    const cardName = useTypedSelector(state => state.packs.cardName);
+
     const numberPages = cardPacksTotalCount / 10;
+
     useEffect(() => {
-        dispatch(getPacksCards({pageCount: numberPages}));
-    }, [])
+        dispatch(getPacksCards({packName: cardName, pageCount: numberPages, user_id: cardUserID}));
+    }, [cardPacksTotalCount, cardUserID, cardName])
+
     return (
         <Grid container xs={12} sx={{backgroundColor: 'silver', minHeight: '70vh', margin: 0}}>
             <TableM/>
