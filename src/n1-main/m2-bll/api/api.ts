@@ -5,8 +5,6 @@ export const instance = axios.create({
     baseURL: 'https://neko-back.herokuapp.com/2.0',
     withCredentials: true,
 });
-const urlForPackCards = '/cards/pack';
-
 
 export const authAPI = {
     login: (data: LoginDataType) => instance.post<LoginDataType, AxiosResponse<UserType>>('/auth/login', data),
@@ -14,96 +12,24 @@ export const authAPI = {
     getAuthMe: (payload: {}) => instance.post<UserType>('/auth/me', payload),
 
     register: (data: Omit<LoginDataType, 'rememberMe'>) =>
-        instance.post<Omit<LoginDataType, 'rememberMe'>, AxiosResponse<ResponseRegisterDataType>>
-        ('/auth/register', data),
+        instance.post<Omit<LoginDataType, 'rememberMe'>, AxiosResponse<ResponseRegisterDataType>>('/auth/register', data),
 
-    changeUserName: (data: NewNameUserType) => instance.put<NewNameUserType, AxiosResponse<ResponseUpdateUserType>>
-    ('/auth/me'),
+    changeUserName: (data: NewNameUserType) => instance.put<NewNameUserType, AxiosResponse<ResponseUpdateUserType>>('/auth/me', data),
 
     logOut: () => instance.delete<ResponseCommonType>('/auth/me'),
 
-    postForgotPassword: (data: ForgotPasswordType) => instance.post<ForgotPasswordType, AxiosResponse<ResponseCommonType>>
-    ('auth/forgot', data),
+    postForgotPassword: (data: ForgotPasswordType) => instance.post<ForgotPasswordType, AxiosResponse<ResponseCommonType>>('auth/forgot', data),
 
-    setNewPassword: (data: NewPasswordType) => instance.post<NewPasswordType, AxiosResponse<ResponseCommonType>>
-    ('/auth/set-new-password', data),
+    setNewPassword: (data: NewPasswordType) => instance.post<NewPasswordType, AxiosResponse<ResponseCommonType>>('/auth/set-new-password', data),
 }
-
-
-export const cardsAPI = {
-    getPacks: (data?: Partial<RequestPacksType>) =>
-        instance.get<Partial<RequestPacksType>, AxiosResponse<ResponsePacksType>>
-        (urlForPackCards, {
-            params: data,
-        }),
-    setPackCards: (data?: Partial<RequestOnePackType>) =>
-        instance.post<Partial<RequestOnePackType>, AxiosResponse<{}>>(urlForPackCards, data),
-    deletePackCards: (id?: string) => instance.delete<string, AxiosResponse<{}>>(urlForPackCards, {
-        params: {
-            id,
-        }
-    }),
-    changeNamePackCards: (data: RequestChangeNamePackType) =>
-        instance.put<RequestChangeNamePackType, AxiosResponse<{}>>(urlForPackCards, data),
-}
-
-
-export const pingAPI = {
+export const appPing = {
     getPing: () => instance.get<ResponsePingType>('/ping'),
 }
-
-
-
-//types
-//for cardsAPI
-export type RequestChangeNamePackType = {
-    cardsPack: {
-        _id: string;
-        name?: string;
-        rest?: {}
-    }
-}
-export type RequestOnePackType = {
-    cardsPack: {
-        name: string;
-        deckCover: string;
-        private: boolean;
-    }
-}
-export type PackType = {
-    _id: string;
-    user_id: string;
-    name: string;
-    cardsCount: number;
-    created: string;
-    update: string;
-}
-export type ResponsePacksType = {
-    cardPacks: PackType[];
-    cardPacksTotalCount: number;
-    maxCardsCount: number;
-    minCardsCount: number;
-    page: number;
-    pageCount: number;
-}
-export type RequestPacksType = {
-    packName: string;
-    min: number;
-    max: number;
-    sortPacks: string;
-    page: number;
-    pageCount: number;
-    user_id: string;
-}
-
-//for pingAPI
 export type ResponsePingType = {
     ping: number;
     backTime: number;
     info: string;
 }
-
-// for authAPI
 export type NewPasswordType = {
     password: string;
     resetPasswordToken: string | undefined;
@@ -118,11 +44,11 @@ export type ResponseCommonType = {
     error: string;
 }
 export type ResponseUpdateUserType = {
-    updateUser: UserType;
+    updatedUser: UserType;
     error?: string;
 }
 export type NewNameUserType = {
-    name: string;
+    name?: string;
     avatar: string;
 }
 export type ResponseRegisterDataType = {

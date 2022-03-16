@@ -1,4 +1,4 @@
-import {authAPI, ForgotPasswordType, LoginDataType, NewPasswordType, UserType} from '../api/api';
+import {authAPI, ForgotPasswordType, LoginDataType, NewNameUserType, NewPasswordType, UserType} from '../api/api';
 import {Dispatch} from 'redux';
 import {setErrorN, setIsSent, setLoaderStatus, setSuccess} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
@@ -123,6 +123,21 @@ export const checkAuthMeTC = (payload: {}) =>
             dispatch(setLoaderStatus('idle'));
         }
     }
+export const setNewNameAvatarTC = (payload:NewNameUserType) =>
+    async (dispatch: Dispatch<ActionAuthReducerType>) => {
+        try {
+            dispatch(setLoaderStatus('loading'));
+            const res = await authAPI.changeUserName(payload)
+            console.log(res)
+            dispatch(setLogin(res.data.updatedUser, true));
+            dispatch(setSuccess('authorization is successful'))
+        } catch (e: any) {
+            handleError(e, dispatch);
+        } finally {
+            dispatch(setLoaderStatus('idle'));
+        }
+    }
+
 
 //types
 export type ActionAuthReducerType =
