@@ -62,7 +62,7 @@ export const AddFormLoginMI = () => {
     {
         if (isAuth) return <Navigate to={PATH.PROFILE}/>
     }
-    let onClick = ()=>dispatch(setRegistered(false));
+    let onClick = () => dispatch(setRegistered(false));
     return (
         <Box
             sx={{
@@ -133,8 +133,8 @@ export const AddFormLoginMI = () => {
                                         {...formik.getFieldProps('rememberMe')}
                                     />
                                 }/>
-                            <p style={{position: 'relative', top: '15px', left: '135px', fontSize: '0.8rem'}}>
-                                <NavLink style={{textDecoration: 'none'}} to={PATH.PASSWORD_RECOVERY}>Forgot
+                            <p style={{margin: '30px 0 90px 100px', fontSize: '0.8rem'}}>
+                                <NavLink style={{textDecoration: 'none', color: 'blue'}} to={PATH.PASSWORD_RECOVERY}>Forgot
                                     Password</NavLink>
                             </p>
                             <Button
@@ -164,7 +164,7 @@ export const AddFormLoginMI = () => {
                 >
                     <div style={{fontSize: '0.7rem'}}>Don`t have an account?</div>
                     <div><NavLink
-                        style={{textDecoration: 'none', fontSize: 'small'}}
+                        style={{textDecoration: 'none', fontSize: 'small', color: 'blue'}}
                         to={PATH.REGISTRATION}
                         onClick={onClick}
                     >Sign Up

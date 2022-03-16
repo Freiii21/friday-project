@@ -11,7 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import {useTypedSelector} from '../../../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
 import BasicButtonGroup from '../../../../../n1-main/m1-ui/common/BasicButtonGroup';
-
+import {ButtonForTableCell} from '../../../../../n1-main/m1-ui/common/ButtonForTableCell';
 
 interface Column {
     id: 'name' | 'cardsCount' | 'updated' | 'created' | 'actions';
@@ -30,14 +30,14 @@ const columns: Column[] = [
         label: 'Last Update',
         minWidth: 100,
         align: 'right',
-        format: (value: string) => DateTime.fromISO(value).toFormat('DDD')
+        format: (value: string) => DateTime.fromISO(value).toFormat('DDD'),
     },
     {
         id: 'created',
         label: 'Created By',
         minWidth: 100,
         align: 'right',
-        format: (value: string) => DateTime.fromISO(value).toFormat('DDD')
+        format: (value: string) => DateTime.fromISO(value).toFormat('DDD'),
     },
     {
         id: 'actions',
@@ -51,8 +51,8 @@ const columns: Column[] = [
 interface Data {
     name: string;
     cardsCount: number;
-    update: string;
-    createdBy: string;
+    updated: string;
+    created: string;
     actions: string;
 }
 
@@ -73,7 +73,6 @@ export function TableM() {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    //const registerData = DateTime.fromISO(user.created).toFormat('DDD')
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -115,7 +114,9 @@ export function TableM() {
 
                                                 {column.id === 'actions'
                                                     ? <BasicButtonGroup userId={_userId === row.user_id}/>
-                                                    : column.format && typeof value === 'string' ? column.format(value) : value
+                                                    : column.id === 'name'
+                                                        ? < ButtonForTableCell text={value}/>
+                                                        : column.format && typeof value === 'string' ? column.format(value) : value
                                                 }
                                             </TableCell>
                                         );
@@ -138,3 +139,4 @@ export function TableM() {
         </Paper>
     );
 }
+

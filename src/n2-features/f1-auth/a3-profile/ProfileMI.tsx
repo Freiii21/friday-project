@@ -1,4 +1,4 @@
-import {Box, Button} from '@mui/material';
+import {Box, Button, Input, TextField} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import img_log from './img/jester1.png';
 import React, {ChangeEvent, useState} from 'react';
@@ -7,8 +7,9 @@ import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
 import {widthLogo} from '../../../n1-main/m1-ui/utilities/for css';
-import {setNewNameAvatarTC} from "../../../n1-main/m2-bll/reducers/authReducer";
-import {useDispatch} from "react-redux";
+import {setNewNameAvatarTC} from '../../../n1-main/m2-bll/reducers/authReducer';
+import {useDispatch} from 'react-redux';
+import {BlankDiv} from '../../../n1-main/m1-ui/common/BlankDiv';
 
 export const ProfileMI = () => {
     const user = useTypedSelector(state => state.auth.user)
@@ -19,14 +20,15 @@ export const ProfileMI = () => {
     const dispatch = useDispatch()
 
     const setAvatar = () => {
-        dispatch(setNewNameAvatarTC({avatar:photo, name}))
-}
+        dispatch(setNewNameAvatarTC({avatar: photo, name}))
+        setPhoto('');
+        setName('');
+    }
 
-    const setNickName = (e:ChangeEvent<HTMLInputElement>) =>{
+    const setNickName = (e: ChangeEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value)
     }
-    const setPhotos = (e:ChangeEvent<HTMLInputElement>) =>{
-        console.log(e.currentTarget.value)
+    const setPhotos = (e: ChangeEvent<HTMLInputElement>) => {
         setPhoto(e.currentTarget.value)
     }
 
@@ -67,7 +69,7 @@ export const ProfileMI = () => {
                     </Grid>
                     <Grid item
                           sx={{
-                              marginTop: '70px',
+                              marginTop: '40px',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
@@ -81,10 +83,23 @@ export const ProfileMI = () => {
                         <span>NickName: {user.name}</span>
                         <span>Card count: {user.publicCardPacksCount}</span>
                         <span>Date of registration: {registerData}</span>
-                        <label> new avatar: </label>
-                        <input type={'text'} onChange={setPhotos}/>
-                        <label> new name: </label>
-                        <input type={'text'} onChange={setNickName}/>
+                        <div>
+                            <TextField size={'small'}
+                                       placeholder={'http://...'}
+                                       type={'text'}
+                                       variant={'filled'}
+                                       onChange={setPhotos}
+                                       value={photo}
+                            />
+                            <BlankDiv/>
+                            <TextField size={'small'}
+                                       placeholder={'New name'}
+                                       type={'text'}
+                                       variant={'filled'}
+                                       onChange={setNickName}
+                                       value={name}
+                            />
+                        </div>
 
                         <Button onClick={setAvatar}> CHANGE AVATAR OR NAME </Button>
                     </Grid>
