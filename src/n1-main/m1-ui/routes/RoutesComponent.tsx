@@ -13,7 +13,8 @@ import {TestPageMI} from '../../../n2-features/f0-test/TestPageMI';
 
 import {PacksCards} from '../../../n2-features/f1-auth/packsCards/PacksCards';
 
-import {ListCard} from "../../../n2-features/f1-auth/cards/ListCard";
+import {ListCard} from '../../../n2-features/f1-auth/cards/ListCard';
+import {PageCards} from '../../../n2-features/f1-auth/cards/PageCards';
 
 
 export const PATH = {
@@ -25,11 +26,9 @@ export const PATH = {
     CREATING_NEW_PASSWORD: '/creatingNewPassword/:token',
     TEST_PAGE: '/testPage',
     CHECK_EMAIL: '/checkEmail',
-
-    PACKS_CARDS:'/packsCards',
-
+    PACKS_CARDS: '/packsCards',
     CARDS: '/cards',
-
+    CARDS_MI: '/pageCards',
 }
 
 export const RoutesComponent = () => {
@@ -46,13 +45,11 @@ export const RoutesComponent = () => {
                 <Route path={PATH.CREATING_NEW_PASSWORD} element={<CreatingNewPassword/>}/>
                 <Route path={PATH.TEST_PAGE} element={<TestPageMI/>}/>
                 <Route path={PATH.CHECK_EMAIL} element={<CheckEmail/>}/>
-
                 <Route path={PATH.PACKS_CARDS} element={<PacksCards/>}/>
-
                 <Route path={PATH.CARDS} element={<ListCard/>}/>
+                <Route path={PATH.CARDS_MI} element={<PageCards/>}/>
 
-
-                <Route path="*" element={<Navigate to={PATH.PAGE_NOT_FOUND}/>}/>
+                <Route path='*' element={<Navigate to={PATH.PAGE_NOT_FOUND}/>}/>
             </Routes>
         </Container>
     )

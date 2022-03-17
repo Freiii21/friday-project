@@ -10,8 +10,8 @@ export const ListCard = () => {
     const dispatch = useDispatch()
     const [modalActive, setModalActive] = useState<boolean>(false)
     const [question, setQuestion] = useState<string>('')
-    const cards = useTypedSelector(state => state.cards.cards)
-    const idPack = useTypedSelector(state => state.cards.id)
+    const cards = useTypedSelector(state => state.cards.data.cards)
+    const idPack = useTypedSelector(state => state.cards.data.packUserId)
 
     const addCard = () => {
         dispatch(addNewCardTC(1, 7, idPack, question))

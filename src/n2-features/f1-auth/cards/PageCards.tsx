@@ -8,15 +8,16 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import {useTypedSelector} from '../../../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
-import BasicButtonGroup from '../../../../../n1-main/m1-ui/common/BasicButtonGroup';
-import {ButtonForTableCell} from '../../../../../n1-main/m1-ui/common/ButtonForTableCell';
-import {ButtonForTablePacks} from '../../../../../n1-main/m1-ui/common/ButtonForTablePacks';
-
+import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
+import {ButtonForTablePacks} from '../../../n1-main/m1-ui/common/ButtonForTablePacks';
+import Rating from '@mui/material/Rating';
+import BasicButtonGroup from '../../../n1-main/m1-ui/common/BasicButtonGroup';
+import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
+import {Navigate} from 'react-router-dom';
 
 interface Column {
-    id: 'name' | 'cardsCount' | 'updated' | 'created' | 'actions';
+    id: 'question' | 'answer' | 'updated' | 'grade' | 'actions';
     label: string;
     minWidth?: number;
     align?: 'right';
@@ -25,8 +26,8 @@ interface Column {
 }
 
 const columns: Column[] = [
-    {id: 'name', label: `Name`, minWidth: 150},
-    {id: 'cardsCount', label: 'Count', minWidth: 100},
+    {id: 'question', label: `Question`, minWidth: 200},
+    {id: 'answer', label: 'Answer', minWidth: 200},
     {
         id: 'updated',
         label: 'Last Update',
@@ -35,16 +36,16 @@ const columns: Column[] = [
         format: (value: string) => DateTime.fromISO(value).toFormat('DDD'),
     },
     {
-        id: 'created',
-        label: 'Created By',
+        id: 'grade',
+        label: 'Grade',
         minWidth: 100,
         align: 'right',
         format: (value: string) => DateTime.fromISO(value).toFormat('DDD'),
     },
     {
         id: 'actions',
-        label: 'Actions',
-        minWidth: 170,
+        label: '',
+        minWidth: 50,
         align: 'right',
         formatB: () => <button>hello</button>
     },
@@ -59,12 +60,13 @@ const useStyles = makeStyles({
     },
 });
 
-export function TableM() {
-    const [page, setPage] = React.useState(0);
+export function PageCards() {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const rows = useTypedSelector(state => state.packs.data.cardPacks);
-    const _userId = useTypedSelector(state => state.auth.user._id);
+    const [page, setPage] = React.useState(0);
+    const rows = useTypedSelector(state => state.cards.data.cards);
+    const isAuth = useTypedSelector(state => state.auth.isAuth);
     const classes = useStyles();
+
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -73,6 +75,7 @@ export function TableM() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+    if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
         <Paper className={classes.root}>
             <TableContainer className={classes.container}>
@@ -100,7 +103,7 @@ export function TableM() {
                                             style={{minWidth: column.minWidth}}
                                         >
                                             {column.label}
-                                            <ButtonForTablePacks nameCell={column.id === 'actions' ? '' : column.id}/>
+                                            <ButtonForTablePacks nameCell={column.id}/>
                                         </TableCell>
                                     )
                                 }
@@ -117,16 +120,15 @@ export function TableM() {
                                         const value = row[column.id];
                                         return (
                                             <TableCell key={column.id} align={column.align}>
-
-                                                {column.id === 'actions'
-                                                    ? <BasicButtonGroup
-                                                        userId={_userId === row.user_id}
-                                                        name_1={'Del'} name_2={'Edit'} name_3={'Learn'}
-                                                    />
-                                                    : column.id === 'name'
-                                                        ? < ButtonForTableCell text={value} idPack={row._id}/>
-                                                        : column.format && typeof value === 'string' ? column.format(value) : value
-                                                }
+                                                {column.id === 'grade'
+                                                    ? <Rating name="read-only" value={4.5} readOnly precision={0.5}/>
+                                                    : column.id === 'actions'
+                                                        ? <BasicButtonGroup name_1={''}
+                                                                            name_2={'Del'} name_3={'Update'}
+                                                                            userId={false}
+                                                                            color={true}
+                                                        />
+                                                        : column.format && typeof value === 'string' ? column.format(value) : value}
                                             </TableCell>
                                         );
                                     })}
