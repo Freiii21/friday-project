@@ -10,7 +10,7 @@ export const cardsReducer = (state: CardsDataType = initialState, action: Action
         case 'SET_CARDS':
             return {...state, ...action.data, id: action.id};
         default:
-            return state
+            return state;
     }
 }
 

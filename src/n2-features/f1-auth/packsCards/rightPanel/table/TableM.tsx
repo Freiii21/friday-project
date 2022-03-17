@@ -12,6 +12,8 @@ import {useTypedSelector} from '../../../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
 import BasicButtonGroup from '../../../../../n1-main/m1-ui/common/BasicButtonGroup';
 import {ButtonForTableCell} from '../../../../../n1-main/m1-ui/common/ButtonForTableCell';
+import {ButtonForTablePacks} from '../../../../../n1-main/m1-ui/common/ButtonForTablePacks';
+
 
 interface Column {
     id: 'name' | 'cardsCount' | 'updated' | 'created' | 'actions';
@@ -23,7 +25,7 @@ interface Column {
 }
 
 const columns: Column[] = [
-    {id: 'name', label: 'Name', minWidth: 150},
+    {id: 'name', label: `Name`, minWidth: 150},
     {id: 'cardsCount', label: 'Cards Count', minWidth: 20},
     {
         id: 'updated',
@@ -72,24 +74,38 @@ export function TableM() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    console.log(rows)
     return (
         <Paper className={classes.root}>
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            {columns.map((column) => {
-                                return (
+                            {columns.map((column, index) => {
+                                if (index > 3) {
+                                    return (
 
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{minWidth: column.minWidth}}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                )
+                                        <TableCell
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{minWidth: column.minWidth}}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    )
+                                } else {
+                                    return (
+
+                                        <TableCell
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{minWidth: column.minWidth}}
+                                        >
+                                            {column.label}
+                                            <ButtonForTablePacks nameCell={column.id==='actions'?'':column.id}/>
+                                        </TableCell>
+                                    )
+                                }
+
                             })}
                         </TableRow>
                     </TableHead>
