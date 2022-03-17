@@ -23,9 +23,6 @@ export const AppDrawer = ({toggle, switchDrawer}: PropsType) => {
                                className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
                                   : s.links)}>Packs of Cards</NavLink></MenuItem>
 
-            <MenuItem><NavLink to={PATH.CARDS} className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
-                : s.links)}>Cards</NavLink></MenuItem>
-
             <MenuItem><NavLink to={PATH.PAGE_NOT_FOUND}
                                className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
                                    : s.links)}>Page not found</NavLink></MenuItem>
