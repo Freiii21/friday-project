@@ -48,15 +48,6 @@ const columns: Column[] = [
     },
 ];
 
-interface Data {
-    name: string;
-    cardsCount: number;
-    updated: string;
-    created: string;
-    actions: string;
-}
-
-
 const useStyles = makeStyles({
     root: {
         width: '100%',

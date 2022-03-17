@@ -19,7 +19,7 @@ export const Search = () => {
                 </Typography>
                 <TextField
                     fullWidth={true} size={'small'}
-                    variant={'standard'} placeholder={'search pack'}
+                    variant={'standard'} placeholder={'search packs'}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
