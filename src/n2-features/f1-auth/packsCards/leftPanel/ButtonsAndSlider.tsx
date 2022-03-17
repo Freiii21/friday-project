@@ -26,7 +26,7 @@ export const ButtonsAndSlider = () => {
     const cardPacksMax = useTypedSelector(state => state.packs.maxCardsValue);
 
 
-     const [rangeValue, setRangeValue] = useState<number[]>([cardPacksMin, cardPacksMax]) // slider's state
+     const [rangeValue, setRangeValue] = useState<number[]>([cardPacksMinCardsCount, cardPacksMaxCardsCount]) // slider's state
 
     useEffect(() => {
         setRangeValue([cardPacksMin, cardPacksMax]);
