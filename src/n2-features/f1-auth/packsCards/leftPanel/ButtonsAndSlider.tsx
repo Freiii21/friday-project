@@ -38,7 +38,6 @@ export const ButtonsAndSlider = () => {
         }
     },[]);
 
-
     const handlerButtonSetId = () => {
         dispatch(setUserID(userId))
         setDisableButton(!disableButton)
