@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {addNewCardTC, deleteCardTC, getCardsTC, updateCardTC} from '../../../n1-main/m2-bll/reducers/cardReducer';
+import {addNewCardTC, deleteCardTC, updateCardTC} from '../../../n1-main/m2-bll/reducers/cardReducer';
 import {Cards} from './Cards';
 import {Modal} from '../../../n1-main/m1-ui/Modal/Modal';
 import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
@@ -12,13 +12,6 @@ export const ListCard = () => {
     const [question, setQuestion] = useState<string>('')
     const cards = useTypedSelector(state => state.cards.cards)
     const idPack = useTypedSelector(state => state.cards.id)
-
-    // Поменять ID поставил временно пока нет Pack-ов и Запрос надо делать из Пак-листа по нажатию на кнопку
-    // потом отсюда убрать следущ три строки
-    useEffect(() => {
-        dispatch(getCardsTC(1, 7, '62174dd42ecb420004734897'))
-    }, [])
-
 
     const addCard = () => {
         dispatch(addNewCardTC(1, 7, idPack, question))

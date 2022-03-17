@@ -106,7 +106,7 @@ export function TableM() {
                                                 {column.id === 'actions'
                                                     ? <BasicButtonGroup userId={_userId === row.user_id}/>
                                                     : column.id === 'name'
-                                                        ? < ButtonForTableCell text={value}/>
+                                                        ? < ButtonForTableCell text={value} idPack={row._id}/>
                                                         : column.format && typeof value === 'string' ? column.format(value) : value
                                                 }
                                             </TableCell>
