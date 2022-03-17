@@ -1,9 +1,10 @@
 import Grid from '@mui/material/Grid';
 import {useEffect} from 'react';
-import {TableM} from '../../../n2-features/f1-auth/packsCards/rightPanel/table/TableM';
 import {useDispatch} from 'react-redux';
-import { getPacksCards} from '../../m2-bll/reducers/packsReducer';
-import {useTypedSelector} from '../../m2-bll/redux';
+import {useTypedSelector} from "../../../../../n1-main/m2-bll/redux";
+import {getPacksCards} from "../../../../../n1-main/m2-bll/reducers/packsReducer";
+import {TableM} from "./TableM";
+
 
 
 export const TablePacks = () => {

@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import {Search} from './Search';
-import {TablePacks} from '../../../../n1-main/m1-ui/common/TablePacks';
+import {TablePacks} from "./table/TablePacks";
 
 export const RightPanel = () => {
     return (
