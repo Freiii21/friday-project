@@ -1,7 +1,6 @@
 import {packsAPI, RequestPacksType, ResponsePacksType} from '../api/api';
 import {Dispatch} from 'redux';
-import {handleError} from '../../m1-ui/utilities/handleError';
-import {setErrorN, setLoaderStatus} from './appReducer';
+import { setLoaderStatus} from './appReducer';
 
 
 const initialState = {
@@ -23,7 +22,9 @@ const initialState = {
         pageCount: 0,
     },
     userId:"",
-    cardName:""
+    cardName:"",
+    minCardsValue:0,
+    maxCardsValue:0,
 }
 export const packsReducer = (state = initialState, action: PacksReducerActionType): InitialStateType => {
 
@@ -31,7 +32,7 @@ export const packsReducer = (state = initialState, action: PacksReducerActionTyp
         case 'PACKS_REDUCER/GET_PACKS':
             return {...state, data: action.data}
         case "PACKS_REDUCER/SET_MAX-MIN_VALUE":
-            return {...state, data: {...state.data, minCardsCount: action.min, maxCardsCount: action.max}}
+             return {...state, minCardsValue: action.min, maxCardsValue: action.max}
         case "PACKS_REDUCER/SET_USER_ID":
             return {...state, userId: action.id}
         case "PACKS_REDUCER/SET_CARD_NAME":
@@ -42,11 +43,13 @@ export const packsReducer = (state = initialState, action: PacksReducerActionTyp
 }
 
 export const getPacks = (data: ResponsePacksType) => ({type: 'PACKS_REDUCER/GET_PACKS', data} as const);
-export const setMaxMinValue = (min: number, max: number) => ({
+
+export const setMaxMinValue = (newValue:  number[]) => ({
     type: 'PACKS_REDUCER/SET_MAX-MIN_VALUE',
-    min,
-    max
+    min : newValue[0],
+    max : newValue[1]
 } as const);
+
 export const setUserID = (id: string) => ({type: 'PACKS_REDUCER/SET_USER_ID', id} as const);
 export const setCardsName = (name: string) => ({type: 'PACKS_REDUCER/SET_CARD_NAME', name} as const);
 

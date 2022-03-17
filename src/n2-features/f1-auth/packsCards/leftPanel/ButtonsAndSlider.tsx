@@ -3,10 +3,11 @@ import Typography from '@material-ui/core/Typography';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import Slider from '@mui/material/Slider';
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useTypedSelector} from "../../../../n1-main/m2-bll/redux";
 import {useDispatch} from "react-redux";
 import {setMaxMinValue, setUserID} from "../../../../n1-main/m2-bll/reducers/packsReducer";
+
 
 function valuetext(value: number) {
     return `${value}°C`;
@@ -16,42 +17,51 @@ export const ButtonsAndSlider = () => {
 
     const dispatch = useDispatch()
 
-    const cardPacksMaxCardsCount = useTypedSelector(state => state.packs.data.maxCardsCount);
-    const cardPacksMinCardsCount = useTypedSelector(state => state.packs.data.minCardsCount);
     const userId = useTypedSelector(state => state.auth.user._id);
-    const userId2 = useTypedSelector(state => state.packs.userId);
 
-    const [value, setValue] = React.useState<number[]>([cardPacksMinCardsCount, cardPacksMaxCardsCount]);
-    // const value = [0, cardPacksMaxCardsCount]
+    const cardPacksMinCardsCount = useTypedSelector(state => state.packs.data.minCardsCount);
+    const cardPacksMaxCardsCount = useTypedSelector(state => state.packs.data.maxCardsCount);
+
+    const cardPacksMin = useTypedSelector(state => state.packs.minCardsValue);
+    const cardPacksMax = useTypedSelector(state => state.packs.maxCardsValue);
 
 
-    const handleChange = (event: Event, newValue: number | number[]) => {
-        setValue(newValue as number[]);
-        // console.log(newValue)
-        //     dispatch(setMaxMinValue(value[0],value[1]))
+     const [rangeValue, setRangeValue] = useState<number[]>([cardPacksMin, cardPacksMax]) // slider's state
 
-    };
-    console.log(userId)
-    console.log(userId2)
+    useEffect(() => {
+        setRangeValue([cardPacksMin, cardPacksMax]);
+    }, [cardPacksMin, cardPacksMax])
+
+    const handleChange = useCallback  ( (event: Event, newValue: number | number[]) => {
+        if (Array.isArray(newValue)){
+                dispatch(setMaxMinValue(newValue))
+        }
+    },[]);
+
+
     const handlerButtonSetId = () => {
         dispatch(setUserID(userId))
+        setDisableButton(!disableButton)
     }
     const handlerButtonSetALL = () => {
         dispatch(setUserID(""))
+        setDisableButton(!disableButton)
     }
     const styleGridItem = {
         marginTop: '50px',
         height: '90vh',
         paddingLeft: '20px',
     }
+
+     const [disableButton, setDisableButton] = useState(false)
     return (
         <Grid item style={styleGridItem} xs={11}>
             <Typography variant={'h6'}>
                 show packs cards
             </Typography>
             <ButtonGroup disableElevation variant="contained" color="primary" size={'small'}>
-                <Button onClick={handlerButtonSetId}>My</Button>
-                <Button onClick={handlerButtonSetALL}>All</Button>
+                <Button disabled={disableButton}  onClick={handlerButtonSetId}>My</Button>
+                <Button disabled={!disableButton} onClick={handlerButtonSetALL}>All</Button>
             </ButtonGroup>
             <div style={{marginTop: '30px'}}>
                 <Typography variant={'h6'}>
@@ -59,7 +69,7 @@ export const ButtonsAndSlider = () => {
                 </Typography>
                 <Slider
                     getAriaLabel={() => 'Temperature range'}
-                    value={value}
+                    value={rangeValue}
                     min={cardPacksMinCardsCount}
                     max={cardPacksMaxCardsCount}
                     onChange={handleChange}

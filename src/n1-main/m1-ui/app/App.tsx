@@ -17,7 +17,7 @@ const App = () => {
     const [toggleDrawer, setToggleDrawer] = useState(false)
     useEffect(() => {
         dispatch(checkAuthMeTC({}));
-        dispatch(getPacksCards());
+        // dispatch(getPacksCards());
     }, [])
     return (
         <Container fixed sx={{mt: '0.5rem'}}>

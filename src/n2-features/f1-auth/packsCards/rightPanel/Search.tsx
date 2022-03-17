@@ -5,23 +5,26 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 import {useTypedSelector} from "../../../../n1-main/m2-bll/redux";
-import {ChangeEvent, ChangeEventHandler} from "react";
+import {ChangeEvent,} from "react";
 import {useDispatch} from "react-redux";
+
 import {setCardsName} from "../../../../n1-main/m2-bll/reducers/packsReducer";
+
 
 export const Search = () => {
 
     const dispatch = useDispatch()
     const cardsName = useTypedSelector(state => state.packs.cardName)
 
-    const onChangeHandler = (e:ChangeEvent<HTMLInputElement>) => {
-        dispatch(setCardsName(e.currentTarget.value))
+
+    function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
+             dispatch(setCardsName(e.currentTarget.value))
     }
 
     return (
         <Grid container
               xs={12}
-              sx={{backgroundColor: 'ghostwhite', minHeight: '10vh', padding: '5px',margin:0}}
+              sx={{backgroundColor: 'ghostwhite', minHeight: '10vh', padding: '5px', margin: 0}}
               justifyContent={'space-around'}
               alignItems={'center'}
         >
