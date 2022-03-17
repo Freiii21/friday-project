@@ -13,7 +13,7 @@ import {TestPageMI} from '../../../n2-features/f0-test/TestPageMI';
 
 import {PacksCards} from '../../../n2-features/f1-auth/packsCards/PacksCards';
 
-import {ListCard} from "../cards/ListCard";
+import {ListCard} from "../../../n2-features/f1-auth/cards/ListCard";
 
 
 export const PATH = {

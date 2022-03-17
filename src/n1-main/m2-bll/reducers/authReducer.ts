@@ -123,14 +123,14 @@ export const checkAuthMeTC = (payload: {}) =>
             dispatch(setLoaderStatus('idle'));
         }
     }
-export const setNewNameAvatarTC = (payload:NewNameUserType) =>
+export const setNewNameAvatarTC = (payload: NewNameUserType) =>
     async (dispatch: Dispatch<ActionAuthReducerType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
             const res = await authAPI.changeUserName(payload)
             console.log(res)
             dispatch(setLogin(res.data.updatedUser, true));
-            dispatch(setSuccess('authorization is successful'))
+            dispatch(setSuccess('changes are successful'))
         } catch (e: any) {
             handleError(e, dispatch);
         } finally {

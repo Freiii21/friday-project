@@ -2,7 +2,7 @@ import Grid from '@mui/material/Grid';
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useTypedSelector} from "../../../../../n1-main/m2-bll/redux";
-import {getPacksCards} from "../../../../../n1-main/m2-bll/reducers/packsReducer";
+import { getPacksCards} from '../../../../../n1-main/m2-bll/reducers/packsReducer';
 import {TableM} from "./TableM";
 
 
@@ -28,7 +28,6 @@ export const TablePacks = () => {
         }))
 
     }, [cardPacksTotalCount, cardUserID, cardName])
-
     return (
         <Grid container xs={12} sx={{backgroundColor: 'silver', minHeight: '70vh', margin: 0}}>
             <TableM/>
