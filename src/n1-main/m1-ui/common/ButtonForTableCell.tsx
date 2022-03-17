@@ -19,8 +19,7 @@ export const ButtonForTableCell = ({text, idPack}: PropsType) => {
         <>
             <span>{text} </span>
             <NavLink to={'/cards'}>
-            <Button variant="text" onClick={showCards} size={'small'} style={{marginLeft:'5px'}}>
-                Cards
+            <Button variant="text" onClick={showCards} size={'small'}>
                 <ExitToAppIcon/>
             </Button>
             </NavLink>

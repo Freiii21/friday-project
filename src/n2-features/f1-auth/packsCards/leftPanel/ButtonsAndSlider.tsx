@@ -27,7 +27,7 @@ export const ButtonsAndSlider = () => {
             </Typography>
             <ButtonGroup disableElevation variant="contained" color="primary" size={'small'}>
                 <Button>My</Button>
-                <Button>All</Button>
+                <Button color={'secondary'}>All</Button>
             </ButtonGroup>
             <div style={{marginTop: '30px'}}>
                 <Typography variant={'h6'}>

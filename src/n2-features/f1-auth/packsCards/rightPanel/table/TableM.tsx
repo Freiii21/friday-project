@@ -26,7 +26,7 @@ interface Column {
 
 const columns: Column[] = [
     {id: 'name', label: `Name`, minWidth: 150},
-    {id: 'cardsCount', label: 'Cards Count', minWidth: 20},
+    {id: 'cardsCount', label: 'Count', minWidth: 100},
     {
         id: 'updated',
         label: 'Last Update',
@@ -101,7 +101,7 @@ export function TableM() {
                                             style={{minWidth: column.minWidth}}
                                         >
                                             {column.label}
-                                            <ButtonForTablePacks nameCell={column.id==='actions'?'':column.id}/>
+                                            <ButtonForTablePacks nameCell={column.id === 'actions' ? '' : column.id}/>
                                         </TableCell>
                                     )
                                 }
