@@ -8,7 +8,7 @@ const instance = axios.create({
     withCredentials: true,
 })
 
-export const apiCards = {
+export const cardsAPI = {
     getCards(page: number, pageCount: number, id:string) {
         return instance.get(`/cards/card/?page=${page}&pageCount=${pageCount}&cardsPack_id=${id}`)
     },
