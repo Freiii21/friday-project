@@ -104,7 +104,7 @@ export const updateCardTC = (idCard: string, idPack: string, page: number,
             const res = await cardsAPI.getCards(page, pageCount, idPack);
             dispatch(setCardsAC(res.data));
         } catch (e) {
-            handleError(e, dispatch);
+            handleError(e, dispatch)
         } finally {
             dispatch(setLoaderStatus('idle'))
         }
