@@ -1,94 +1,116 @@
-import {Dispatch} from "redux"
-import {apiCards} from "../api/api-cards";
+import {Dispatch} from 'redux'
+import {cardsAPI, CardsDataType} from '../api/cards-a-p-i';
+import {setLoaderStatus} from './appReducer';
+import {handleError} from '../../m1-ui/utilities/handleError';
 
 
-export type CardsDataType = {
-    cards: CardsType[]
-    id: string
-    cardsTotalCount: number
-    maxGrade: number
-    minGrade: number
-    packUserId: string
-    page: number
-    pageCount: number
-    token: string
-    tokenDeathTime: number
+const initialState = {
+    data: {
+        cards: [
+            {
+                answer: 'none',
+                cardsPack_id: 'none',
+                comments: 'none',
+                created: 'none',
+                grade: 0,
+                more_id: 'none',
+                question: 'none',
+                rating: 0,
+                shots: 0,
+                type: 'none',
+                updated: 'none',
+                user_id: 'none',
+                __v: 0,
+                _id: 'none',
+            },
+        ],
+        cardsTotalCount: 0,
+        maxGrade: 0,
+        minGrade: 0,
+        packUserId: 'none',
+        page: 0,
+        pageCount: 0,
+        token: 'none',
+        tokenDeathTime: 0,
+    },
+    packName:''
 }
-
-export type CardsType = {
-    answer: string
-    cardsPack_id: string
-    comments: string
-    created: string
-    grade: number
-    more_id: string
-    question: string
-    rating: number
-    shots: number
-    type: string
-    updated: string
-    user_id: string
-    __v: number
-    _id: string
-}
-
-
-export type ActionsType = ReturnType<typeof setCardsAC>
-
-const initialState = {} as CardsDataType
-export const cardsReducer = (state: CardsDataType = initialState, action: ActionsType): CardsDataType => {
+export const cardsReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'SET_CARDS': {
-            return {...state, ...action.data, id: action.id}
-        }
+        case 'SET_CARDS':
+            return {...state, data: action.data,packName: action.packName??''};
         default:
-            return state
+            return state;
     }
 }
 
-export const setCardsAC = (data: CardsDataType, id: string) => {
-    return ({type: 'SET_CARDS', data, id} as const)
-}
-export const getCardsTC = (page: number, pageCount: number, id: string) => (dispatch: Dispatch): void => {
-    apiCards.getCards(page, pageCount, id).then((res) => {
+export const setCardsAC = (data: CardsDataType,packName?:string) =>
+    ({type: 'SET_CARDS', data,packName} as const);
 
-        dispatch(setCardsAC(res.data, id))
-    }).catch((err) => {
 
-    })
-}
+//thunks
+export const getCardsTC = (page: number, pageCount: number, id: string,packName:string) =>
+    async (dispatch: Dispatch<ActionsType>) => {
+        try {
+            dispatch(setLoaderStatus('loading'));
+            const res = await cardsAPI.getCards(page, pageCount, id);
+            dispatch(setCardsAC(res.data,packName));
+        } catch (e) {
+            handleError(e, dispatch);
+        } finally {
+            dispatch(setLoaderStatus('idle'));
+        }
 
-export const addNewCardTC = (page: number, pageCount: number, idPack: string, question: string) => (dispatch: Dispatch): void => {
-    apiCards.addNewCard(idPack, question).then(() => {
+    }
 
-        apiCards.getCards(page, pageCount, idPack).then((res) => {
-            dispatch(setCardsAC(res.data, idPack))
-        })
-    }).catch((err) => {
 
-    })
-}
+export const addNewCardTC = (page: number, pageCount: number, idPack: string, question: string) =>
+    async (dispatch: Dispatch<ActionsType>) => {
+        try {
+            dispatch(setLoaderStatus('loading'));
+            await cardsAPI.addNewCard(idPack, question);
+            const res = await cardsAPI.getCards(page, pageCount, idPack);
+            dispatch(setCardsAC(res.data))
+        } catch (e) {
+            handleError(e, dispatch);
+        } finally {
+            dispatch(setLoaderStatus('idle'));
+        }
+    }
 
-export const deleteCardTC = (page: number, pageCount: number, idCard: string, idPack: string) => (dispatch: Dispatch): void => {
-    apiCards.deleteCard(idCard).then(() => {
+export const deleteCardTC = (page: number, pageCount: number, idCard: string, idPack: string) =>
 
-        apiCards.getCards(page, pageCount, idPack).then((res) => {
-            dispatch(setCardsAC(res.data, idPack))
-        })
-    }).catch((err) => {
+    async (dispatch: Dispatch<ActionsType>) => {
+        try {
+            dispatch(setLoaderStatus('loading'));
+            await cardsAPI.deleteCard(idCard);
+            const res = await cardsAPI.getCards(page, pageCount, idPack);
+            dispatch(setCardsAC(res.data));
+        } catch (e) {
+            handleError(e, dispatch);
+        } finally {
+            dispatch(setLoaderStatus('idle'))
+        }
+    }
 
-    })
-}
 
 export const updateCardTC = (idCard: string, idPack: string, page: number,
-                             pageCount: number, question: string) => (dispatch: Dispatch): void => {
-    apiCards.updateCard(idCard, question).then(() => {
+                             pageCount: number, question: string) =>
+    async (dispatch: Dispatch<ActionsType>) => {
+        try {
+            setLoaderStatus('loading');
+            await cardsAPI.updateCard(idCard, question);
+            const res = await cardsAPI.getCards(page, pageCount, idPack);
+            dispatch(setCardsAC(res.data));
+        } catch (e) {
+            handleError(e, dispatch);
+        } finally {
+            dispatch(setLoaderStatus('idle'))
+        }
+    }
 
-        apiCards.getCards(page, pageCount, idPack).then((res) => {
-            dispatch(setCardsAC(res.data, idPack))
-        })
-    }).catch((err) => {
-
-
-    })
-}
+//types
+export type ActionsType =
+    ReturnType<typeof setCardsAC>
+    | ReturnType<typeof setLoaderStatus>
+type InitialStateType = typeof initialState;

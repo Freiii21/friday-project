@@ -8,7 +8,7 @@ const instance = axios.create({
     withCredentials: true,
 })
 
-export const apiCards = {
+export const cardsAPI = {
     getCards(page: number, pageCount: number, id:string) {
         return instance.get(`/cards/card/?page=${page}&pageCount=${pageCount}&cardsPack_id=${id}`)
     },
@@ -21,6 +21,36 @@ export const apiCards = {
     updateCard(id: string, question:string) {
         return instance.put(`/cards/card`, {card: {_id: id, question}})
     },
+};
+
+
+
+export type CardsDataType = {
+    cards: CardsType[]
+    //id: string
+    cardsTotalCount: number
+    maxGrade: number
+    minGrade: number
+    packUserId: string
+    page: number
+    pageCount: number
+    token: string
+    tokenDeathTime: number
 }
 
-
+export type CardsType = {
+    answer: string
+    cardsPack_id: string
+    comments: string
+    created: string
+    grade: number
+    more_id: string
+    question: string
+    rating: number
+    shots: number
+    type: string
+    updated: string
+    user_id: string
+    __v: number
+    _id: string
+}

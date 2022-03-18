@@ -69,14 +69,15 @@ export const ProfileMI = () => {
                     </Grid>
                     <Grid item
                           sx={{
-                              marginTop: '40px',
+                              marginTop: '15px',
                               display: 'flex',
                               alignItems: 'center',
-                              justifyContent: 'center',
+                              justifyContent: 'flex-start',
                               flexDirection: 'column',
                               fontSize: '0.8rem',
                               padding: '0 20px',
                               lineHeight: '1.3rem',
+
                           }}
                     >
                         <span>Email: {user.email}</span>
@@ -90,6 +91,8 @@ export const ProfileMI = () => {
                                        variant={'filled'}
                                        onChange={setPhotos}
                                        value={photo}
+                                       style={{marginTop: '10px'}}
+
                             />
                             <BlankDiv/>
                             <TextField size={'small'}
@@ -101,7 +104,8 @@ export const ProfileMI = () => {
                             />
                         </div>
 
-                        <Button onClick={setAvatar}> CHANGE AVATAR OR NAME </Button>
+                        <Button onClick={setAvatar} size={'small'}
+                                style={{fontSize: '0.7rem', marginTop: '10px'}}> CHANGE AVATAR OR NAME </Button>
                     </Grid>
                 </Grid>
             </Box>

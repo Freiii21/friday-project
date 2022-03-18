@@ -4,6 +4,17 @@ import TextField from '@mui/material/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {NavLink} from 'react-router-dom';
+import React from 'react';
+
+type PropsType = {
+    isButton: boolean;
+    isArrowBack?: boolean
+    title: string;
+}
+export const Search = ({isButton, title, isArrowBack}: PropsType) => {
+
 import {useTypedSelector} from "../../../../n1-main/m2-bll/redux";
 import {ChangeEvent,} from "react";
 import {useDispatch} from "react-redux";
@@ -21,6 +32,7 @@ export const Search = () => {
              dispatch(setCardsName(e.currentTarget.value))
     }
 
+
     return (
         <Grid container
               xs={12}
@@ -30,13 +42,22 @@ export const Search = () => {
         >
             <Grid item xs={8}>
                 <Typography variant={'h6'}>
-                    Packs List
+                    {isArrowBack &&
+                    <NavLink to={'/packsCards'}
+                             style={{textDecoration: 'none'}}
+                    >
+                        <ArrowBackIcon
+                            style={{color: 'rgb(63, 81, 181)', position: 'relative', top: '5px', marginRight: '5px'}}
+                        />
+                    </NavLink>}
+                    {title}
                 </Typography>
                 <TextField
                     fullWidth={true} size={'small'}
                     variant={'standard'} placeholder={'search pack'}
                     value={cardsName}
                     onChange={onChangeHandler}
+
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -46,9 +67,13 @@ export const Search = () => {
                     }}
                 />
             </Grid>
-            <Grid item xs={3}>
-                <Button variant={'contained'} color={'primary'} size={'small'}>Add new pack</Button>
-            </Grid>
+            {
+                isButton &&
+                <Grid item xs={3}>
+                    <Button variant={'contained'} color={'primary'} size={'small'}>Add new pack</Button>
+                </Grid>
+            }
+
         </Grid>
     )
 }

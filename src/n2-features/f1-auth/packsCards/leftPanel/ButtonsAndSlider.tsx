@@ -59,6 +59,7 @@ export const ButtonsAndSlider = () => {
                 show packs cards
             </Typography>
             <ButtonGroup disableElevation variant="contained" color="primary" size={'small'}>
+
                 <Button disabled={disableButton}  onClick={handlerButtonSetId}>My</Button>
                 <Button disabled={!disableButton} onClick={handlerButtonSetALL}>All</Button>
             </ButtonGroup>

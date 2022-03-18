@@ -10,8 +10,8 @@ export const ListCard = () => {
     const dispatch = useDispatch()
     const [modalActive, setModalActive] = useState<boolean>(false)
     const [question, setQuestion] = useState<string>('')
-    const cards = useTypedSelector(state => state.cards.cards)
-    const idPack = useTypedSelector(state => state.cards.id)
+    const cards = useTypedSelector(state => state.cards.data.cards)
+    const idPack = useTypedSelector(state => state.cards.data.packUserId)
 
     const addCard = () => {
         dispatch(addNewCardTC(1, 7, idPack, question))
@@ -43,12 +43,12 @@ export const ListCard = () => {
                     }}> ADD </Button></th>
                 </tr>
                 {cards && cards.map(t => {
-                    return <Cards key={t._id} id={t._id} updated={t.updated}
+                   /* return <Cards key={t._id} id={t._id} updated={t.updated}
                                   answer={t.answer} deleteCard={deleteCard}
                                   created={t.created} updateCard={updateCard}
                                   question={t.question} cardsPack_id={t.cardsPack_id}
                                   rating={t.rating}
-                    />
+                    />*/
                 })}
                 </tbody>
             </table>
