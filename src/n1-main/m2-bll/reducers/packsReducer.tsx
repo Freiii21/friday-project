@@ -1,6 +1,7 @@
 import {packsAPI, RequestPacksType, ResponsePacksType} from '../api/api';
 import {Dispatch} from 'redux';
 import { setLoaderStatus} from './appReducer';
+import {handleError} from '../../m1-ui/utilities/handleError';
 
 
 const initialState = {
