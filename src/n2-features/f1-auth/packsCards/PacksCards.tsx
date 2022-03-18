@@ -14,9 +14,11 @@ export const PacksCards = () => {
     const dispatch = useDispatch();
     const cardPacksTotalCount = useTypedSelector(state => state.packs.data.cardPacksTotalCount);
     const numberPages = cardPacksTotalCount / 10 + (cardPacksTotalCount % 10);
+
     useEffect(() => {
         dispatch(getPacksCards({pageCount: numberPages}));
-    }, []);
+    }, [cardPacksTotalCount]);
+
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
         <Grid container

@@ -4,12 +4,16 @@ import TextField from '@mui/material/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {NavLink} from 'react-router-dom';
+import React from 'react';
 
 type PropsType = {
     isButton: boolean;
+    isArrowBack?: boolean
     title: string;
 }
-export const Search = ({isButton, title}: PropsType) => {
+export const Search = ({isButton, title, isArrowBack}: PropsType) => {
     return (
         <Grid container
               xs={12}
@@ -19,6 +23,14 @@ export const Search = ({isButton, title}: PropsType) => {
         >
             <Grid item xs={8}>
                 <Typography variant={'h6'}>
+                    {isArrowBack &&
+                    <NavLink to={'/packsCards'}
+                             style={{textDecoration: 'none'}}
+                    >
+                        <ArrowBackIcon
+                            style={{color: 'rgb(63, 81, 181)', position: 'relative', top: '5px', marginRight: '5px'}}
+                        />
+                    </NavLink>}
                     {title}
                 </Typography>
                 <TextField

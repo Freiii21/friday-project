@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux'
-import {cardsAPI, CardsDataType, CardsType} from '../api/cards-a-p-i';
+import {cardsAPI, CardsDataType} from '../api/cards-a-p-i';
 import {setLoaderStatus} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
 
@@ -32,28 +32,29 @@ const initialState = {
         pageCount: 0,
         token: 'none',
         tokenDeathTime: 0,
-    }
+    },
+    packName:''
 }
 export const cardsReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET_CARDS':
-            return {...state, data: action.data};
+            return {...state, data: action.data,packName: action.packName??''};
         default:
             return state;
     }
 }
 
-export const setCardsAC = (data: CardsDataType) =>
-    ({type: 'SET_CARDS', data} as const);
+export const setCardsAC = (data: CardsDataType,packName?:string) =>
+    ({type: 'SET_CARDS', data,packName} as const);
 
 
 //thunks
-export const getCardsTC = (page: number, pageCount: number, id: string) =>
+export const getCardsTC = (page: number, pageCount: number, id: string,packName:string) =>
     async (dispatch: Dispatch<ActionsType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
             const res = await cardsAPI.getCards(page, pageCount, id);
-            dispatch(setCardsAC(res.data));
+            dispatch(setCardsAC(res.data,packName));
         } catch (e) {
             handleError(e, dispatch);
         } finally {

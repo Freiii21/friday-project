@@ -33,7 +33,7 @@ const columns: Column[] = [
     {id: 'answer', label: 'Answer', minWidth: 200},
     {
         id: 'updated',
-        label: 'Last Update',
+        label: 'Update',
         minWidth: 100,
         align: 'right',
         format: (value: string) => DateTime.fromISO(value).toFormat('DDD'),
@@ -59,7 +59,7 @@ const useStyles = makeStyles({
         width: '100%',
     },
     container: {
-        maxHeight: 600,
+        maxHeight: 530,
     },
 });
 
@@ -68,6 +68,7 @@ export const TableCards = () => {
     const [page, setPage] = React.useState(0);
     const rows = useTypedSelector(state => state.cards.data.cards);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
+    const packName = useTypedSelector(state => state.cards.packName);
     const classes = useStyles();
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -79,91 +80,89 @@ export const TableCards = () => {
     }
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
-        <Paper className={classes.root}>
-            <Search isButton={false} title={'Cards'}/>
-            <TableContainer className={classes.container}>
-                <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                            {columns.map((column, index) => {
-                                if (index > 3) {
-                                    return (
+        <>
+            <Search isButton={false} title={packName} isArrowBack={true}/>
+            <Paper className={classes.root}>
 
-                                        <TableCell
-                                            key={column.id}
-                                            align={column.align}
-                                            style={{minWidth: column.minWidth}}
-                                        >
-                                            {
-                                                column.id === 'actions'
-                                                    ? <>
-                                                        <NavLink to={'/packsCards'}
-                                                                 style={{textDecoration: 'none'}}
-                                                        >
-                                                            <Button style={{fontSize: '0.6rem'}}>Return</Button>
-                                                        </NavLink>
+                <TableContainer className={classes.container}>
+                    <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((column, index) => {
+                                    if (index > 3) {
+                                        return (
+
+                                            <TableCell
+                                                key={column.id}
+                                                align={column.align}
+                                                style={{minWidth: column.minWidth}}
+                                            >
+                                                {
+                                                    column.id === 'actions'
+                                                        ?
                                                         <Button variant={'contained'} color={'primary'} size={'small'}>
                                                             Add
                                                         </Button>
-                                                    </>
-                                                    : column.label
-                                            }
-                                        </TableCell>
-                                    )
-                                } else {
-                                    return (
-
-                                        <TableCell
-                                            key={column.id}
-                                            align={column.align}
-                                            style={{minWidth: column.minWidth}}
-                                        >
-                                            {column.label}
-                                            <ButtonForTablePacks nameCell={column.id}/>
-                                        </TableCell>
-                                    )
-                                }
-
-                            })}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                            return (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
-                                    {columns.map((column) => {
-                                        //@ts-ignore
-                                        const value = row[column.id];
-                                        return (
-                                            <TableCell key={column.id} align={column.align}>
-                                                {column.id === 'grade'
-                                                    ? <Rating name="read-only" value={4.5} readOnly precision={0.5}/>
-                                                    : column.id === 'actions'
-                                                        ? <BasicButtonGroup name_2={'Del'} name_3={'Update'}
-                                                                            userId={false}
-                                                                            color={true}
-                                                        />
-                                                        : column.format && typeof value === 'string'
-                                                            ? column.format(value) : value}
+                                                        : column.label
+                                                }
                                             </TableCell>
-                                        );
-                                    })}
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-        </Paper>
+                                        )
+                                    } else {
+                                        return (
+
+                                            <TableCell
+                                                key={column.id}
+                                                align={column.align}
+                                                style={{minWidth: column.minWidth}}
+                                            >
+                                                {column.label}
+                                                <ButtonForTablePacks nameCell={column.id}/>
+                                            </TableCell>
+                                        )
+                                    }
+
+                                })}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                                return (
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
+                                        {columns.map((column) => {
+                                            //@ts-ignore
+                                            const value = row[column.id];
+                                            return (
+                                                <TableCell key={column.id} align={column.align}>
+                                                    {column.id === 'grade'
+                                                        ?
+                                                        <Rating name="read-only" value={4.5} readOnly precision={0.5}/>
+                                                        : column.id === 'actions'
+                                                            ? <BasicButtonGroup name_2={'Del'} name_3={'Update'}
+                                                                                userId={false}
+                                                                                color={true}
+                                                            />
+                                                            : column.format && typeof value === 'string'
+                                                                ? column.format(value) : value}
+                                                </TableCell>
+                                            );
+                                        })}
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[10, 25, 100]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+            </Paper>
+        </>
     );
 }
 

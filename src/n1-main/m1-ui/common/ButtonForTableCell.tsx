@@ -13,7 +13,7 @@ export const ButtonForTableCell = ({text, idPack}: PropsType) => {
     const dispatch = useDispatch()
 
     const showCards = () => {
-        dispatch(getCardsTC(1, 7, idPack))
+        dispatch(getCardsTC(1, 150, idPack,text))
     }
     return (
         <>
