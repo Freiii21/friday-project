@@ -10,7 +10,6 @@ import Container from '@mui/material/Container';
 import {ProfileMI} from '../../../n2-features/f1-auth/a3-profile/ProfileMI';
 import {TestPageMI} from '../../../n2-features/f0-test/TestPageMI';
 import {PacksCards} from '../../../n2-features/f1-auth/packsCards/PacksCards';
-import {TableCards} from '../../../n2-features/f1-auth/cards/tableCards/TableCards';
 import {Cards} from '../../../n2-features/f1-auth/cards/Cards';
 
 
