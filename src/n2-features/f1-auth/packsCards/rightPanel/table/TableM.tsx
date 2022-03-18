@@ -73,6 +73,7 @@ export function TableM() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
     return (
         <Paper className={classes.root}>
             <TableContainer className={classes.container}>

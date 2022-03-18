@@ -16,7 +16,6 @@ const App = () => {
     const [toggleDrawer, setToggleDrawer] = useState(false)
     useEffect(() => {
         dispatch(checkAuthMeTC({}));
-       // dispatch(getPacksCards({pageCount: 100}));
     }, [])
     return (
         <Container fixed sx={{mt: '0.5rem'}}>

@@ -14,6 +14,25 @@ type PropsType = {
     title: string;
 }
 export const Search = ({isButton, title, isArrowBack}: PropsType) => {
+
+import {useTypedSelector} from "../../../../n1-main/m2-bll/redux";
+import {ChangeEvent,} from "react";
+import {useDispatch} from "react-redux";
+
+import {setCardsName} from "../../../../n1-main/m2-bll/reducers/packsReducer";
+
+
+export const Search = () => {
+
+    const dispatch = useDispatch()
+    const cardsName = useTypedSelector(state => state.packs.cardName)
+
+
+    function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
+             dispatch(setCardsName(e.currentTarget.value))
+    }
+
+
     return (
         <Grid container
               xs={12}
@@ -35,7 +54,10 @@ export const Search = ({isButton, title, isArrowBack}: PropsType) => {
                 </Typography>
                 <TextField
                     fullWidth={true} size={'small'}
-                    variant={'standard'} placeholder={'search packs'}
+                    variant={'standard'} placeholder={'search pack'}
+                    value={cardsName}
+                    onChange={onChangeHandler}
+
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
