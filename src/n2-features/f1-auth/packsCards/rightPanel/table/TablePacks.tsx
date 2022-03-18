@@ -1,16 +1,9 @@
 import Grid from '@mui/material/Grid';
 import {TableM} from './TableM';
-
-export const TablePacks = () => {
-
-
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useTypedSelector} from "../../../../../n1-main/m2-bll/redux";
-import { getPacksCards} from '../../../../../n1-main/m2-bll/reducers/packsReducer';
-import {TableM} from "./TableM";
-
-
+import {useTypedSelector} from '../../../../../n1-main/m2-bll/redux';
+import {getPacksCards} from '../../../../../n1-main/m2-bll/reducers/packsReducer';
 
 export const TablePacks = () => {
     const dispatch = useDispatch();

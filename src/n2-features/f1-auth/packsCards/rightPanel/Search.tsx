@@ -7,29 +7,25 @@ import Typography from '@material-ui/core/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {NavLink} from 'react-router-dom';
 import React from 'react';
+import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
+import {ChangeEvent,} from 'react';
+import {useDispatch} from 'react-redux';
+import {setCardsName} from '../../../../n1-main/m2-bll/reducers/packsReducer';
 
 type PropsType = {
     isButton: boolean;
     isArrowBack?: boolean
     title: string;
 }
-export const Search = ({isButton, title, isArrowBack}: PropsType) => {
 
-import {useTypedSelector} from "../../../../n1-main/m2-bll/redux";
-import {ChangeEvent,} from "react";
-import {useDispatch} from "react-redux";
-
-import {setCardsName} from "../../../../n1-main/m2-bll/reducers/packsReducer";
-
-
-export const Search = () => {
+export const Search = ({isArrowBack, isButton, title}: PropsType) => {
 
     const dispatch = useDispatch()
     const cardsName = useTypedSelector(state => state.packs.cardName)
 
 
     function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
-             dispatch(setCardsName(e.currentTarget.value))
+        dispatch(setCardsName(e.currentTarget.value))
     }
 
 
