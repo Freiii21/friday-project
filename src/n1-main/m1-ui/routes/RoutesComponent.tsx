@@ -9,12 +9,9 @@ import {RegistrationMI} from '../../../n2-features/f1-auth/a2-registration/Regis
 import Container from '@mui/material/Container';
 import {ProfileMI} from '../../../n2-features/f1-auth/a3-profile/ProfileMI';
 import {TestPageMI} from '../../../n2-features/f0-test/TestPageMI';
-
-
 import {PacksCards} from '../../../n2-features/f1-auth/packsCards/PacksCards';
-
-import {ListCard} from '../../../n2-features/f1-auth/cards/ListCard';
-import {PageCards} from '../../../n2-features/f1-auth/cards/PageCards';
+import {TableCards} from '../../../n2-features/f1-auth/cards/tableCards/TableCards';
+import {Cards} from '../../../n2-features/f1-auth/cards/Cards';
 
 
 export const PATH = {
@@ -27,8 +24,8 @@ export const PATH = {
     TEST_PAGE: '/testPage',
     CHECK_EMAIL: '/checkEmail',
     PACKS_CARDS: '/packsCards',
-    CARDS: '/cards',
-    CARDS_MI: '/pageCards',
+    CARDS_MI: '/cards',
+
 }
 
 export const RoutesComponent = () => {
@@ -46,10 +43,9 @@ export const RoutesComponent = () => {
                 <Route path={PATH.TEST_PAGE} element={<TestPageMI/>}/>
                 <Route path={PATH.CHECK_EMAIL} element={<CheckEmail/>}/>
                 <Route path={PATH.PACKS_CARDS} element={<PacksCards/>}/>
-                <Route path={PATH.CARDS} element={<ListCard/>}/>
-                <Route path={PATH.CARDS_MI} element={<PageCards/>}/>
-
+                <Route path={PATH.CARDS_MI} element={<Cards/>}/>
                 <Route path='*' element={<Navigate to={PATH.PAGE_NOT_FOUND}/>}/>
+
             </Routes>
         </Container>
     )

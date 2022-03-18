@@ -43,12 +43,12 @@ export const ListCard = () => {
                     }}> ADD </Button></th>
                 </tr>
                 {cards && cards.map(t => {
-                    return <Cards key={t._id} id={t._id} updated={t.updated}
+                   /* return <Cards key={t._id} id={t._id} updated={t.updated}
                                   answer={t.answer} deleteCard={deleteCard}
                                   created={t.created} updateCard={updateCard}
                                   question={t.question} cardsPack_id={t.cardsPack_id}
                                   rating={t.rating}
-                    />
+                    />*/
                 })}
                 </tbody>
             </table>

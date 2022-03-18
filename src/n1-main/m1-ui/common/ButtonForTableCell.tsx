@@ -18,7 +18,7 @@ export const ButtonForTableCell = ({text, idPack}: PropsType) => {
     return (
         <>
             <span>{text} </span>
-            <NavLink to={'/pageCards'}>
+            <NavLink to={'/cards'}>
                 <Button variant="text" onClick={showCards} size={'small'}>
                     <ExitToAppIcon/>
                 </Button>

@@ -1,16 +1,43 @@
 import {Dispatch} from 'redux'
-import {cardsAPI, CardsDataType} from '../api/cards-a-p-i';
+import {cardsAPI, CardsDataType, CardsType} from '../api/cards-a-p-i';
 import {setLoaderStatus} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
 
 
 const initialState = {
-    data:{}as CardsDataType
+    data: {
+        cards: [
+            {
+                answer: 'none',
+                cardsPack_id: 'none',
+                comments: 'none',
+                created: 'none',
+                grade: 0,
+                more_id: 'none',
+                question: 'none',
+                rating: 0,
+                shots: 0,
+                type: 'none',
+                updated: 'none',
+                user_id: 'none',
+                __v: 0,
+                _id: 'none',
+            },
+        ],
+        cardsTotalCount: 0,
+        maxGrade: 0,
+        minGrade: 0,
+        packUserId: 'none',
+        page: 0,
+        pageCount: 0,
+        token: 'none',
+        tokenDeathTime: 0,
+    }
 }
 export const cardsReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET_CARDS':
-            return {...state,data: action.data};
+            return {...state, data: action.data};
         default:
             return state;
     }
@@ -85,4 +112,4 @@ export const updateCardTC = (idCard: string, idPack: string, page: number,
 export type ActionsType =
     ReturnType<typeof setCardsAC>
     | ReturnType<typeof setLoaderStatus>
-type InitialStateType=typeof initialState;
+type InitialStateType = typeof initialState;

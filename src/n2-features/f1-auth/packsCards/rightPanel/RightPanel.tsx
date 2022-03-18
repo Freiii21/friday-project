@@ -8,7 +8,7 @@ export const RightPanel = () => {
         <Grid container xs={8} md={9} xl={10}
               sx={{backgroundColor: 'rgb(63, 81, 181)', padding: ' 0 0.5%'}}
         >
-            <Search/>
+            <Search isButton={true} title={'Packs List'}/>
             <TablePacks/>
         </Grid>
     )

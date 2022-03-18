@@ -9,12 +9,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import {DateTime} from 'luxon';
-import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
-import {ButtonForTablePacks} from '../../../n1-main/m1-ui/common/ButtonForTablePacks';
+import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
+import {ButtonForTablePacks} from '../../../../n1-main/m1-ui/common/ButtonForTablePacks';
 import Rating from '@mui/material/Rating';
-import BasicButtonGroup from '../../../n1-main/m1-ui/common/BasicButtonGroup';
-import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
-import {Navigate} from 'react-router-dom';
+import BasicButtonGroup from '../../../../n1-main/m1-ui/common/BasicButtonGroup';
+import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
+import {Navigate, NavLink} from 'react-router-dom';
+import Button from '@mui/material/Button';
+import {TablePaginationM} from '../../../../n1-main/m1-ui/common/TablePaginationM';
+import {Search} from '../../packsCards/rightPanel/Search';
 
 interface Column {
     id: 'question' | 'answer' | 'updated' | 'grade' | 'actions';
@@ -56,17 +59,16 @@ const useStyles = makeStyles({
         width: '100%',
     },
     container: {
-        maxHeight: 480,
+        maxHeight: 600,
     },
 });
 
-export function PageCards() {
+export const TableCards = () => {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [page, setPage] = React.useState(0);
     const rows = useTypedSelector(state => state.cards.data.cards);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
     const classes = useStyles();
-
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -74,10 +76,11 @@ export function PageCards() {
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
-    };
+    }
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
         <Paper className={classes.root}>
+            <Search isButton={false} title={'Cards'}/>
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -91,7 +94,20 @@ export function PageCards() {
                                             align={column.align}
                                             style={{minWidth: column.minWidth}}
                                         >
-                                            {column.label}
+                                            {
+                                                column.id === 'actions'
+                                                    ? <>
+                                                        <NavLink to={'/packsCards'}
+                                                                 style={{textDecoration: 'none'}}
+                                                        >
+                                                            <Button style={{fontSize: '0.6rem'}}>Return</Button>
+                                                        </NavLink>
+                                                        <Button variant={'contained'} color={'primary'} size={'small'}>
+                                                            Add
+                                                        </Button>
+                                                    </>
+                                                    : column.label
+                                            }
                                         </TableCell>
                                     )
                                 } else {
@@ -123,12 +139,12 @@ export function PageCards() {
                                                 {column.id === 'grade'
                                                     ? <Rating name="read-only" value={4.5} readOnly precision={0.5}/>
                                                     : column.id === 'actions'
-                                                        ? <BasicButtonGroup name_1={''}
-                                                                            name_2={'Del'} name_3={'Update'}
+                                                        ? <BasicButtonGroup name_2={'Del'} name_3={'Update'}
                                                                             userId={false}
                                                                             color={true}
                                                         />
-                                                        : column.format && typeof value === 'string' ? column.format(value) : value}
+                                                        : column.format && typeof value === 'string'
+                                                            ? column.format(value) : value}
                                             </TableCell>
                                         );
                                     })}

@@ -5,17 +5,21 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 
-export const Search = () => {
+type PropsType = {
+    isButton: boolean;
+    title: string;
+}
+export const Search = ({isButton, title}: PropsType) => {
     return (
         <Grid container
               xs={12}
-              sx={{backgroundColor: 'ghostwhite', minHeight: '10vh', padding: '5px',margin:0}}
+              sx={{backgroundColor: 'ghostwhite', minHeight: '10vh', padding: '5px', margin: 0}}
               justifyContent={'space-around'}
               alignItems={'center'}
         >
             <Grid item xs={8}>
                 <Typography variant={'h6'}>
-                    Packs List
+                    {title}
                 </Typography>
                 <TextField
                     fullWidth={true} size={'small'}
@@ -29,9 +33,13 @@ export const Search = () => {
                     }}
                 />
             </Grid>
-            <Grid item xs={3}>
-                <Button variant={'contained'} color={'primary'} size={'small'}>Add new pack</Button>
-            </Grid>
+            {
+                isButton &&
+                <Grid item xs={3}>
+                    <Button variant={'contained'} color={'primary'} size={'small'}>Add new pack</Button>
+                </Grid>
+            }
+
         </Grid>
     )
 }

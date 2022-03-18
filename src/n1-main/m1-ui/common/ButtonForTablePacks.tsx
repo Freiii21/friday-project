@@ -12,7 +12,8 @@ type PropsType = {
 export const ButtonForTablePacks = ({nameCell}: PropsType) => {
     const packs = useTypedSelector(state => state.packs.data.cardPacks);
     const dispatch = useDispatch();
-    const [arrow, setArrow] = useState(false);
+    const [arrow, setArrow] = useState(true);
+
     const cardPacksTotalCount = useTypedSelector(state => state.packs.data.cardPacksTotalCount);
     const numberPages = cardPacksTotalCount / 10 + (cardPacksTotalCount % 10);
     let onClick = () => {
