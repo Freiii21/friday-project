@@ -1,7 +1,8 @@
 import {Dispatch} from 'redux'
-import {cardsAPI, CardsDataType} from '../api/cards-a-p-i';
+
 import {setLoaderStatus} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
+import {cardsAPI, CardsDataType} from '../api/cards-a-p-i';
 
 
 const initialState = {

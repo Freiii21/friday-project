@@ -14,10 +14,21 @@ export const PacksCards = () => {
     const dispatch = useDispatch();
     const cardPacksTotalCount = useTypedSelector(state => state.packs.data.cardPacksTotalCount);
     const numberPages = cardPacksTotalCount / 10 + (cardPacksTotalCount % 10);
+    const cardPacksMin = useTypedSelector(state => state.packs.minCardsValue);
+    const cardPacksMax = useTypedSelector(state => state.packs.maxCardsValue);
+    const cardUserID = useTypedSelector(state => state.packs.userId);
+    const cardName = useTypedSelector(state => state.packs.cardName);
 
     useEffect(() => {
-        dispatch(getPacksCards({pageCount: numberPages}));
-    }, [cardPacksTotalCount]);
+        dispatch(getPacksCards({
+            packName: cardName,
+            pageCount: numberPages,
+            user_id: cardUserID,
+            // min: cardPacksMin,
+            // max: cardPacksMax
+        }))
+
+    }, [cardPacksTotalCount, cardUserID, cardName]);
 
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (

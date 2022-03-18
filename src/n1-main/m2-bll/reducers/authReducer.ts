@@ -118,8 +118,8 @@ export const checkAuthMeTC = (payload: {}) =>
             dispatch(setLogin(res.data, true));
             dispatch(setSuccess('authorization is successful'))
         } catch (e: any) {
-            handleError(e, dispatch);
-            dispatch(setLogin({} as UserType, false));
+           // handleError(e, dispatch);
+           // dispatch(setLogin({} as UserType, false));
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
@@ -129,7 +129,6 @@ export const setNewNameAvatarTC = (payload: NewNameUserType) =>
         try {
             dispatch(setLoaderStatus('loading'));
             const res = await authAPI.changeUserName(payload)
-            console.log(res)
             dispatch(setLogin(res.data.updatedUser, true));
             dispatch(setSuccess('changes are successful'))
         } catch (e: any) {
