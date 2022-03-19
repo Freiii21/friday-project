@@ -7,6 +7,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useTypedSelector} from "../../../../n1-main/m2-bll/redux";
 import {useDispatch} from "react-redux";
 import {setMaxMinValue, setUserID} from "../../../../n1-main/m2-bll/reducers/packsReducer";
+import {useDebounce} from "use-debounce";
 
 
 function valuetext(value: number) {
@@ -22,23 +23,26 @@ export const ButtonsAndSlider = () => {
     const cardPacksMinCardsCount = useTypedSelector(state => state.packs.data.minCardsCount);
     const cardPacksMaxCardsCount = useTypedSelector(state => state.packs.data.maxCardsCount);
 
-    const cardPacksMin = useTypedSelector(state => state.packs.minCardsValue);
-    const cardPacksMax = useTypedSelector(state => state.packs.maxCardsValue);
+    const [value, setValue] = useState([cardPacksMinCardsCount, cardPacksMaxCardsCount])
+
+    const maxValueDebounce = useDebounce(value[1], 1000)
+    const minValueDebounce = useDebounce(value[0], 1000)
+
+    console.log(maxValueDebounce[0])
 
 
+    useEffect(()=> {
+        dispatch(setMaxMinValue([minValueDebounce[0],maxValueDebounce[0]]))
+    },[minValueDebounce[0],maxValueDebounce[0]])
 
     useEffect(() => {
-        dispatch(setMaxMinValue([cardPacksMinCardsCount, cardPacksMaxCardsCount]));
-    }, []);
-
-    const rangeValue = [cardPacksMin, cardPacksMax]
+      setValue([cardPacksMinCardsCount, cardPacksMaxCardsCount]);
+    }, [cardPacksMinCardsCount, cardPacksMaxCardsCount]);
 
 
     const handleChange = useCallback  ( (event: Event, newValue: number | number[]) => {
-        if (Array.isArray(newValue)){
-                dispatch(setMaxMinValue(newValue))
-        }
-    },[])
+       setValue(newValue as number[] )
+   },[])
 
     const handlerButtonSetId = () => {
         dispatch(setUserID(userId))
@@ -71,9 +75,10 @@ export const ButtonsAndSlider = () => {
                 </Typography>
                 <Slider
                     getAriaLabel={() => 'Temperature range'}
-                    value={rangeValue}
+                    value={value}
                     min={cardPacksMinCardsCount}
                     max={cardPacksMaxCardsCount}
+                    step={1}
                     onChange={handleChange}
                     valueLabelDisplay="auto"
                     getAriaValueText={valuetext}
