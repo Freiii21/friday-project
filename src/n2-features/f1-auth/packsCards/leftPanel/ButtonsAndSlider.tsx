@@ -26,17 +26,19 @@ export const ButtonsAndSlider = () => {
     const cardPacksMax = useTypedSelector(state => state.packs.maxCardsValue);
 
 
-     const [rangeValue, setRangeValue] = useState<number[]>([cardPacksMinCardsCount, cardPacksMaxCardsCount]) // slider's state
 
     useEffect(() => {
-        setRangeValue([cardPacksMin, cardPacksMax]);
-    }, [cardPacksMin, cardPacksMax])
+        dispatch(setMaxMinValue([cardPacksMinCardsCount, cardPacksMaxCardsCount]));
+    }, []);
+
+    const rangeValue = [cardPacksMin, cardPacksMax]
+
 
     const handleChange = useCallback  ( (event: Event, newValue: number | number[]) => {
         if (Array.isArray(newValue)){
                 dispatch(setMaxMinValue(newValue))
         }
-    },[]);
+    },[])
 
     const handlerButtonSetId = () => {
         dispatch(setUserID(userId))
@@ -77,6 +79,7 @@ export const ButtonsAndSlider = () => {
                     getAriaValueText={valuetext}
                 />
             </div>
+
         </Grid>
     );
 }
