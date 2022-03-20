@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import React from 'react';
-import {getCardsTC} from '../../m2-bll/reducers/cardReducer';
+import {getCardsTC} from '../../../m2-bll/reducers/cardReducer';
 import {useDispatch} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 

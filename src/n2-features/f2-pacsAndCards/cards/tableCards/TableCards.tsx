@@ -10,14 +10,13 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import {DateTime} from 'luxon';
 import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
-import {ButtonForTablePacks} from '../../../../n1-main/m1-ui/common/ButtonForTablePacks';
+import {ButtonForTablePacks} from '../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks';
 import Rating from '@mui/material/Rating';
-import BasicButtonGroup from '../../../../n1-main/m1-ui/common/BasicButtonGroup';
+import BasicButtonGroup from '../../../../n1-main/m1-ui/common/ComponentsForTabels/BasicButtonGroup';
 import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
-import {Navigate, NavLink} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
-import {TablePaginationM} from '../../../../n1-main/m1-ui/common/TablePaginationM';
-import {Search} from '../../packsCards/rightPanel/Search';
+import {Search} from '../../pacs/rightPanel/Search';
 
 interface Column {
     id: 'question' | 'answer' | 'updated' | 'grade' | 'actions';

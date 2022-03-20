@@ -10,9 +10,9 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import {useTypedSelector} from '../../../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
-import BasicButtonGroup from '../../../../../n1-main/m1-ui/common/BasicButtonGroup';
-import {ButtonForTableCell} from '../../../../../n1-main/m1-ui/common/ButtonForTableCell';
-import {ButtonForTablePacks} from '../../../../../n1-main/m1-ui/common/ButtonForTablePacks';
+import BasicButtonGroup from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/BasicButtonGroup';
+import {ButtonForTableCell} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTableCell';
+import {ButtonForTablePacks} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks';
 
 
 interface Column {

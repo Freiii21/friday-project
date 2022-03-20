@@ -32,9 +32,6 @@ export const AppDrawer = ({toggle, switchDrawer}: PropsType) => {
             <MenuItem><NavLink to={PATH.CREATING_NEW_PASSWORD}
                                className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
                                    : s.links)}>Create new password</NavLink></MenuItem>
-            <MenuItem><NavLink to={PATH.TEST_PAGE} className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
-                : s.links)}>Test page</NavLink></MenuItem>
-
         </Drawer>
     );
 }

@@ -15,7 +15,7 @@ import {setLoginT, setRegistered} from '../../../n1-main/m2-bll/reducers/authRed
 import {Box, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {redStyle} from '../../../n1-main/m1-ui/utilities/for css';
-import {BlankDiv} from '../../../n1-main/m1-ui/common/BlankDiv';
+import {BlankDiv} from '../../../n1-main/m1-ui/common/ComponentsForTabels/BlankDiv';
 
 type State = {
     password: string;

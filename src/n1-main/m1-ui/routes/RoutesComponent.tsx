@@ -8,9 +8,8 @@ import {CheckEmail} from '../../../n2-features/f1-auth/a5-passwordRecovery/Check
 import {RegistrationMI} from '../../../n2-features/f1-auth/a2-registration/RegistrationMI';
 import Container from '@mui/material/Container';
 import {ProfileMI} from '../../../n2-features/f1-auth/a3-profile/ProfileMI';
-import {TestPageMI} from '../../../n2-features/f0-test/TestPageMI';
-import {PacksCards} from '../../../n2-features/f1-auth/packsCards/PacksCards';
-import {Cards} from '../../../n2-features/f1-auth/cards/Cards';
+import {PacksCards} from '../../../n2-features/f2-pacsAndCards/pacs/PacksCards';
+import {Cards} from '../../../n2-features/f2-pacsAndCards/cards/Cards';
 
 
 export const PATH = {
@@ -20,7 +19,6 @@ export const PATH = {
     PAGE_NOT_FOUND: '/pageNotFound',
     PASSWORD_RECOVERY: '/passwordRecovery',
     CREATING_NEW_PASSWORD: '/creatingNewPassword/:token',
-    TEST_PAGE: '/testPage',
     CHECK_EMAIL: '/checkEmail',
     PACKS_CARDS: '/packsCards',
     CARDS_MI: '/cards',
@@ -39,7 +37,6 @@ export const RoutesComponent = () => {
                 <Route path={PATH.PAGE_NOT_FOUND} element={<PageNotFound/>}/>
                 <Route path={PATH.PASSWORD_RECOVERY} element={<PasswordRecoveryMI/>}/>
                 <Route path={PATH.CREATING_NEW_PASSWORD} element={<CreatingNewPassword/>}/>
-                <Route path={PATH.TEST_PAGE} element={<TestPageMI/>}/>
                 <Route path={PATH.CHECK_EMAIL} element={<CheckEmail/>}/>
                 <Route path={PATH.PACKS_CARDS} element={<PacksCards/>}/>
                 <Route path={PATH.CARDS_MI} element={<Cards/>}/>

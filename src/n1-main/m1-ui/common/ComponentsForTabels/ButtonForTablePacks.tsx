@@ -1,10 +1,10 @@
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import React, {useEffect, useState} from 'react';
-import {useTypedSelector} from '../../m2-bll/redux';
+import React, {useState} from 'react';
+import {useTypedSelector} from '../../../m2-bll/redux';
 import {useDispatch} from 'react-redux';
-import {getPacksCards} from '../../m2-bll/reducers/packsReducer';
+import {getPacksCards} from '../../../m2-bll/reducers/packsReducer';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import {colorBlueMI} from '../utilities/for css';
+import {colorBlueMI} from '../../utilities/for css';
 
 type PropsType = {
     nameCell: string;
