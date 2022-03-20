@@ -1,6 +1,6 @@
 import {packsAPI, RequestPacksType, ResponsePacksType} from '../api/api';
 import {Dispatch} from 'redux';
-import { setLoaderStatus} from './appReducer';
+import {setErrorN, setLoaderStatus} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
 
 
@@ -75,4 +75,5 @@ export type PacksReducerActionType =
     | ReturnType<typeof setMaxMinValue>
     | ReturnType<typeof setUserID>
     | ReturnType<typeof setCardsName>
+    | ReturnType<typeof setErrorN>
 type InitialStateType = typeof initialState;
