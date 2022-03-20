@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -6,13 +6,15 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import {useTypedSelector} from '../../../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
 import BasicButtonGroup from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/BasicButtonGroup';
 import {ButtonForTableCell} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTableCell';
 import {ButtonForTablePacks} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks';
+import {Pagination} from "../../../../../n1-main/m1-ui/common/pagination/Pagination";
+import {getPacksTC, setCurrentPage} from "../../../../../n1-main/m2-bll/reducers/packsReducer";
+import {useDispatch} from "react-redux";
 
 
 interface Column {
@@ -60,20 +62,22 @@ const useStyles = makeStyles({
 });
 
 export function TableM() {
+    const dispatch = useDispatch()
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const rows = useTypedSelector(state => state.packs.data.cardPacks);
-    const numberPacks=useTypedSelector(state => state.packs.data.cardPacksTotalCount)
     const _userId = useTypedSelector(state => state.auth.user._id);
-    const classes = useStyles();
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
+    const classes = useStyles();
+
+    const currentPage = useTypedSelector(state => state.packs.getPackData.page);
+    const totalCountPage = useTypedSelector(state => state.packs.data.cardPacksTotalCount);
+    const pageCount= useTypedSelector(state => state.packs.data.pageCount);
+
+    useEffect(()=>{
+        dispatch(getPacksTC())
+    },[currentPage])
+
 
     return (
         <Paper className={classes.root}>
@@ -135,17 +139,16 @@ export function TableM() {
                                 </TableRow>
                             );
                         })}
+
                     </TableBody>
                 </Table>
+
             </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={numberPacks}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+            <Pagination
+            setPage={setCurrentPage}
+            totalCountPage={totalCountPage}
+            pageCount={pageCount}
+            currentPage={currentPage}
             />
         </Paper>
     );

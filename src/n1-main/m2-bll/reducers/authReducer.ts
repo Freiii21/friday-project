@@ -63,6 +63,7 @@ export const setLogoutT = () =>
             handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
+            dispatch(setRegistered(true))
         }
 
     }

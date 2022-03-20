@@ -21,7 +21,7 @@ type PropsType = {
 export const Search = ({isArrowBack, isButton, title}: PropsType) => {
 
     const dispatch = useDispatch()
-    const cardsName = useTypedSelector(state => state.packs.cardName)
+    // const cardsName = useTypedSelector(state => state.packs.cardName)
 
 
     function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
@@ -51,7 +51,7 @@ export const Search = ({isArrowBack, isButton, title}: PropsType) => {
                 <TextField
                     fullWidth={true} size={'small'}
                     variant={'standard'} placeholder={'search pack'}
-                    value={cardsName}
+                    // value={cardsName}
                     onChange={onChangeHandler}
 
                     InputProps={{
