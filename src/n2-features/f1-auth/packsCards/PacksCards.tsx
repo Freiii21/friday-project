@@ -6,7 +6,7 @@ import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import {Navigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
-import {getPacksCards} from '../../../n1-main/m2-bll/reducers/packsReducer';
+import {getPacksCards, setCardsName} from '../../../n1-main/m2-bll/reducers/packsReducer';
 
 
 export const PacksCards = () => {

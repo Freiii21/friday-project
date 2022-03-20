@@ -73,7 +73,7 @@ export const AddFormLoginMI = () => {
                 border: '2px solid lightgrey',
                 borderRadius: 3,
                 width: 350,
-                height: '80%',
+                height: '90%',
                 backgroundColor: 'whitesmoke',
                 '&:hover': {
                     backgroundColor: 'white',
