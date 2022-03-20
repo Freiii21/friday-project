@@ -62,6 +62,7 @@ export const getPacksCards = (data?: Partial<RequestPacksType>) =>
             const res = await packsAPI.getPacks(data);
             dispatch(getPacks(res.data))
         } catch (e) {
+          
              handleError(e, dispatch)
         } finally {
             dispatch(setLoaderStatus('idle'))

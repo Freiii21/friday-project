@@ -57,7 +57,7 @@ export const getCardsTC = (page: number, pageCount: number, id: string,packName:
             const res = await cardsAPI.getCards(page, pageCount, id);
             dispatch(setCardsAC(res.data,packName));
         } catch (e) {
-            handleError(e, dispatch);
+             handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
@@ -73,7 +73,7 @@ export const addNewCardTC = (page: number, pageCount: number, idPack: string, qu
             const res = await cardsAPI.getCards(page, pageCount, idPack);
             dispatch(setCardsAC(res.data))
         } catch (e) {
-            handleError(e, dispatch);
+              handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
@@ -88,7 +88,7 @@ export const deleteCardTC = (page: number, pageCount: number, idCard: string, id
             const res = await cardsAPI.getCards(page, pageCount, idPack);
             dispatch(setCardsAC(res.data));
         } catch (e) {
-            handleError(e, dispatch);
+             handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'))
         }
@@ -104,7 +104,7 @@ export const updateCardTC = (idCard: string, idPack: string, page: number,
             const res = await cardsAPI.getCards(page, pageCount, idPack);
             dispatch(setCardsAC(res.data));
         } catch (e) {
-            handleError(e, dispatch)
+              handleError(e, dispatch)
         } finally {
             dispatch(setLoaderStatus('idle'))
         }
