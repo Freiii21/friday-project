@@ -4,6 +4,7 @@ import {useTypedSelector} from '../../m2-bll/redux';
 import {useDispatch} from 'react-redux';
 import {getPacksCards} from '../../m2-bll/reducers/packsReducer';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import {colorBlueMI} from '../utilities/for css';
 
 type PropsType = {
     nameCell: string;
@@ -15,7 +16,7 @@ export const ButtonForTablePacks = ({nameCell}: PropsType) => {
     const [arrow, setArrow] = useState(true);
 
     const cardPacksTotalCount = useTypedSelector(state => state.packs.data.cardPacksTotalCount);
-    const numberPages = cardPacksTotalCount / 10 + (cardPacksTotalCount % 10);
+    const numberPages = Math.floor(cardPacksTotalCount / 10) + (cardPacksTotalCount % 10);
     let onClick = () => {
         if (arrow) {
             dispatch(getPacksCards({sortPacks: '0' + nameCell, pageCount: numberPages}));
@@ -30,7 +31,7 @@ export const ButtonForTablePacks = ({nameCell}: PropsType) => {
         <button
             style={{
                 width: '27px',
-                color: 'rgb(63, 81, 181)',
+                color: colorBlueMI,
                 border: 'none',
                 position: 'relative',
                 top: '5px',

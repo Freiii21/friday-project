@@ -63,6 +63,7 @@ export function TableM() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const rows = useTypedSelector(state => state.packs.data.cardPacks);
+    const numberPacks=useTypedSelector(state => state.packs.data.cardPacksTotalCount)
     const _userId = useTypedSelector(state => state.auth.user._id);
     const classes = useStyles();
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -140,7 +141,7 @@ export function TableM() {
             <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
-                count={rows.length}
+                count={numberPacks}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

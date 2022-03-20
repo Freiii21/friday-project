@@ -1,4 +1,4 @@
-import {Box, Button, Input, TextField} from '@mui/material';
+import {Box, Button, Input} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import img_log from './img/jester1.png';
 import React, {ChangeEvent, useState} from 'react';
@@ -6,10 +6,9 @@ import {Navigate} from 'react-router-dom';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
-import {widthLogo} from '../../../n1-main/m1-ui/utilities/for css';
+import {colorBlueMI, widthLogo} from '../../../n1-main/m1-ui/utilities/for css';
 import {setNewNameAvatarTC} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {useDispatch} from 'react-redux';
-import {BlankDiv} from '../../../n1-main/m1-ui/common/BlankDiv';
 
 export const ProfileMI = () => {
     const user = useTypedSelector(state => state.auth.user)
@@ -31,7 +30,7 @@ export const ProfileMI = () => {
     const setPhotos = (e: ChangeEvent<HTMLInputElement>) => {
         setPhoto(e.currentTarget.value)
     }
-
+    const styleSpan = {color: colorBlueMI, fontSize: '0.9rem'};
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
         <div style={{
@@ -39,6 +38,7 @@ export const ProfileMI = () => {
             alignItems: 'center',
             justifyContent: 'center',
             height: '85vh',
+            marginTop: 5,
         }}>
             <Box
                 sx={{
@@ -50,7 +50,7 @@ export const ProfileMI = () => {
                     border: '2px solid lightgrey',
                     borderRadius: 3,
                     width: 350,
-                    height: '80%',
+                    height: '90%',
                     backgroundColor: 'whitesmoke',
                     '&:hover': {
                         backgroundColor: 'white',
@@ -60,7 +60,6 @@ export const ProfileMI = () => {
             >
                 <Grid container justifyContent={'center'}>
                     <Grid item justifyContent={'center'}>
-                        <h1 style={{marginBottom: '20px', textAlign: 'center'}}>Profile</h1>
                         {user.avatar
                             ? <img src={user.avatar} style={widthLogo} alt="AVATAR"/>
                             : <img src={img_log} style={widthLogo} alt={'logo'}/>
@@ -80,28 +79,28 @@ export const ProfileMI = () => {
 
                           }}
                     >
-                        <span>Email: {user.email}</span>
-                        <span>NickName: {user.name}</span>
-                        <span>Card count: {user.publicCardPacksCount}</span>
-                        <span>Date of registration: {registerData}</span>
+                        <span><span style={styleSpan}>Email: </span> {user.email}</span>
+                        <span><span style={styleSpan}>Name: </span>{user.name}</span>
+                        <span><span style={styleSpan}>Cards count: </span>{user.publicCardPacksCount}</span>
+                        <span><span style={styleSpan}>Registartion: </span>{registerData}</span>
                         <div>
-                            <TextField size={'small'}
-                                       placeholder={'http://...'}
-                                       type={'text'}
-                                       variant={'filled'}
-                                       onChange={setPhotos}
-                                       value={photo}
-                                       style={{marginTop: '10px'}}
+
+                            <Input size={'small'}
+                                   placeholder={'http://...'}
+                                   type={'text'}
+                                   onChange={setPhotos}
+                                   value={photo}
+                                   style={{marginTop: '10px', minHeight: '10px'}}
 
                             />
-                            <BlankDiv/>
-                            <TextField size={'small'}
-                                       placeholder={'New name'}
-                                       type={'text'}
-                                       variant={'filled'}
-                                       onChange={setNickName}
-                                       value={name}
+                            <div style={{fontSize: '0.7rem', textAlign: 'center', color: 'grey'}}>change avatar</div>
+                            <Input size={'small'}
+                                   placeholder={'New name'}
+                                   type={'text'}
+                                   onChange={setNickName}
+                                   value={name}
                             />
+                            <div style={{fontSize: '0.7rem', textAlign: 'center', color: 'grey'}}>change name</div>
                         </div>
 
                         <Button onClick={setAvatar} size={'small'}

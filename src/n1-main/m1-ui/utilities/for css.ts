@@ -11,3 +11,4 @@ export const wrapper = {
 export const widthLogo = {
     width: '150px',
 }
+export const colorBlueMI = 'rgb(63, 81, 181)';

@@ -1,16 +1,14 @@
 import Grid from '@mui/material/Grid';
 import {TableCards} from './tableCards/TableCards';
-import {useEffect} from "react";
-import {useDispatch} from "react-redux";
-import {setCardsName} from "../../../n1-main/m2-bll/reducers/packsReducer";
+import {useDispatch} from 'react-redux';
+import {useEffect} from 'react';
+import {setCardsName} from '../../../n1-main/m2-bll/reducers/packsReducer';
 
 export const Cards = () => {
-    const dispatch = useDispatch()
-
+    const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(setCardsName(""))
-    }, [])
-
+        dispatch(setCardsName(''));
+    })
 
     return (
         <Grid container sx={{marginTop: 1}}>
