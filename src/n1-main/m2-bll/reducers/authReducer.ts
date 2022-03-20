@@ -119,7 +119,7 @@ export const checkAuthMeTC = (payload: {}) =>
             dispatch(setSuccess('authorization is successful'))
         } catch (e: any) {
            handleError(e, dispatch);
-           // dispatch(setLogin({} as UserType, false));
+           dispatch(setLogin({} as UserType, false));
         } finally {
             dispatch(setLoaderStatus('idle'));
             dispatch(setRegistered(true))
