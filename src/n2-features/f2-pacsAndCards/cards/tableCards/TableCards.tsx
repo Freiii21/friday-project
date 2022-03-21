@@ -17,6 +17,8 @@ import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
 import {Navigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import {Search} from '../../pacs/rightPanel/Search';
+import {deleteCardTC} from "../../../../n1-main/m2-bll/reducers/cardReducer";
+import {useDispatch} from "react-redux";
 
 interface Column {
     id: 'question' | 'answer' | 'updated' | 'grade' | 'actions';
@@ -63,12 +65,20 @@ const useStyles = makeStyles({
 });
 
 export const TableCards = () => {
+    const dispatch = useDispatch()
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [page, setPage] = React.useState(0);
     const rows = useTypedSelector(state => state.cards.data.cards);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
     const packName = useTypedSelector(state => state.cards.packName);
+    const idPack = useTypedSelector(state => state.cards.data.packUserId);
     const classes = useStyles();
+
+    const deleteCard = (idCard: string) => {
+        dispatch(deleteCardTC(1, 7, idCard, idPack))
+    }
+
+
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -138,6 +148,7 @@ export const TableCards = () => {
                                                         : column.id === 'actions'
                                                             ? <BasicButtonGroup name_2={'Del'} name_3={'Update'}
                                                                                 userId={false}
+                                                                                // callBack2={deleteCard}
                                                                                 color={true}
                                                             />
                                                             : column.format && typeof value === 'string'

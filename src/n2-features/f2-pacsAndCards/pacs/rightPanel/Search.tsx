@@ -10,7 +10,7 @@ import React from 'react';
 import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
 import {ChangeEvent,} from 'react';
 import {useDispatch} from 'react-redux';
-import {setCardsName} from '../../../../n1-main/m2-bll/reducers/packsReducer';
+import {addNewPackTC, setCardsName} from '../../../../n1-main/m2-bll/reducers/packsReducer';
 
 type PropsType = {
     isButton: boolean;
@@ -23,7 +23,9 @@ export const Search = ({isArrowBack, isButton, title}: PropsType) => {
     const dispatch = useDispatch()
     const cardsName = useTypedSelector(state => state.packs.cardName)
 
-
+    const addPack = () => {
+        dispatch(addNewPackTC())
+    }
     function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
         dispatch(setCardsName(e.currentTarget.value))
     }
@@ -66,7 +68,9 @@ export const Search = ({isArrowBack, isButton, title}: PropsType) => {
             {
                 isButton &&
                 <Grid item xs={3}>
-                    <Button variant={'contained'} color={'primary'} size={'small'}>Add pack</Button>
+                    <Button variant={'contained'}
+                            onClick={addPack}
+                            color={'primary'} size={'small'}>Add pack</Button>
                 </Grid>
             }
 

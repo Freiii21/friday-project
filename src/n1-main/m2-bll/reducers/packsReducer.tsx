@@ -2,6 +2,7 @@ import {packsAPI, RequestPacksType, ResponsePacksType} from '../api/api';
 import {Dispatch} from 'redux';
 import {setErrorN, setLoaderStatus} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
+import {AppRootStateType} from "../store";
 
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
         minCardsCount: 0,
         page: 0,
         pageCount: 0,
+        searchValue: '',
     },
     userId:"",
     cardName:"",
@@ -68,6 +70,22 @@ export const getPacksCards = (data?: Partial<RequestPacksType>) =>
             dispatch(setLoaderStatus('idle'))
         }
     }
+export const addNewPackTC = () => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+        try{
+            dispatch(setLoaderStatus('loading'))
+            const page = getState().packs.data.page
+            const pageCount = getState().packs.data.pageCount
+            const searchName = getState().packs.data.searchValue
+            await packsAPI.addNewPack()
+            const res = await packsAPI.getPacks({page, pageCount, searchName})
+            dispatch(getPacks(res.data))
+    }  catch (e) {
+            handleError(e, dispatch)
+    }  finally {
+            dispatch(setLoaderStatus('idle'))
+        }
+}
+
 //types
 export type PacksReducerActionType =
     ReturnType<typeof getPacks>

@@ -50,7 +50,7 @@ export const setCardsAC = (data: CardsDataType,packName?:string) =>
 
 
 //thunks
-export const getCardsTC = (page: number, pageCount: number, id: string,packName:string) =>
+export const getCardsTC = (page: number, pageCount: number, id: string, packName:string) =>
     async (dispatch: Dispatch<CardReducerActionsType>) => {
         try {
             dispatch(setLoaderStatus('loading'));

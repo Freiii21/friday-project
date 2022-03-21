@@ -9,7 +9,7 @@ type PropsType = {
     name_3: string;
     color?: boolean;
     callBack1?: () => void;
-    callBack2?: () => void;
+    callBack2?: ()=>void;
     callBack3?: () => void;
 }
 const fontSize = {fontSize: '0.6rem'}
