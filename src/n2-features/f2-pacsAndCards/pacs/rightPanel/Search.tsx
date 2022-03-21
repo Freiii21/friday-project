@@ -72,7 +72,7 @@ export const Search = ({isArrowBack, isButton,titleSearch}: PropsType) => {
                     <Button variant={'contained'} color={'primary'} size={'small'} onClick={()=>setOpen(true)}>Add pack</Button>
                 </Grid>
             }
-            <ModalMi title={'Add Pack'} open={open} setOpen={setOpen} type={'input'}/>
+            <ModalMi title={'Add Pack'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Pack'}/>
         </Grid>
     )
 }
