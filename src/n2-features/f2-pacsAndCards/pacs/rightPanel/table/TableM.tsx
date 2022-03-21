@@ -76,6 +76,7 @@ export function TableM() {
 
     const dispatch = useDispatch()
     const rows = useTypedSelector(state => state.packs.data.cardPacks);
+
     const _userId = useTypedSelector(state => state.auth.user._id);
     const currentPage = useTypedSelector(state => state.packs.getPackData.page);
     const totalCountPage = useTypedSelector(state => state.packs.data.cardPacksTotalCount);
@@ -158,6 +159,9 @@ export function TableM() {
                                                     ? <BasicButtonGroup
                                                         userId={_userId === row.user_id}
                                                         name_1={'Del'} name_2={'Edit'} name_3={'Learn'}
+                                                        titleOfPage={'Pack'}
+                                                        nameOfCell={row.name} id={row._id}
+                                                        color={false}
                                                     />
                                                     : column.id === 'name'
                                                         ? < ButtonForTableCell text={value} idPack={row._id}/>

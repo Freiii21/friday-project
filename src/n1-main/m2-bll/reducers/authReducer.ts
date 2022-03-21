@@ -58,7 +58,7 @@ export const setLogoutT = () =>
             const res = await authAPI.logOut();
             dispatch(setLogOut());
             dispatch(setSuccess(res.data.info));
-            dispatch(setRegistered(false));
+            dispatch(setRegistered(true));
         } catch (e: any) {
             handleError(e, dispatch);
         } finally {
@@ -119,8 +119,8 @@ export const checkAuthMeTC = (payload: {}) =>
             dispatch(setLogin(res.data, true));
             dispatch(setSuccess('authorization is successful'))
         } catch (e: any) {
-           handleError(e, dispatch);
-           dispatch(setLogin({} as UserType, false));
+            handleError(e, dispatch);
+            dispatch(setLogin({} as UserType, false));
         } finally {
             dispatch(setLoaderStatus('idle'));
             dispatch(setRegistered(true))

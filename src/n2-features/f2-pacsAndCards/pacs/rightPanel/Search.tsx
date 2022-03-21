@@ -17,7 +17,6 @@ type PropsType = {
 }
 
 export const Search = ({isArrowBack, isButton, title, onChange, value}: PropsType) => {
-
     return (
         <Grid container
               xs={12}
@@ -25,7 +24,7 @@ export const Search = ({isArrowBack, isButton, title, onChange, value}: PropsTyp
               justifyContent={'space-around'}
               alignItems={'center'}
         >
-            <Grid item xs={8}>
+            <Grid item xs={6}>
                 <Typography variant={'h6'}>
                     {isArrowBack &&
                     <NavLink to={'/packsCards'}
@@ -35,7 +34,7 @@ export const Search = ({isArrowBack, isButton, title, onChange, value}: PropsTyp
                             style={{color: 'rgb(63, 81, 181)', position: 'relative', top: '5px', marginRight: '5px'}}
                         />
                     </NavLink>}
-                    {title}
+                    {titleSearch}
                 </Typography>
                 <TextField
                     fullWidth={true} size={'small'}
@@ -55,10 +54,10 @@ export const Search = ({isArrowBack, isButton, title, onChange, value}: PropsTyp
             {
                 isButton &&
                 <Grid item xs={3}>
-                    <Button variant={'contained'} color={'primary'} size={'small'}>Add new pack</Button>
+                    <Button variant={'contained'} color={'primary'} size={'small'} onClick={()=>setOpen(true)}>Add pack</Button>
                 </Grid>
             }
-
+            <ModalMi title={'Add Pack'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Pack'}/>
         </Grid>
     )
 }

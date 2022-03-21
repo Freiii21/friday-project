@@ -19,6 +19,7 @@ import {Search} from '../../pacs/rightPanel/Search';
 import {useDispatch} from "react-redux";
 import {getCardsTC, setCardsCurrentPage, setCardsSortValue} from "../../../../n1-main/m2-bll/reducers/cardReducer";
 import {Pagination} from "../../../../n1-main/m1-ui/common/pagination/Pagination";
+import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
 
 
 interface Column {
@@ -67,6 +68,9 @@ const useStyles = makeStyles({
 
 export const TableCards = () => {
     const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const [title, setTitle] = React.useState('');
+    const [typeModel, setTypeModel] = useState('');
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [page, setPage] = React.useState(0);
     const dispatch =  useDispatch()
@@ -96,7 +100,7 @@ export const TableCards = () => {
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
         <>
-            <Search isButton={false} title={packName} isArrowBack={true}/>
+            <Search isButton={false} titleSearch={packName} isArrowBack={true}/>
             <Paper className={classes.root}>
 
                 <TableContainer className={classes.container}>
@@ -116,7 +120,8 @@ export const TableCards = () => {
                                                 {
                                                     column.id === 'actions'
                                                         ?
-                                                        <Button variant={'contained'} color={'primary'} size={'small'}>
+                                                        <Button variant={'contained'} color={'primary'}
+                                                                size={'small'} onClick={()=>setOpen(true)}>
                                                             Add
                                                         </Button>
                                                         : column.label
@@ -157,6 +162,9 @@ export const TableCards = () => {
                                                             <BasicButtonGroup name_2={'Del'} name_3={'Update'}
                                                                                 userId={false}
                                                                                 color={true}
+                                                                                titleOfPage={'Card'}
+                                                                                nameOfCell={row.question}
+                                                                                id={row._id}
                                                             />
                                                             : column.format && typeof value === 'string'
                                                                 ? column.format(value) : value}
@@ -177,6 +185,7 @@ export const TableCards = () => {
                     currentPage={cardsCurrentPage}
                 />
             </Paper>
+            <ModalMi title={'Add card'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Card'}/>
         </>
     );
 }

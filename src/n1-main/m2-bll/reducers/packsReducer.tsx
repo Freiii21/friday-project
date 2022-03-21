@@ -23,6 +23,7 @@ const initialState = {
         page: 1,
         pageCount: 10,
     },
+
     getPackData: {
         packName: "",
         min: 0,
@@ -32,12 +33,14 @@ const initialState = {
         pageCount: 10,
         user_id: ""
     }
+
 }
 export const packsReducer = (state = initialState, action: PacksReducerActionType): InitialStateType => {
 
     switch (action.type) {
         case 'PACKS_REDUCER/GET_PACKS':
             return {...state, data: action.data}
+
         case "PACKS_REDUCER/SET_CURRENT_PAGE":
             return {...state, getPackData: {...state.getPackData, page: action.page}}
         case "PACKS_REDUCER/SET_PAGE_COUNT":
@@ -50,6 +53,10 @@ export const packsReducer = (state = initialState, action: PacksReducerActionTyp
             return {...state, getPackData: {...state.getPackData, packName: action.name}}
         case "PACKS_REDUCER/SET_SORT_VALUE":
             return {...state, getPackData: {...state.getPackData, sortPacks: action.sortValue}}
+
+        case 'PACKS_REDUCER/DELETE_PACK':
+            return {...state, data: {...state.data, cardPacks: state.data.cardPacks.filter(f => f._id !== action.id)}};
+
         default:
             return state;
     }
@@ -68,6 +75,7 @@ export const setMaxMinValue = (newValue: number[]) => ({
 
 export const setUserID = (id: string) => ({type: 'PACKS_REDUCER/SET_USER_ID', id} as const);
 export const setCardsName = (name: string) => ({type: 'PACKS_REDUCER/SET_CARD_NAME', name} as const);
+export const deletePack = (id: string) => ({type: 'PACKS_REDUCER/DELETE_PACK', id} as const);
 
 //thunks
 export const getPacksTC = () =>
@@ -82,8 +90,21 @@ export const getPacksTC = () =>
         } finally {
             dispatch(setLoaderStatus('idle'))
         }
+    };
+export const deletePackT = (id: string) =>
+    async (dispatch: Dispatch<PacksReducerActionType>) => {
+        try {
+            dispatch(setLoaderStatus('loading'));
+            await packsAPI.deletePackCards(id);
+            dispatch(deletePack(id));
+        } catch (e) {
+
+        } finally {
+            dispatch(setLoaderStatus('idle'));
+        }
     }
 //types
+
 export type PacksReducerActionType =
     ReturnType<typeof getPacks>
     | ReturnType<typeof setLoaderStatus>
@@ -94,4 +115,6 @@ export type PacksReducerActionType =
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setPageCount>
     | ReturnType<typeof setSortPacks>
+    | ReturnType<typeof deletePack>
+
 type InitialStateType = typeof initialState;
