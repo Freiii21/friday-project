@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react';
+import React, {ChangeEvent, useEffect} from 'react';
+import s from './tableM.module.css'
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -11,10 +12,18 @@ import {useTypedSelector} from '../../../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
 import BasicButtonGroup from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/BasicButtonGroup';
 import {ButtonForTableCell} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTableCell';
-import {ButtonForTablePacks} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks';
 import {Pagination} from "../../../../../n1-main/m1-ui/common/pagination/Pagination";
-import {getPacksTC, setCurrentPage} from "../../../../../n1-main/m2-bll/reducers/packsReducer";
+import {
+    getPacksTC,
+    setCurrentPage,
+    setPageCount,
+    setSortPacks
+} from "../../../../../n1-main/m2-bll/reducers/packsReducer";
 import {useDispatch} from "react-redux";
+import FormControl from "@mui/material/FormControl";
+import {InputLabel, NativeSelect,} from "@material-ui/core";
+import {useDebounce} from "use-debounce";
+import {ButtonForTablePacks} from "../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks";
 
 
 interface Column {
@@ -62,21 +71,40 @@ const useStyles = makeStyles({
 });
 
 export function TableM() {
-    const dispatch = useDispatch()
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const rows = useTypedSelector(state => state.packs.data.cardPacks);
-    const _userId = useTypedSelector(state => state.auth.user._id);
-
     const classes = useStyles();
 
+    const dispatch = useDispatch()
+    const rows = useTypedSelector(state => state.packs.data.cardPacks);
+    const _userId = useTypedSelector(state => state.auth.user._id);
     const currentPage = useTypedSelector(state => state.packs.getPackData.page);
     const totalCountPage = useTypedSelector(state => state.packs.data.cardPacksTotalCount);
-    const pageCount= useTypedSelector(state => state.packs.data.pageCount);
+    const pageCount = useTypedSelector(state => state.packs.getPackData.pageCount);
+    const cardSetMin = useTypedSelector(state => state.packs.getPackData.min);
+    const cardSetMax = useTypedSelector(state => state.packs.getPackData.max);
+    const cardsName = useTypedSelector(state => state.packs.getPackData.packName)
+    const cardsSortValue = useTypedSelector(state => state.packs.getPackData.sortPacks)
 
-    useEffect(()=>{
+    const minValueDebounce = useDebounce(cardSetMin, 1000)
+    const maxValueDebounce = useDebounce(cardSetMax, 1000)
+    const cardsNameDebounce = useDebounce(cardsName, 1000)
+
+
+    useEffect(() => {
         dispatch(getPacksTC())
-    },[currentPage])
+    }, [currentPage, pageCount, minValueDebounce[0], maxValueDebounce[0], cardsNameDebounce[0], cardsSortValue])
+
+    const rowsPerPage = pageCount
+
+    const handleChangeSelect = (e: ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
+        dispatch(setPageCount(e.currentTarget.value as number))
+    }
+    const handlerSetSortPacs = (sortValue: string) => {
+        dispatch(setSortPacks(sortValue))
+    }
+    const paginationHandler = (value: number) => {
+        dispatch(setCurrentPage(value))
+    }
 
 
     return (
@@ -106,7 +134,9 @@ export function TableM() {
                                             style={{minWidth: column.minWidth}}
                                         >
                                             {column.label}
-                                            <ButtonForTablePacks nameCell={column.id === 'actions' ? '' : column.id}/>
+                                            <ButtonForTablePacks
+                                                handlerSetSortPacs={handlerSetSortPacs}
+                                                nameCell={column.id === 'actions' ? '' : column.id}/>
                                         </TableCell>
                                     )
                                 }
@@ -144,12 +174,35 @@ export function TableM() {
                 </Table>
 
             </TableContainer>
-            <Pagination
-            setPage={setCurrentPage}
-            totalCountPage={totalCountPage}
-            pageCount={pageCount}
-            currentPage={currentPage}
-            />
+            <div className={s.container_pag}>
+
+                <div className={s.select_container}>
+                    <FormControl>
+                        <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                            Page count
+                        </InputLabel>
+                        <NativeSelect
+                            defaultValue={pageCount}
+                            inputProps={{
+                                name: 'Page count',
+                                id: 'uncontrolled-native',
+                            }}
+                            onChange={handleChangeSelect}
+                        >
+                            <option value={10}>10</option>
+                            <option value={25}>25</option>
+                            <option value={50}>50</option>
+                            <option value={75}>75</option>
+                        </NativeSelect>
+                    </FormControl>
+                </div>
+                <Pagination
+                    setPage={paginationHandler}
+                    totalCountPage={totalCountPage}
+                    pageCount={pageCount}
+                    currentPage={currentPage}
+                />
+            </div>
         </Paper>
     );
 }

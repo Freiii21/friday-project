@@ -6,28 +6,17 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {NavLink} from 'react-router-dom';
-import React from 'react';
-import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
-import {ChangeEvent,} from 'react';
-import {useDispatch} from 'react-redux';
-import {setCardsName} from '../../../../n1-main/m2-bll/reducers/packsReducer';
+import React, {ChangeEvent} from 'react';
 
 type PropsType = {
     isButton: boolean;
-    isArrowBack?: boolean
+    isArrowBack?: boolean;
     title: string;
+    value?: string;
+    onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-export const Search = ({isArrowBack, isButton, title}: PropsType) => {
-
-    const dispatch = useDispatch()
-    // const cardsName = useTypedSelector(state => state.packs.cardName)
-
-
-    function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
-        dispatch(setCardsName(e.currentTarget.value))
-    }
-
+export const Search = ({isArrowBack, isButton, title, onChange, value}: PropsType) => {
 
     return (
         <Grid container
@@ -51,8 +40,8 @@ export const Search = ({isArrowBack, isButton, title}: PropsType) => {
                 <TextField
                     fullWidth={true} size={'small'}
                     variant={'standard'} placeholder={'search pack'}
-                    // value={cardsName}
-                    onChange={onChangeHandler}
+                    value={value}
+                    onChange={onChange}
 
                     InputProps={{
                         startAdornment: (
