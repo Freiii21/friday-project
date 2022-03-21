@@ -22,29 +22,3 @@
     width: 100%;
 }
 
-.submit {
-    margin-top: 5%;
-    width: 50%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.submit button {
-    margin-left: 5%;
-}
-
-.submit input {
-    position: relative;
-    top: 2px;
-    left: 2px;
-}
-
-.red {
-    color: red;
-    font-size: 0.7rem;
-}
-
-.newUser {
-    color: green;
-    font-weight: bold;
-}

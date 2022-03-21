@@ -8,7 +8,7 @@ import {checkAuthMeTC} from '../../m2-bll/reducers/authReducer';
 import SnackBarMessage from '../common/info_messages/SnackBarMessage';
 import Container from '@mui/material/Container';
 import {useTypedSelector} from '../../m2-bll/redux';
-import {BarApp} from '../common/BarApp';
+import {BarApp} from '../common/Preloader/BarApp';
 
 
 const App = () => {

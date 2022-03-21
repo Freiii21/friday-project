@@ -63,7 +63,7 @@ export function TableM() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const rows = useTypedSelector(state => state.packs.data.cardPacks);
-    const numberPacks=useTypedSelector(state => state.packs.data.cardPacksTotalCount)
+    const numberPacks = useTypedSelector(state => state.packs.data.cardPacksTotalCount)
     const _userId = useTypedSelector(state => state.auth.user._id);
     const classes = useStyles();
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -124,6 +124,9 @@ export function TableM() {
                                                     ? <BasicButtonGroup
                                                         userId={_userId === row.user_id}
                                                         name_1={'Del'} name_2={'Edit'} name_3={'Learn'}
+                                                        titleOfPage={'Pack'}
+                                                        nameOfCell={row.name} id={row._id}
+                                                        color={false}
                                                     />
                                                     : column.id === 'name'
                                                         ? < ButtonForTableCell text={value} idPack={row._id}/>

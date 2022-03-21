@@ -6,20 +6,23 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {NavLink} from 'react-router-dom';
-import React from 'react';
+import React, {useState} from 'react';
 import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
 import {ChangeEvent,} from 'react';
 import {useDispatch} from 'react-redux';
 import {setCardsName} from '../../../../n1-main/m2-bll/reducers/packsReducer';
+import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
 
 type PropsType = {
     isButton: boolean;
     isArrowBack?: boolean
-    title: string;
+    titleSearch: string;
 }
 
-export const Search = ({isArrowBack, isButton, title}: PropsType) => {
-
+export const Search = ({isArrowBack, isButton,titleSearch}: PropsType) => {
+    const [open, setOpen] = React.useState(false);
+    const [title, setTitle] = React.useState('');
+    const [typeModel, setTypeModel] = useState('');
     const dispatch = useDispatch()
     const cardsName = useTypedSelector(state => state.packs.cardName)
 
@@ -46,7 +49,7 @@ export const Search = ({isArrowBack, isButton, title}: PropsType) => {
                             style={{color: 'rgb(63, 81, 181)', position: 'relative', top: '5px', marginRight: '5px'}}
                         />
                     </NavLink>}
-                    {title}
+                    {titleSearch}
                 </Typography>
                 <TextField
                     fullWidth={true} size={'small'}
@@ -66,10 +69,10 @@ export const Search = ({isArrowBack, isButton, title}: PropsType) => {
             {
                 isButton &&
                 <Grid item xs={3}>
-                    <Button variant={'contained'} color={'primary'} size={'small'}>Add pack</Button>
+                    <Button variant={'contained'} color={'primary'} size={'small'} onClick={()=>setOpen(true)}>Add pack</Button>
                 </Grid>
             }
-
+            <ModalMi title={'Add Pack'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Pack'}/>
         </Grid>
     )
 }
