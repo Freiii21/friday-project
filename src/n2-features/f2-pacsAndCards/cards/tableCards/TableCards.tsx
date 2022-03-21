@@ -80,7 +80,7 @@ export const TableCards = () => {
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
         <>
-            <Search isButton={false} title={packName} isArrowBack={true}/>
+            <Search isButton={false} titleSearch={packName} isArrowBack={true}/>
             <Paper className={classes.root}>
 
                 <TableContainer className={classes.container}>
@@ -139,6 +139,9 @@ export const TableCards = () => {
                                                             ? <BasicButtonGroup name_2={'Del'} name_3={'Update'}
                                                                                 userId={false}
                                                                                 color={true}
+                                                                                titleOfPage={'Card'}
+                                                                                nameOfCell={row.question}
+                                                                                id={row._id}
                                                             />
                                                             : column.format && typeof value === 'string'
                                                                 ? column.format(value) : value}
