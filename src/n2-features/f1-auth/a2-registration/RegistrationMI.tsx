@@ -60,7 +60,7 @@ export const RegistrationMI = () => {
         },
     });
     {
-        if (isRegistered) return <Navigate to={PATH.LOGIN}/>
+        if (isAuth) return <Navigate to={PATH.LOGIN}/>
     }
     return (
         <div style={wrapper}>

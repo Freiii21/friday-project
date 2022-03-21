@@ -7,21 +7,18 @@ import {RoutesComponent} from '../routes/RoutesComponent';
 import {checkAuthMeTC} from '../../m2-bll/reducers/authReducer';
 import SnackBarMessage from '../common/info_messages/SnackBarMessage';
 import Container from '@mui/material/Container';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
 import {useTypedSelector} from '../../m2-bll/redux';
+import {BarApp} from '../common/BarApp';
 
 
 const App = () => {
     const dispatch = useDispatch();
-    const isRegistrated = useTypedSelector(state => state.auth.isRegistered);
+    const isRegistered = useTypedSelector(state => state.auth.isRegistered);
     const [toggleDrawer, setToggleDrawer] = useState(false)
     useEffect(() => {
         dispatch(checkAuthMeTC({}));
     }, [])
-    if (!isRegistrated) return <Box sx={{display: 'flex'}}>
-        <CircularProgress/>
-    </Box>
+    if (!isRegistered) return<Container fixed  sx={{mt: '0.5rem'}}> <BarApp/></Container>
     return (
         <Container fixed sx={{mt: '0.5rem'}}>
             <SnackBarMessage/>

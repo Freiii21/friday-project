@@ -36,7 +36,7 @@ export const Search = ({isArrowBack, isButton, title}: PropsType) => {
               justifyContent={'space-around'}
               alignItems={'center'}
         >
-            <Grid item xs={8}>
+            <Grid item xs={6}>
                 <Typography variant={'h6'}>
                     {isArrowBack &&
                     <NavLink to={'/packsCards'}
@@ -66,7 +66,7 @@ export const Search = ({isArrowBack, isButton, title}: PropsType) => {
             {
                 isButton &&
                 <Grid item xs={3}>
-                    <Button variant={'contained'} color={'primary'} size={'small'}>Add new pack</Button>
+                    <Button variant={'contained'} color={'primary'} size={'small'}>Add pack</Button>
                 </Grid>
             }
 

@@ -63,6 +63,7 @@ export const setLogoutT = () =>
             handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
+            dispatch(setRegistered(true));
         }
 
     }
@@ -118,8 +119,8 @@ export const checkAuthMeTC = (payload: {}) =>
             dispatch(setLogin(res.data, true));
             dispatch(setSuccess('authorization is successful'))
         } catch (e: any) {
-           handleError(e, dispatch);
-           dispatch(setLogin({} as UserType, false));
+            handleError(e, dispatch);
+            dispatch(setLogin({} as UserType, false));
         } finally {
             dispatch(setLoaderStatus('idle'));
             dispatch(setRegistered(true))

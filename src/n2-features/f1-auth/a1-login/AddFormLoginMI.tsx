@@ -62,7 +62,6 @@ export const AddFormLoginMI = () => {
     {
         if (isAuth) return <Navigate to={PATH.PROFILE}/>
     }
-    let onClick = () => dispatch(setRegistered(false));
     return (
         <Box
             sx={{
@@ -166,7 +165,7 @@ export const AddFormLoginMI = () => {
                     <div><NavLink
                         style={{textDecoration: 'none', fontSize: 'small', color: 'blue'}}
                         to={PATH.REGISTRATION}
-                        onClick={onClick}
+
                     >Sign Up
                     </NavLink></div>
                 </Grid>
