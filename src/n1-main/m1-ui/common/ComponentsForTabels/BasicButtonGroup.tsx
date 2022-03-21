@@ -26,8 +26,18 @@ export default function BasicButtonGroup(
         setTitle(`Delete ${titleOfPage}`);
         setTypeModel('delete');
     };
-    const onClick3 = () => setOpen(true);
-    const onClick2 = () => setOpen(true);
+    const onClick3 = () => {
+    };
+    const onClick2 = () => {
+        setOpen(true);
+        setTitle('Edit name');
+        setTypeModel('input');
+    };
+    const onClick4 = () => {
+        setOpen(true);
+        setTitle('Update card');
+        setTypeModel('input');
+    }
     return (
         <>
             <ButtonGroup variant="contained" aria-label="outlined primary button group" size={'small'}>
@@ -49,7 +59,10 @@ export default function BasicButtonGroup(
                         </Button>
                 }
 
-                <Button style={fontSize} onClick={onClick3}>{name_3}</Button>
+                {name_3 === 'Learn'
+                    ? <Button style={fontSize} onClick={onClick3}>{name_3}</Button>
+                    : <Button style={fontSize} onClick={onClick4}>{name_3}</Button>
+                }
             </ButtonGroup>
             <ModalMi
                 title={title} open={open}

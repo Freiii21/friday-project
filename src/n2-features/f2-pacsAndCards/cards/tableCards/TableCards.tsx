@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -17,6 +17,7 @@ import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
 import {Navigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import {Search} from '../../pacs/rightPanel/Search';
+import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
 
 interface Column {
     id: 'question' | 'answer' | 'updated' | 'grade' | 'actions';
@@ -63,6 +64,10 @@ const useStyles = makeStyles({
 });
 
 export const TableCards = () => {
+    const [open, setOpen] = React.useState(false);
+    const [title, setTitle] = React.useState('');
+    const [typeModel, setTypeModel] = useState('');
+
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [page, setPage] = React.useState(0);
     const rows = useTypedSelector(state => state.cards.data.cards);
@@ -99,7 +104,8 @@ export const TableCards = () => {
                                                 {
                                                     column.id === 'actions'
                                                         ?
-                                                        <Button variant={'contained'} color={'primary'} size={'small'}>
+                                                        <Button variant={'contained'} color={'primary'}
+                                                                size={'small'} onClick={()=>setOpen(true)}>
                                                             Add
                                                         </Button>
                                                         : column.label
@@ -164,6 +170,7 @@ export const TableCards = () => {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
+            <ModalMi title={'Add card'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Card'}/>
         </>
     );
 }

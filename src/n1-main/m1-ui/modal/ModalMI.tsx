@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Grid from '@mui/material/Grid';
 import Button from '@material-ui/core/Button';
-import {Input} from '@mui/material';
+import {Input, TextField} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {deletePackT} from '../../m2-bll/reducers/packsReducer';
 
@@ -14,6 +14,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 500,
+
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -25,14 +26,14 @@ type PropsType = {
     setOpen: (open: boolean) => void;
     type: string;
     id?: string;
-    titleOfPage?:string;
-    nameOfCell?:string;
+    titleOfPage?: string;
+    nameOfCell?: string;
 }
-export default function ModalMi({title, open, setOpen, titleOfPage, type, id,nameOfCell}: PropsType) {
+export default function ModalMi({title, open, setOpen, titleOfPage, type, id, nameOfCell}: PropsType) {
     const dispatch = useDispatch();
-   // const handleClose = () => setOpen(false);
+    // const handleClose = () => setOpen(false);
     const deletePack = () => {
-        id&&dispatch(deletePackT(id));
+        id && dispatch(deletePackT(id));
     }
 
     return (
@@ -48,12 +49,12 @@ export default function ModalMi({title, open, setOpen, titleOfPage, type, id,nam
                     </Typography>
                     {type === 'delete' &&
                     <Typography id="modal-modal-description" sx={{mt: 2}}>
-                        {titleOfPage==='Pack'&&<>Do you really want to remove {nameOfCell}? All cards will
+                        {titleOfPage === 'Pack' && <>Do you really want to remove {nameOfCell}? All cards will
                             be excluded from this course.</>}
-                        {titleOfPage==='Card'&&<>Do you really want to remove {nameOfCell}?</>}
+                        {titleOfPage === 'Card' && <>Do you really want to remove {nameOfCell}?</>}
                     </Typography>}
 
-                    {type === 'input' &&
+                    {type === 'input' && titleOfPage === 'Pack' &&
                     <Input size={'small'}
                            placeholder={'Name'}
                            type={'text'}
@@ -61,6 +62,17 @@ export default function ModalMi({title, open, setOpen, titleOfPage, type, id,nam
                            }}
                            style={{marginTop: '10px', minHeight: '10px'}}
                     />}
+                    {type == 'input' && titleOfPage === 'Card' &&
+                    <>
+                        <TextField fullWidth={true} variant={'standard'}
+                                   sx={{marginBottom: '5px'}} maxRows={2} multiline
+                                   placeholder={'question'}
+                        />
+                        <TextField fullWidth={true} variant={'standard'}
+                                   sx={{marginBottom: '20px'}} maxRows={4} multiline
+                                   placeholder={'answer'}
+                        />
+                    </>}
                     <Grid container sx={{marginTop: 4}}>
                         <Grid item xs={6} sx={{textAlign: 'center'}}>
                             <Button size={'small'} variant={'contained'} onClick={() => setOpen(false)}>Cancel</Button>

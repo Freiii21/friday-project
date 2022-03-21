@@ -126,6 +126,7 @@ export function TableM() {
                                                         name_1={'Del'} name_2={'Edit'} name_3={'Learn'}
                                                         titleOfPage={'Pack'}
                                                         nameOfCell={row.name} id={row._id}
+                                                        color={false}
                                                     />
                                                     : column.id === 'name'
                                                         ? < ButtonForTableCell text={value} idPack={row._id}/>
