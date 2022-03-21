@@ -1,0 +1,50 @@
+
+.page {
+    min-width: 35px;
+    min-height: 35px;
+    padding-top: 6px;
+    margin-right: 5px;
+
+    display: inline-block;
+
+    border-radius: 5px;
+
+    background-color: #3f51b5;
+
+    color: white;
+    text-align: center;
+    font-size: 16px;
+
+    cursor: pointer;
+    transition: .7s;
+}
+.page_active {
+    min-width: 35px;
+    min-height: 35px;
+    padding-top: 6px;
+    margin-right: 5px;
+
+    display: inline-block;
+
+    border-radius: 5px;
+
+    opacity: 0.5;
+    background-color: #161fc5;
+
+    color: white;
+    text-align: center;
+    font-size: 16px;
+
+    cursor: pointer;
+    transition: .7s;
+}
+
+.page:hover {
+    opacity: 0.5;
+}
+
+.container{
+    display: inline-block;
+    text-align: right;
+
+}

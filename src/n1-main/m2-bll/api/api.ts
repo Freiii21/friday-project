@@ -24,7 +24,7 @@ export const authAPI = {
 }
 
 export const packsAPI = {
-    getPacks: (data?: Partial<RequestPacksType>) =>
+    getPacks: (data: Partial<RequestPacksType>) =>
         instance.get<Partial<RequestPacksType>, AxiosResponse<ResponsePacksType>>
         (urlForPackCards, {
             params: data,

@@ -1,7 +1,6 @@
 import axios from "axios";
 
 
-
 const instance = axios.create({
     //baseURL: "http://localhost:7542/2.0/",
     baseURL: "https://neko-back.herokuapp.com/2.0",
@@ -9,21 +8,53 @@ const instance = axios.create({
 })
 
 export const cardsAPI = {
-    getCards(page: number, pageCount: number, id:string) {
-        return instance.get(`/cards/card/?page=${page}&pageCount=${pageCount}&cardsPack_id=${id}`)
+    getCards(cardAnswer: string, cardQuestion: string, cardsPack_id: string, min: number, max: number, sortCards: string, page: number, pageCount: number) {
+        return instance.get(`/cards/card/`, {
+            params: {
+                cardsPack_id,
+                cardAnswer,
+                cardQuestion,
+                min,
+                max,
+                sortCards,
+                page,
+                pageCount
+            }
+        })
     },
-    addNewCard(id:string, question:string) {
-        return instance.post('/cards/card', {card: {cardsPack_id:id,question , grade: 4}})
+    addNewCard(id: string, question: string) {
+        return instance.post('/cards/card', {card: {cardsPack_id: id, question, grade: 4}})
     },
     deleteCard(id: string) {
         return instance.delete(`/cards/card?id=${id}`)
     },
-    updateCard(id: string, question:string) {
+    updateCard(id: string, question: string) {
         return instance.put(`/cards/card`, {card: {_id: id, question}})
     },
 };
 
+export type DataGetType = {
+    cardAnswer: string
+    cardQuestion: string
+    cardsPack_id: string
+    min: number
+    max: number
+    sortCards: string
+    page: number
+    pageCount: number
+}
 
+export type UpdatedType =
+    '0updated'
+    | '1updated'
+    | '0cardsCount'
+    | '1cardsCount'
+    | '0packName'
+    | '1packName'
+    | '0grade'
+    | '1grade'
+    | '1created'
+    | '0created'
 
 export type CardsDataType = {
     cards: CardsType[]
