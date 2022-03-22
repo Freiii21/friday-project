@@ -29,6 +29,7 @@ export const Search = ({isArrowBack, isButton, titleSearch, onChange, value}: Pr
     const addPack = () => {
         dispatch(addNewPackTC())
     }
+
     function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
         dispatch(setCardsName(e.currentTarget.value))
     }

@@ -1,26 +1,18 @@
-import axios from "axios";
+import axios from 'axios';
 
 
 const instance = axios.create({
     //baseURL: "http://localhost:7542/2.0/",
-    baseURL: "https://neko-back.herokuapp.com/2.0",
+    baseURL: 'https://neko-back.herokuapp.com/2.0',
     withCredentials: true,
 })
 
 export const cardsAPI = {
-    getCards(cardAnswer: string, cardQuestion: string, cardsPack_id: string, min: number, max: number, sortCards: string, page: number, pageCount: number) {
+    getCards(data: RequestForCardsType) {
         return instance.get(`/cards/card/`, {
-            params: {
-                cardsPack_id,
-                cardAnswer,
-                cardQuestion,
-                min,
-                max,
-                sortCards,
-                page,
-                pageCount
+                params: data,
             }
-        })
+        )
     },
     addNewCard(id: string, question: string) {
         return instance.post('/cards/card', {card: {cardsPack_id: id, question, grade: 4}})
@@ -32,6 +24,17 @@ export const cardsAPI = {
         return instance.put(`/cards/card`, {card: {_id: id, question}})
     },
 };
+//types
+export type RequestForCardsType = {
+    cardAnswer?: string;
+    cardQuestion?: string;
+    cardsPack_id: string;
+    minGrade?: number;
+    maxGrade?: number;
+    sortCards?: string;
+    page?: number;
+    pageCount?: number;
+}
 
 export type DataGetType = {
     cardAnswer: string

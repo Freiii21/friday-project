@@ -1,5 +1,5 @@
-import {createPages} from "../../utilities/pagesCreator";
-import s from "./pagination.module.css"
+import {createPages} from '../../utilities/pagesCreator';
+import s from './pagination.module.css'
 
 
 type PaginationType = {
@@ -10,18 +10,17 @@ type PaginationType = {
     setValue?: (value: number) => void
 }
 
-export const Pagination = ({setPage, totalCountPage, pageCount, currentPage,setValue}: PaginationType) => {
-
+export const Pagination = ({setPage, totalCountPage, pageCount, currentPage, setValue}: PaginationType) => {
 
 
     const totalPagesCount = Math.ceil(totalCountPage / pageCount)
 
     const pages: number[] = []
     createPages(pages, totalPagesCount, currentPage)
-const onClick = (v:number) => {
-    setValue && setValue(v)
-    setPage (v)
-}
+    const onClick = (v: number) => {
+        setValue && setValue(v)
+        setPage(v)
+    }
     return (
         <div>
             <div className={s.container}>

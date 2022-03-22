@@ -2,7 +2,7 @@ import {packsAPI, ResponsePacksType} from '../api/api';
 import {Dispatch} from 'redux';
 import {setErrorN, setLoaderStatus} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
-import {AppRootStateType} from "../store";
+import {AppRootStateType} from '../store';
 
 
 const initialState = {
@@ -26,13 +26,13 @@ const initialState = {
     },
 
     getPackData: {
-        packName: "",
+        packName: '',
         min: 0,
         max: 50,
-        sortPacks: "",
+        sortPacks: '',
         page: 1,
         pageCount: 10,
-        user_id: ""
+        user_id: ''
     }
 
 }
@@ -42,17 +42,17 @@ export const packsReducer = (state = initialState, action: PacksReducerActionTyp
         case 'PACKS_REDUCER/GET_PACKS':
             return {...state, data: action.data}
 
-        case "PACKS_REDUCER/SET_CURRENT_PAGE":
+        case 'PACKS_REDUCER/SET_CURRENT_PAGE':
             return {...state, getPackData: {...state.getPackData, page: action.page}}
-        case "PACKS_REDUCER/SET_PAGE_COUNT":
+        case 'PACKS_REDUCER/SET_PAGE_COUNT':
             return {...state, getPackData: {...state.getPackData, pageCount: action.pageCount}}
-        case "PACKS_REDUCER/SET_MAX-MIN_VALUE":
+        case 'PACKS_REDUCER/SET_MAX-MIN_VALUE':
             return {...state, getPackData: {...state.getPackData, min: action.min, max: action.max}}
-        case "PACKS_REDUCER/SET_USER_ID":
+        case 'PACKS_REDUCER/SET_USER_ID':
             return {...state, getPackData: {...state.getPackData, user_id: action.id}}
-        case "PACKS_REDUCER/SET_CARD_NAME":
+        case 'PACKS_REDUCER/SET_CARD_NAME':
             return {...state, getPackData: {...state.getPackData, packName: action.name}}
-        case "PACKS_REDUCER/SET_SORT_VALUE":
+        case 'PACKS_REDUCER/SET_SORT_VALUE':
             return {...state, getPackData: {...state.getPackData, sortPacks: action.sortValue}}
 
         case 'PACKS_REDUCER/DELETE_PACK':
@@ -64,9 +64,9 @@ export const packsReducer = (state = initialState, action: PacksReducerActionTyp
 }
 
 export const getPacks = (data: ResponsePacksType) => ({type: 'PACKS_REDUCER/GET_PACKS', data} as const);
-export const setCurrentPage = (page: number) => ({type: "PACKS_REDUCER/SET_CURRENT_PAGE", page} as const)
-export const setPageCount = (pageCount: number) => ({type: "PACKS_REDUCER/SET_PAGE_COUNT", pageCount} as const)
-export const setSortPacks = (sortValue: string) => ({type: "PACKS_REDUCER/SET_SORT_VALUE", sortValue} as const)
+export const setCurrentPage = (page: number) => ({type: 'PACKS_REDUCER/SET_CURRENT_PAGE', page} as const)
+export const setPageCount = (pageCount: number) => ({type: 'PACKS_REDUCER/SET_PAGE_COUNT', pageCount} as const)
+export const setSortPacks = (sortValue: string) => ({type: 'PACKS_REDUCER/SET_SORT_VALUE', sortValue} as const)
 
 export const setMaxMinValue = (newValue: number[]) => ({
     type: 'PACKS_REDUCER/SET_MAX-MIN_VALUE',
@@ -105,19 +105,19 @@ export const deletePackT = (id: string) =>
         }
     }
 export const addNewPackTC = () => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        try{
-            dispatch(setLoaderStatus('loading'))
-            const page = getState().packs.data.page
-            const pageCount = getState().packs.data.pageCount
-            const searchName = getState().packs.data.searchValue
-            await packsAPI.addNewPack()
-            const res = await packsAPI.getPacks({page, pageCount, searchName})
-            dispatch(getPacks(res.data))
-    }  catch (e) {
-            handleError(e, dispatch)
-    }  finally {
-            dispatch(setLoaderStatus('idle'))
-        }
+    try {
+        dispatch(setLoaderStatus('loading'))
+        const page = getState().packs.data.page
+        const pageCount = getState().packs.data.pageCount
+        const searchName = getState().packs.data.searchValue
+        await packsAPI.addNewPack()
+        const res = await packsAPI.getPacks({page, pageCount, searchName})
+        dispatch(getPacks(res.data))
+    } catch (e) {
+        handleError(e, dispatch)
+    } finally {
+        dispatch(setLoaderStatus('idle'))
+    }
 }
 
 //types

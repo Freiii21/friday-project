@@ -2,9 +2,9 @@ import Grid from '@mui/material/Grid';
 import React, {ChangeEvent} from 'react';
 import {Search} from './Search';
 import {TablePacks} from './table/TablePacks';
-import {useDispatch} from "react-redux";
-import {setCardsName} from "../../../../n1-main/m2-bll/reducers/packsReducer";
-import {useTypedSelector} from "../../../../n1-main/m2-bll/redux";
+import {useDispatch} from 'react-redux';
+import {setCardsName} from '../../../../n1-main/m2-bll/reducers/packsReducer';
+import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
 
 
 export const RightPanel = () => {

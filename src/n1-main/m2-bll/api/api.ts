@@ -29,7 +29,7 @@ export const packsAPI = {
         (urlForPackCards, {
             params: data,
         }),
-    addNewPack: ()=>
+    addNewPack: (data?: Partial<RequestOnePackType>) =>
         instance.post(urlForPackCards, {cardsPack: {name: 'JASON BOURNE'}}),
 
     setPackCards: (data?: Partial<RequestOnePackType>) =>
