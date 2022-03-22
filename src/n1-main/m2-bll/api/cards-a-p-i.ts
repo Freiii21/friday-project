@@ -14,8 +14,8 @@ export const cardsAPI = {
             }
         )
     },
-    addNewCard(id: string, question: string) {
-        return instance.post('/cards/card', {card: {cardsPack_id: id, question, grade: 4}})
+    addNewCard(data:RequestToAddCardType) {
+        return instance.post('/cards/card', data)
     },
     deleteCard(id: string) {
         return instance.delete(`/cards/card?id=${id}`)
@@ -25,6 +25,19 @@ export const cardsAPI = {
     },
 };
 //types
+export type RequestToAddCardType={
+    card:{
+        cardsPack_id:string;
+        question:string;
+        answer:string;
+        grade?:number;
+        shots?:number;
+        answerImg:string;
+        questionImg:string;
+        questionVideo:string;
+        answerVideo:string;
+    }
+}
 export type RequestForCardsType = {
     cardAnswer?: string;
     cardQuestion?: string;
