@@ -15,7 +15,7 @@ export const cardsAPI = {
         )
     },
     addNewCard(data:RequestToAddCardType) {
-        return instance.post('/cards/card', data)
+        return instance.post<RequestToAddCardType>('/cards/card', data)
     },
     deleteCard(id: string) {
         return instance.delete(`/cards/card?id=${id}`)
@@ -37,6 +37,9 @@ export type RequestToAddCardType={
         questionVideo:string;
         answerVideo:string;
     }
+}
+export type ResponseCardsType={
+
 }
 export type RequestForCardsType = {
     cardAnswer?: string;

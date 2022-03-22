@@ -14,7 +14,7 @@ export const ListCard = () => {
     const idPack = useTypedSelector(state => state.cards.data.packUserId)
 
     const addCard = () => {
-        dispatch(addNewCardTC(1, 7, idPack, question))
+       // dispatch(addNewCardTC(1, 7, idPack, question))
         setModalActive(false)
         setQuestion('')
     }
