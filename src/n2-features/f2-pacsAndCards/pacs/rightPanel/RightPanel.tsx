@@ -5,11 +5,13 @@ import {TablePacks} from './table/TablePacks';
 import {useDispatch} from 'react-redux';
 import {setCardsName} from '../../../../n1-main/m2-bll/reducers/packsReducer';
 import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
+import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
 
 
 export const RightPanel = () => {
     const dispatch = useDispatch()
     const cardsName = useTypedSelector(state => state.packs.getPackData.packName)
+    const [open, setOpen] = React.useState(false);
 
     function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
         dispatch(setCardsName(e.currentTarget.value))
@@ -24,8 +26,10 @@ export const RightPanel = () => {
                 titleSearch={'Packs List'}
                 value={cardsName}
                 onChange={onChangeHandler}
+                callBack={setOpen}
             />
             <TablePacks/>
+            <ModalMi title={'Add Pack'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Pack'}/>
         </Grid>
     )
 }
