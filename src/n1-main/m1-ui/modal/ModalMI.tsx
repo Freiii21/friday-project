@@ -7,6 +7,9 @@ import Button from '@material-ui/core/Button';
 import {Input, TextField} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {deletePackT} from '../../m2-bll/reducers/packsReducer';
+import {ChangeEvent, useState} from "react";
+import {addNewCardTC, deleteCardTC, updateCardTC} from "../../m2-bll/reducers/cardReducer";
+import {useTypedSelector} from "../../m2-bll/redux";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -28,13 +31,63 @@ type PropsType = {
     id?: string;
     titleOfPage?: string;
     nameOfCell?: string;
+
+
 }
-export default function ModalMi({title, open, setOpen, titleOfPage, type, id, nameOfCell}: PropsType) {
+export default function ModalMi({
+                                    title,
+                                    open,
+                                    setOpen,
+                                    titleOfPage,
+                                    type,
+                                    id,
+                                    nameOfCell,
+                                }: PropsType) {
     const dispatch = useDispatch();
-    // const handleClose = () => setOpen(false);
-    const deletePack = () => {
-        id && dispatch(deletePackT(id));
+
+    const [question, setQuestion] = useState<string>('')
+    const [answer, setAnswer] = useState<string>('')
+    const cardsPack_id = useTypedSelector(state => state.cards.data.cards[0].cardsPack_id)
+
+    const _id = id
+    const comments = answer
+
+    const deletePackHandler = () => {
+        if (titleOfPage === "Pack") {
+            id && dispatch(deletePackT(id))
+        }
+        if (titleOfPage === "Card") {
+            id && dispatch(deleteCardTC(id))
+        }
+        setQuestion("")
+        setAnswer("")
+        setOpen(false)
     }
+    const addOnClickHandler = () => {
+        if (title === 'Add card') {
+            dispatch(addNewCardTC({"card": {cardsPack_id, question, answer}}))
+        }
+        if (title === 'Update card' ) {
+            _id  && dispatch(updateCardTC({"card": {_id, question, comments}}))
+            console.log( _id)
+        }
+        setQuestion("")
+        setAnswer("")
+        setOpen(false)
+    }
+    const onClickCancelHandler = () => {
+        setQuestion("")
+        setAnswer("")
+        setOpen(false)
+    }
+
+    const onChangeHandlerAnswer = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setAnswer(e.currentTarget.value)
+    }
+    const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setQuestion(e.currentTarget.value)
+    }
+
 
     return (
         <div>
@@ -66,26 +119,32 @@ export default function ModalMi({title, open, setOpen, titleOfPage, type, id, na
                     <>
                         <TextField fullWidth={true} variant={'standard'}
                                    sx={{marginBottom: '5px'}} maxRows={2} multiline
-                                   placeholder={'question'}
+                                   placeholder={'question'} onChange={onChangeHandlerQuestion}
+                                   value={question}
                         />
                         <TextField fullWidth={true} variant={'standard'}
                                    sx={{marginBottom: '20px'}} maxRows={4} multiline
-                                   placeholder={'answer'}
+                                   placeholder={'answer'} onChange={onChangeHandlerAnswer}
+                                   value={answer}
                         />
                     </>}
                     <Grid container sx={{marginTop: 4}}>
                         <Grid item xs={6} sx={{textAlign: 'center'}}>
-                            <Button size={'small'} variant={'contained'} onClick={() => setOpen(false)}>Cancel</Button>
+                            <Button size={'small'} variant={'contained'} onClick={onClickCancelHandler}>Cancel</Button>
                         </Grid>
                         <Grid item xs={6} sx={{textAlign: 'center'}}>
                             {type === 'delete' &&
                             <Button size={'small'} variant={'contained'} color={'secondary'}
-                                    onClick={deletePack}>{type}</Button>}
+                                    onClick={deletePackHandler}>{type}</Button>}
                             {type === 'input' &&
-                            <Button size={'small'} variant={'contained'} color={'primary'}>{'save'}</Button>}
+                            <Button
+                                size={'small'}
+                                variant={'contained'}
+                                color={'primary'}
+                                onClick={addOnClickHandler}
+                            >{'save'}</Button>}
                         </Grid>
                     </Grid>
-
                 </Box>
             </Modal>
         </div>

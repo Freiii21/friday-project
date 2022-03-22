@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -16,11 +16,16 @@ import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
 import {Navigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import {Search} from '../../pacs/rightPanel/Search';
-import {deleteCardTC} from "../../../../n1-main/m2-bll/reducers/cardReducer";
+import {
+    getCardsTC,
+    setCardsCurrentPage,
+    setCardsQuestion,
+    setCardsSortValue
+} from "../../../../n1-main/m2-bll/reducers/cardReducer";
 import {useDispatch} from "react-redux";
-import {getCardsTC, setCardsCurrentPage, setCardsSortValue} from "../../../../n1-main/m2-bll/reducers/cardReducer";
 import {Pagination} from "../../../../n1-main/m1-ui/common/pagination/Pagination";
 import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
+import {useDebounce} from "use-debounce";
 
 
 interface Column {
@@ -68,49 +73,55 @@ const useStyles = makeStyles({
 });
 
 export const TableCards = () => {
-
     const [open, setOpen] = React.useState(false);
-    //const [title, setTitle] = React.useState('');
-   // const [typeModel, setTypeModel] = useState('');
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [page, setPage] = React.useState(0);
-    const dispatch =  useDispatch()
-    const rows = useTypedSelector(state => state.cards.data.cards);
-    const isAuth = useTypedSelector(state => state.auth.isAuth);
-    const packName = useTypedSelector(state => state.cards.packName);
-    //const idPack = useTypedSelector(state => state.cards.data.packUserId);
     const classes = useStyles();
 
-   /* const deleteCard = (idCard: string) => {
-        dispatch(deleteCardTC(idCard))
-    }*/
-   /* const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    };*/
-    const cardsId = useTypedSelector(state => state.cards.getData.cardsPack_id);
-    const cardsCurrentPage = useTypedSelector(state => state.cards.data.page);
+    const dispatch = useDispatch()
+    // get value
+    const rows = useTypedSelector(state => state.cards.data.cards);
     const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
+    const packName = useTypedSelector(state => state.cards.packName);
+    // auth value
+    const isAuth = useTypedSelector(state => state.auth.isAuth);
+    // set Value
+    const cardsId = useTypedSelector(state => state.cards.getData.cardsPack_id);
     const cardsSortValue = useTypedSelector(state => state.cards.getData.sortCards);
-    const cardsPageCount = useTypedSelector(state => state.cards.data.pageCount);
-    const [value, setValue] = useState(0)
-    useEffect(()=>{
-        console.log("call")
-        dispatch(getCardsTC())
-    },[cardsId,value,cardsSortValue])
+    const cardsPageCount = useTypedSelector(state => state.cards.getData.pageCount);
+    const cardsCurrentPage = useTypedSelector(state => state.cards.getData.page);
+    const cardsQuestion = useTypedSelector(state => state.cards.getData.cardQuestion);
+    // value modal
 
-    const handlerSetSortCards= (sortValue: string) => {
+
+
+    const cardsQuestionDebounce = useDebounce(cardsQuestion, 1000)
+    // set cards function
+    useEffect(() => {
+        dispatch(getCardsTC())
+    }, [cardsId, cardsCurrentPage, cardsSortValue,cardsQuestionDebounce[0]])
+
+    const handlerSetSortCards = (sortValue: string) => {
         dispatch(setCardsSortValue(sortValue))
     }
     const paginationHandler = (value: number) => {
         dispatch(setCardsCurrentPage(value))
     }
+    const setSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(setCardsQuestion(e.currentTarget.value))
+    }
+
 
 
 
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
         <>
-            <Search isButton={false} titleSearch={packName} isArrowBack={true}/>
+            <Search
+                isButton={false}
+                titleSearch={packName}
+                isArrowBack={true}
+                onChange={setSearchHandler}
+                value={cardsQuestion}
+            />
             <Paper className={classes.root}>
 
                 <TableContainer className={classes.container}>
@@ -131,7 +142,7 @@ export const TableCards = () => {
                                                     column.id === 'actions'
                                                         ?
                                                         <Button variant={'contained'} color={'primary'}
-                                                                size={'small'} onClick={()=>setOpen(true)}>
+                                                                size={'small'} onClick={() => setOpen(true)}>
                                                             Add
                                                         </Button>
                                                         : column.label
@@ -147,7 +158,8 @@ export const TableCards = () => {
                                                 style={{minWidth: column.minWidth}}
                                             >
                                                 {column.label}
-                                                <ButtonForTablePacks handlerSetSortPacs={handlerSetSortCards} nameCell={column.id}/>
+                                                <ButtonForTablePacks handlerSetSortPacs={handlerSetSortCards}
+                                                                     nameCell={column.id}/>
                                             </TableCell>
                                         )
                                     }
@@ -156,7 +168,7 @@ export const TableCards = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                            {rows.slice(0,  cardsPageCount + cardsPageCount).map((row) => {
                                 return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                                         {columns.map((column) => {
@@ -169,13 +181,14 @@ export const TableCards = () => {
                                                         <Rating name="read-only" value={4.5} readOnly precision={0.5}/>
                                                         : column.id === 'actions'
                                                             ?
-                                                            <BasicButtonGroup name_2={'Del'} name_3={'Update'}
-                                                                                userId={false}
-                                                                                // callBack2={deleteCard}
-                                                                                color={true}
-                                                                                titleOfPage={'Card'}
-                                                                                nameOfCell={row.question}
-                                                                                id={row._id}
+                                                            <BasicButtonGroup name_2={'Del'}
+                                                                              name_3={'Update'}
+                                                                              userId={false}
+                                                                // callBack2={deleteCard}
+                                                                              color={true}
+                                                                              titleOfPage={'Card'}
+                                                                              nameOfCell={row.question}
+                                                                              id={row._id}
                                                             />
                                                             : column.format && typeof value === 'string'
                                                                 ? column.format(value) : value}
@@ -188,15 +201,17 @@ export const TableCards = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Pagination
-                    setValue={setValue}
-                    setPage={paginationHandler}
-                    totalCountPage={cardsTotalCount}
-                    pageCount={cardsPageCount}
-                    currentPage={cardsCurrentPage}
-                />
+                {cardsTotalCount > 10 ? <Pagination
+                        setPage={paginationHandler}
+                        totalCountPage={cardsTotalCount}
+                        pageCount={cardsPageCount}
+                        currentPage={cardsCurrentPage}
+                    />
+                    : null}
+
             </Paper>
-            <ModalMi title={'Add card'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Card'}/>
+            <ModalMi  title={'Add card'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Card'}
+                     />
         </>
     );
 }

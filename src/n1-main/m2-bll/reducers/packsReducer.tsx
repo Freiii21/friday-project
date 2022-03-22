@@ -75,7 +75,7 @@ export const setMaxMinValue = (newValue: number[]) => ({
 } as const);
 
 export const setUserID = (id: string) => ({type: 'PACKS_REDUCER/SET_USER_ID', id} as const);
-export const setCardsName = (name: string) => ({type: 'PACKS_REDUCER/SET_CARD_NAME', name} as const);
+export const setPacsName = (name: string) => ({type: 'PACKS_REDUCER/SET_CARD_NAME', name} as const);
 export const deletePack = (id: string) => ({type: 'PACKS_REDUCER/DELETE_PACK', id} as const);
 
 //thunks
@@ -125,7 +125,7 @@ export type PacksReducerActionType =
     | ReturnType<typeof setLoaderStatus>
     | ReturnType<typeof setMaxMinValue>
     | ReturnType<typeof setUserID>
-    | ReturnType<typeof setCardsName>
+    | ReturnType<typeof setPacsName>
     | ReturnType<typeof setErrorN>
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setPageCount>
