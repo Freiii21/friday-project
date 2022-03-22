@@ -14,33 +14,38 @@ export const cardsAPI = {
             }
         )
     },
-    addNewCard(data:RequestToAddCardType) {
+    addNewCard(data: RequestToAddCardType) {
         return instance.post<RequestToAddCardType>('/cards/card', data)
     },
     deleteCard(id: string) {
         return instance.delete(`/cards/card?id=${id}`)
     },
-    updateCard(id: string, question: string) {
-        return instance.put(`/cards/card`, {card: {_id: id, question}})
+    updateCard(data: RequestToUpdateCardType) {
+        return instance.put<RequestToUpdateCardType>(`/cards/card`, data);
     },
 };
 //types
-export type RequestToAddCardType={
-    card:{
-        cardsPack_id:string;
-        question:string;
-        answer:string;
-        grade?:number;
-        shots?:number;
-        answerImg:string;
-        questionImg:string;
-        questionVideo:string;
-        answerVideo:string;
+export type RequestToUpdateCardType = {
+    card: {
+        _id: string;
+        question?: string;
+        comments?: string
     }
 }
-export type ResponseCardsType={
-
+export type RequestToAddCardType = {
+    card: {
+        cardsPack_id: string;
+        question: string;
+        answer: string;
+        grade?: number;
+        shots?: number;
+        answerImg: string;
+        questionImg: string;
+        questionVideo: string;
+        answerVideo: string;
+    }
 }
+export type ResponseCardsType = {}
 export type RequestForCardsType = {
     cardAnswer?: string;
     cardQuestion?: string;

@@ -81,9 +81,9 @@ export const deletePack = (id: string) => ({type: 'PACKS_REDUCER/DELETE_PACK', i
 //thunks
 export const getPacksTC = () =>
     async (dispatch: Dispatch<PacksReducerActionType>, getState: () => AppRootStateType) => {
-        const data = getState().packs.getPackData
+        const data = getState().packs.getPackData;
         try {
-            dispatch(setLoaderStatus('loading'))
+            dispatch(setLoaderStatus('loading'));
             const res = await packsAPI.getPacks(data);
             dispatch(getPacks(res.data))
         } catch (e) {

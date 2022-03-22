@@ -16,10 +16,10 @@ import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
 import {Navigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import {Search} from '../../pacs/rightPanel/Search';
-import {deleteCardTC} from "../../../../n1-main/m2-bll/reducers/cardReducer";
-import {useDispatch} from "react-redux";
-import {getCardsTC, setCardsCurrentPage, setCardsSortValue} from "../../../../n1-main/m2-bll/reducers/cardReducer";
-import {Pagination} from "../../../../n1-main/m1-ui/common/pagination/Pagination";
+import {deleteCardTC} from '../../../../n1-main/m2-bll/reducers/cardReducer';
+import {useDispatch} from 'react-redux';
+import {getCardsTC, setCardsCurrentPage, setCardsSortValue} from '../../../../n1-main/m2-bll/reducers/cardReducer';
+import {Pagination} from '../../../../n1-main/m1-ui/common/pagination/Pagination';
 import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
 
 
@@ -70,19 +70,19 @@ const useStyles = makeStyles({
 export const TableCards = () => {
 
     const [open, setOpen] = React.useState(false);
-    const [title, setTitle] = React.useState('');
-    const [typeModel, setTypeModel] = useState('');
+    //const [title, setTitle] = React.useState('');
+   // const [typeModel, setTypeModel] = useState('');
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [page, setPage] = React.useState(0);
-    const dispatch =  useDispatch()
+    const dispatch = useDispatch()
     const rows = useTypedSelector(state => state.cards.data.cards);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
     const packName = useTypedSelector(state => state.cards.packName);
-    const idPack = useTypedSelector(state => state.cards.data.packUserId);
+    //const idPack = useTypedSelector(state => state.cards.data.packUserId);
     const classes = useStyles();
 
     const deleteCard = (idCard: string) => {
-        dispatch(deleteCardTC(1, 7, idCard, idPack))
+        dispatch(deleteCardTC(idCard));
     }
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -93,18 +93,17 @@ export const TableCards = () => {
     const cardsSortValue = useTypedSelector(state => state.cards.getData.sortCards);
     const cardsPageCount = useTypedSelector(state => state.cards.data.pageCount);
     const [value, setValue] = useState(0)
-    useEffect(()=>{
-        console.log("call")
+    useEffect(() => {
+        console.log('call')
         dispatch(getCardsTC())
-    },[cardsId,value,cardsSortValue])
+    }, [cardsId, value, cardsSortValue])
 
-    const handlerSetSortCards= (sortValue: string) => {
+    const handlerSetSortCards = (sortValue: string) => {
         dispatch(setCardsSortValue(sortValue))
     }
     const paginationHandler = (value: number) => {
         dispatch(setCardsCurrentPage(value))
     }
-
 
 
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
@@ -131,7 +130,7 @@ export const TableCards = () => {
                                                     column.id === 'actions'
                                                         ?
                                                         <Button variant={'contained'} color={'primary'}
-                                                                size={'small'} onClick={()=>setOpen(true)}>
+                                                                size={'small'} onClick={() => setOpen(true)}>
                                                             Add
                                                         </Button>
                                                         : column.label
@@ -147,7 +146,8 @@ export const TableCards = () => {
                                                 style={{minWidth: column.minWidth}}
                                             >
                                                 {column.label}
-                                                <ButtonForTablePacks handlerSetSortPacs={handlerSetSortCards} nameCell={column.id}/>
+                                                <ButtonForTablePacks handlerSetSortPacs={handlerSetSortCards}
+                                                                     nameCell={column.id}/>
                                             </TableCell>
                                         )
                                     }
@@ -170,12 +170,12 @@ export const TableCards = () => {
                                                         : column.id === 'actions'
                                                             ?
                                                             <BasicButtonGroup name_2={'Del'} name_3={'Update'}
-                                                                                userId={false}
-                                                                                // callBack2={deleteCard}
-                                                                                color={true}
-                                                                                titleOfPage={'Card'}
-                                                                                nameOfCell={row.question}
-                                                                                id={row._id}
+                                                                              userId={false}
+                                                                // callBack2={deleteCard}
+                                                                              color={true}
+                                                                              titleOfPage={'Card'}
+                                                                              nameOfCell={row.question}
+                                                                              id={row._id}
                                                             />
                                                             : column.format && typeof value === 'string'
                                                                 ? column.format(value) : value}

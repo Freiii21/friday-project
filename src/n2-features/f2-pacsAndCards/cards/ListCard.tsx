@@ -20,11 +20,11 @@ export const ListCard = () => {
     }
 
     const deleteCard = (idCard: string) => {
-        dispatch(deleteCardTC(1, 7, idCard, idPack))
+        //dispatch(deleteCardTC(1, 7, idCard, idPack))
     }
 
     const updateCard = (idCard: string, question: string) => {
-        dispatch(updateCardTC(idCard, idPack, 1, 7, question))
+        //dispatch(updateCardTC(idCard, idPack, 1, 7, question))
 
     }
 
