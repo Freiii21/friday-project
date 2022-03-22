@@ -11,7 +11,7 @@ import {PATH} from '../routes/RoutesComponent';
 import {useTypedSelector} from '../../m2-bll/redux';
 import {useDispatch} from 'react-redux';
 import {setLogoutT} from '../../m2-bll/reducers/authReducer';
-import LinearIndeterminate from '../common/Preloader/LinearMI';
+import LinearIndeterminate from '../common/Preloader/unused/LinearMI';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

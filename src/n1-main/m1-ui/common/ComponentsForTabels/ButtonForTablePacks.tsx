@@ -1,28 +1,23 @@
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import React, {useState} from 'react';
-import {useTypedSelector} from '../../../m2-bll/redux';
-import {useDispatch} from 'react-redux';
-import {getPacksCards} from '../../../m2-bll/reducers/packsReducer';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {colorBlueMI} from '../../utilities/for css';
 
+
 type PropsType = {
     nameCell: string;
-
+    handlerSetSortPacs?: (sortValue: string) => void;
 }
-export const ButtonForTablePacks = ({nameCell}: PropsType) => {
-    const packs = useTypedSelector(state => state.packs.data.cardPacks);
-    const dispatch = useDispatch();
+export const ButtonForTablePacks = ({nameCell, handlerSetSortPacs}: PropsType) => {
+
     const [arrow, setArrow] = useState(true);
 
-    const cardPacksTotalCount = useTypedSelector(state => state.packs.data.cardPacksTotalCount);
-    const numberPages = Math.floor(cardPacksTotalCount / 10) + (cardPacksTotalCount % 10);
-    let onClick = () => {
+    let onClickHandler = () => {
         if (arrow) {
-            dispatch(getPacksCards({sortPacks: '0' + nameCell, pageCount: numberPages}));
+            handlerSetSortPacs && handlerSetSortPacs(`0${nameCell}`);
             setArrow(!arrow);
         } else {
-            dispatch(getPacksCards({sortPacks: '1' + nameCell, pageCount: numberPages}));
+            handlerSetSortPacs && handlerSetSortPacs(`1${nameCell}`);
             setArrow(!arrow);
         }
 
@@ -35,11 +30,13 @@ export const ButtonForTablePacks = ({nameCell}: PropsType) => {
                 border: 'none',
                 position: 'relative',
                 top: '5px',
+                cursor: "pointer",
             }}
-            onClick={onClick}
-        >{
-            arrow ? <ArrowDownwardIcon/> : <ArrowUpwardIcon/>
-        }
+            onClick={onClickHandler}
+        >
+            {
+                arrow ? <ArrowDownwardIcon/> : <ArrowUpwardIcon/>
+            }
 
 
         </button>
