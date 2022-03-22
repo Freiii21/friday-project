@@ -69,9 +69,11 @@ export const setCardsSortValue = (sortValue:string) => ({type: 'CARDS_REDUCER/SE
 
 
 //thunks
+
 export const getCardsTC = () =>
     async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
         const {cardAnswer, cardQuestion,cardsPack_id, minGrade, maxGrade, sortCards, page, pageCount} = getState().cards.getData
+
         try {
             dispatch(setLoaderStatus('loading'));
             const res = await cardsAPI.getCards(cardAnswer, cardQuestion,cardsPack_id, minGrade, maxGrade, sortCards, page, pageCount,);

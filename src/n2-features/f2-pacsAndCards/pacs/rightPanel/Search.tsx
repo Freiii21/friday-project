@@ -6,7 +6,11 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {NavLink} from 'react-router-dom';
+import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
+import {useDispatch} from 'react-redux';
+import {addNewPackTC, setCardsName} from '../../../../n1-main/m2-bll/reducers/packsReducer';
 import React, {ChangeEvent} from 'react';
+
 
 type PropsType = {
     isButton: boolean;
@@ -16,7 +20,19 @@ type PropsType = {
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
+
 export const Search = ({isArrowBack, isButton, title, onChange, value}: PropsType) => {
+
+    const dispatch = useDispatch()
+    const cardsName = useTypedSelector(state => state.packs.cardName)
+
+    const addPack = () => {
+        dispatch(addNewPackTC())
+    }
+    function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
+        dispatch(setCardsName(e.currentTarget.value))
+    }
+
     return (
         <Grid container
               xs={12}
@@ -54,7 +70,12 @@ export const Search = ({isArrowBack, isButton, title, onChange, value}: PropsTyp
             {
                 isButton &&
                 <Grid item xs={3}>
-                    <Button variant={'contained'} color={'primary'} size={'small'} onClick={()=>setOpen(true)}>Add pack</Button>
+
+                    <Button variant={'contained'}
+                            onClick={addPack}
+                            color={'primary'} size={'small'}>Add pack</Button>
+
+
                 </Grid>
             }
             <ModalMi title={'Add Pack'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Pack'}/>

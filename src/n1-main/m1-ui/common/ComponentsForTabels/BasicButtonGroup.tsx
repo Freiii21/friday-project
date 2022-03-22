@@ -11,6 +11,9 @@ type PropsType = {
     name_2: string;
     name_3: string;
     color?: boolean;
+    callBack1?: () => void;
+    callBack2?: ()=>void;
+    callBack3?: () => void;
     titleOfPage: string;
     nameOfCell: string;
     id: string;

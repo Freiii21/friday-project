@@ -29,6 +29,9 @@ export const packsAPI = {
         (urlForPackCards, {
             params: data,
         }),
+    addNewPack: ()=>
+        instance.post(urlForPackCards, {cardsPack: {name: 'JASON BOURNE'}}),
+
     setPackCards: (data?: Partial<RequestOnePackType>) =>
         instance.post<Partial<RequestOnePackType>, AxiosResponse<{}>>(urlForPackCards, data),
     deletePackCards: (id?: string) => instance.delete<string, AxiosResponse<{}>>(urlForPackCards, {
@@ -73,6 +76,7 @@ export type ResponsePacksType = {
     minCardsCount: number;
     page: number;
     pageCount: number;
+    searchValue: string;
 }
 export type RequestPacksType = {
     packName: string;
@@ -82,6 +86,7 @@ export type RequestPacksType = {
     page: number;
     pageCount: number;
     user_id: string;
+    searchName?: string;
 }
 export type ResponsePingType = {
     ping: number;

@@ -16,6 +16,7 @@ import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
 import {Navigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import {Search} from '../../pacs/rightPanel/Search';
+import {deleteCardTC} from "../../../../n1-main/m2-bll/reducers/cardReducer";
 import {useDispatch} from "react-redux";
 import {getCardsTC, setCardsCurrentPage, setCardsSortValue} from "../../../../n1-main/m2-bll/reducers/cardReducer";
 import {Pagination} from "../../../../n1-main/m1-ui/common/pagination/Pagination";
@@ -77,6 +78,14 @@ export const TableCards = () => {
     const rows = useTypedSelector(state => state.cards.data.cards);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
     const packName = useTypedSelector(state => state.cards.packName);
+    const idPack = useTypedSelector(state => state.cards.data.packUserId);
+    const classes = useStyles();
+    const deleteCard = (idCard: string) => {
+        dispatch(deleteCardTC(1, 7, idCard, idPack))
+    }
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
     const cardsId = useTypedSelector(state => state.cards.getData.cardsPack_id);
     const cardsCurrentPage = useTypedSelector(state => state.cards.data.page);
     const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
@@ -161,6 +170,7 @@ export const TableCards = () => {
                                                             ?
                                                             <BasicButtonGroup name_2={'Del'} name_3={'Update'}
                                                                                 userId={false}
+                                                                                // callBack2={deleteCard}
                                                                                 color={true}
                                                                                 titleOfPage={'Card'}
                                                                                 nameOfCell={row.question}

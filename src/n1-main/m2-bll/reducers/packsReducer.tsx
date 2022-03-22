@@ -20,6 +20,7 @@ const initialState = {
         cardPacksTotalCount: 0,
         maxCardsCount: 0,
         minCardsCount: 0,
+        searchValue: '',
         page: 1,
         pageCount: 10,
     },
@@ -103,6 +104,22 @@ export const deletePackT = (id: string) =>
             dispatch(setLoaderStatus('idle'));
         }
     }
+export const addNewPackTC = () => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+        try{
+            dispatch(setLoaderStatus('loading'))
+            const page = getState().packs.data.page
+            const pageCount = getState().packs.data.pageCount
+            const searchName = getState().packs.data.searchValue
+            await packsAPI.addNewPack()
+            const res = await packsAPI.getPacks({page, pageCount, searchName})
+            dispatch(getPacks(res.data))
+    }  catch (e) {
+            handleError(e, dispatch)
+    }  finally {
+            dispatch(setLoaderStatus('idle'))
+        }
+}
+
 //types
 
 export type PacksReducerActionType =
