@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 
 const instance = axios.create({
@@ -9,7 +9,7 @@ const instance = axios.create({
 
 export const cardsAPI = {
     getCards(data: RequestForCardsType) {
-        return instance.get(`/cards/card/`, {
+        return instance.get<RequestForCardsType,AxiosResponse<CardsDataType>>(`/cards/card/`, {
                 params: data,
             }
         )
@@ -23,8 +23,25 @@ export const cardsAPI = {
     updateCard(data: RequestToUpdateCardType) {
         return instance.put<RequestToUpdateCardType>(`/cards/card`, data);
     },
+    updateGrade(data: RequestToUpdateGradeType) {
+        return instance.put<RequestToUpdateGradeType,AxiosResponse<RequestToUpdateGradeType>>('cards/grade', data);
+    }
 };
 //types
+export type ResponseUpdateGrade={
+    updatedGrade:{
+        _id:string;
+        cardsPack_id:string;
+        card_id:string;
+        user_id:string;
+        grade:number;
+        shots:number;
+    }
+}
+export type RequestToUpdateGradeType = {
+    grade: number;
+    card_id: string;
+}
 export type RequestToUpdateCardType = {
     card: {
         _id: string;
@@ -45,7 +62,6 @@ export type RequestToAddCardType = {
         answerVideo: string;
     }
 }
-export type ResponseCardsType = {}
 export type RequestForCardsType = {
     cardAnswer?: string;
     cardQuestion?: string;
@@ -57,7 +73,7 @@ export type RequestForCardsType = {
     pageCount?: number;
 }
 
-export type DataGetType = {
+/*export type DataGetType = {
     cardAnswer: string
     cardQuestion: string
     cardsPack_id: string
@@ -66,7 +82,7 @@ export type DataGetType = {
     sortCards: string
     page: number
     pageCount: number
-}
+}*/
 
 export type UpdatedType =
     '0updated'
