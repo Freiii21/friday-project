@@ -107,11 +107,9 @@ export const deletePackT = (id: string) =>
 export const addNewPackTC = () => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
     try {
         dispatch(setLoaderStatus('loading'))
-        const page = getState().packs.data.page
-        const pageCount = getState().packs.data.pageCount
-        const searchName = getState().packs.data.searchValue
+        const data = getState().packs.getPackData;
         await packsAPI.addNewPack()
-        const res = await packsAPI.getPacks({page, pageCount, searchName})
+        const res = await packsAPI.getPacks(data)
         dispatch(getPacks(res.data))
     } catch (e) {
         handleError(e, dispatch)
