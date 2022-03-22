@@ -1,7 +1,7 @@
 import {Dispatch} from 'redux'
 import {setErrorN, setLoaderStatus} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
-import {cardsAPI, CardsDataType, RequestForCardsType} from '../api/cards-a-p-i';
+import {cardsAPI, CardsDataType, RequestForCardsType, RequestToAddCardType} from '../api/cards-a-p-i';
 import {AppRootStateType} from '../store';
 
 
@@ -80,7 +80,7 @@ export const setCardsSortValue = (sortValue: string) => ({type: 'CARDS_REDUCER/S
 
 export const getCardsTC = () =>
     async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
-        const data:RequestForCardsType = getState().cards.getData
+        const data: RequestForCardsType = getState().cards.getData
 
         try {
             dispatch(setLoaderStatus('loading'));
@@ -95,12 +95,12 @@ export const getCardsTC = () =>
     }
 
 
-export const addNewCardTC = (page: number, pageCount: number, idPack: string, question: string) =>
+export const addNewCardTC = (page: number, pageCount: number, dataForAdd: RequestToAddCardType) =>
     async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
-        const data:RequestForCardsType = getState().cards.getData
+        const data: RequestForCardsType = getState().cards.getData
         try {
             dispatch(setLoaderStatus('loading'));
-            await cardsAPI.addNewCard(idPack, question);
+            await cardsAPI.addNewCard(dataForAdd);
             const res = await cardsAPI.getCards(data);
             dispatch(setCardsAC(res.data))
         } catch (e) {
@@ -112,7 +112,7 @@ export const addNewCardTC = (page: number, pageCount: number, idPack: string, qu
 
 export const deleteCardTC = (page: number, pageCount: number, idCard: string, idPack: string) =>
     async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
-        const data:RequestForCardsType = getState().cards.getData
+        const data: RequestForCardsType = getState().cards.getData
         try {
             dispatch(setLoaderStatus('loading'));
             await cardsAPI.deleteCard(idCard);
@@ -129,7 +129,7 @@ export const deleteCardTC = (page: number, pageCount: number, idCard: string, id
 export const updateCardTC = (idCard: string, idPack: string, page: number,
                              pageCount: number, question: string) =>
     async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
-        const data:RequestForCardsType = getState().cards.getData
+        const data: RequestForCardsType = getState().cards.getData
         try {
             setLoaderStatus('loading');
             await cardsAPI.updateCard(idCard, question);
