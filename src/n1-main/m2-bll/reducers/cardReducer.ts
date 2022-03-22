@@ -1,7 +1,13 @@
 import {Dispatch} from 'redux'
 import {setErrorN, setLoaderStatus} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
-import {cardsAPI, CardsDataType, RequestForCardsType, RequestToAddCardType} from '../api/cards-a-p-i';
+import {
+    cardsAPI,
+    CardsDataType,
+    RequestForCardsType,
+    RequestToAddCardType,
+    RequestToUpdateCardType
+} from '../api/cards-a-p-i';
 import {AppRootStateType} from '../store';
 
 
@@ -95,7 +101,7 @@ export const getCardsTC = () =>
     }
 
 
-export const addNewCardTC = (page: number, pageCount: number, dataForAdd: RequestToAddCardType) =>
+export const addNewCardTC = (dataForAdd: RequestToAddCardType) =>
     async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
         const data: RequestForCardsType = getState().cards.getData
         try {
@@ -110,7 +116,7 @@ export const addNewCardTC = (page: number, pageCount: number, dataForAdd: Reques
         }
     }
 
-export const deleteCardTC = (page: number, pageCount: number, idCard: string, idPack: string) =>
+export const deleteCardTC = (idCard: string) =>
     async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
         const data: RequestForCardsType = getState().cards.getData
         try {
@@ -126,13 +132,12 @@ export const deleteCardTC = (page: number, pageCount: number, idCard: string, id
     }
 
 
-export const updateCardTC = (idCard: string, idPack: string, page: number,
-                             pageCount: number, question: string) =>
+export const updateCardTC = (dataForUpdate: RequestToUpdateCardType) =>
     async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
         const data: RequestForCardsType = getState().cards.getData
         try {
             setLoaderStatus('loading');
-            await cardsAPI.updateCard(idCard, question);
+            await cardsAPI.updateCard(dataForUpdate);
             const res = await cardsAPI.getCards(data);
             dispatch(setCardsAC(res.data));
         } catch (e) {

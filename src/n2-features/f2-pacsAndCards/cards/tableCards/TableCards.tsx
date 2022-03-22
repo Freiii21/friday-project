@@ -70,23 +70,23 @@ const useStyles = makeStyles({
 export const TableCards = () => {
 
     const [open, setOpen] = React.useState(false);
-    const [title, setTitle] = React.useState('');
-    const [typeModel, setTypeModel] = useState('');
+    //const [title, setTitle] = React.useState('');
+   // const [typeModel, setTypeModel] = useState('');
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [page, setPage] = React.useState(0);
     const dispatch =  useDispatch()
     const rows = useTypedSelector(state => state.cards.data.cards);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
     const packName = useTypedSelector(state => state.cards.packName);
-    const idPack = useTypedSelector(state => state.cards.data.packUserId);
+    //const idPack = useTypedSelector(state => state.cards.data.packUserId);
     const classes = useStyles();
 
-    const deleteCard = (idCard: string) => {
-        dispatch(deleteCardTC(1, 7, idCard, idPack))
-    }
-    const handleChangePage = (event: unknown, newPage: number) => {
+   /* const deleteCard = (idCard: string) => {
+        dispatch(deleteCardTC(idCard))
+    }*/
+   /* const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
-    };
+    };*/
     const cardsId = useTypedSelector(state => state.cards.getData.cardsPack_id);
     const cardsCurrentPage = useTypedSelector(state => state.cards.data.page);
     const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
