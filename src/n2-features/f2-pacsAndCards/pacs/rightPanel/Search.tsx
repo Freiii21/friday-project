@@ -6,8 +6,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {NavLink} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-import {addNewPackTC, setCardsName} from '../../../../n1-main/m2-bll/reducers/packsReducer';
 import React, {ChangeEvent} from 'react';
 
 
@@ -23,14 +21,6 @@ type PropsType = {
 
 export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, callBack}: PropsType) => {
 
-    const dispatch = useDispatch()
-
-    //const cardsName = useTypedSelector(state => state.packs.cardName)
-
-
-    function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
-        dispatch(setCardsName(e.currentTarget.value))
-    }
 
     const onClick = () => {
         callBack && callBack(true);

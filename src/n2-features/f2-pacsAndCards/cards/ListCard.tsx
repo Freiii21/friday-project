@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {addNewCardTC, deleteCardTC, updateCardTC} from '../../../n1-main/m2-bll/reducers/cardReducer';
-import {Cards} from './Cards';
 import {Modal} from '../../../n1-main/m1-ui/modal/unused/Modal';
 import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 import {Button} from '@mui/material';

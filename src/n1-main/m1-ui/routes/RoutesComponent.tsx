@@ -10,7 +10,6 @@ import Container from '@mui/material/Container';
 import {ProfileMI} from '../../../n2-features/f1-auth/a3-profile/ProfileMI';
 import {PacksCards} from '../../../n2-features/f2-pacsAndCards/pacs/PacksCards';
 import {Cards} from '../../../n2-features/f2-pacsAndCards/cards/Cards';
-import ModalMI from '../modal/ModalMI';
 
 
 export const PATH = {

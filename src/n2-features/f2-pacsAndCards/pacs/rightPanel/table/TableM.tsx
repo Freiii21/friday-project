@@ -71,7 +71,7 @@ const useStyles = makeStyles({
 });
 
 export function TableM() {
-    const [page, setPage] = React.useState(0);
+
     const classes = useStyles();
 
     const dispatch = useDispatch()
@@ -81,19 +81,21 @@ export function TableM() {
     const currentPage = useTypedSelector(state => state.packs.getPackData.page);
     const totalCountPage = useTypedSelector(state => state.packs.data.cardPacksTotalCount);
     const pageCount = useTypedSelector(state => state.packs.getPackData.pageCount);
-    const cardSetMin = useTypedSelector(state => state.packs.getPackData.min);
-    const cardSetMax = useTypedSelector(state => state.packs.getPackData.max);
-    const cardsName = useTypedSelector(state => state.packs.getPackData.packName)
-    const cardsSortValue = useTypedSelector(state => state.packs.getPackData.sortPacks)
+    const packSetMin = useTypedSelector(state => state.packs.getPackData.min);
+    const packSetMax = useTypedSelector(state => state.packs.getPackData.max);
+    const packsName = useTypedSelector(state => state.packs.getPackData.packName)
+    const packsSortValue = useTypedSelector(state => state.packs.getPackData.sortPacks)
+    const pacsUserIdGetData = useTypedSelector(state => state.packs.getPackData.user_id)
 
-    const minValueDebounce = useDebounce(cardSetMin, 1000)
-    const maxValueDebounce = useDebounce(cardSetMax, 1000)
-    const cardsNameDebounce = useDebounce(cardsName, 1000)
-
+    const minValueDebounce = useDebounce(packSetMin, 1000)
+    const maxValueDebounce = useDebounce(packSetMax, 1000)
+    const cardsNameDebounce = useDebounce(packsName, 1000)
 
     useEffect(() => {
         dispatch(getPacksTC())
-    }, [currentPage, pageCount, minValueDebounce[0], maxValueDebounce[0], cardsNameDebounce[0], cardsSortValue])
+    }, [currentPage, pageCount, minValueDebounce[0],
+        maxValueDebounce[0], cardsNameDebounce[0],
+        packsSortValue, pacsUserIdGetData])
 
     const rowsPerPage = pageCount
 
@@ -146,7 +148,7 @@ export function TableM() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        {rows.slice(0 * rowsPerPage, 0 * rowsPerPage + rowsPerPage).map((row) => {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                                     {columns.map((column) => {
@@ -161,6 +163,7 @@ export function TableM() {
                                                         name_1={'Del'} name_2={'Edit'} name_3={'Learn'}
                                                         titleOfPage={'Pack'}
                                                         nameOfCell={row.name} id={row._id}
+
                                                         color={false}
                                                     />
                                                     : column.id === 'name'
@@ -173,7 +176,6 @@ export function TableM() {
                                 </TableRow>
                             );
                         })}
-
                     </TableBody>
                 </Table>
 
