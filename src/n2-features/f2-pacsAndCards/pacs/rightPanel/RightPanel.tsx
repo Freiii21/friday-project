@@ -21,7 +21,7 @@ export const RightPanel = () => {
         >
             <Search
                 isButton={true}
-                title={'Packs List'}
+                titleSearch={'Packs List'}
                 value={cardsName}
                 onChange={onChangeHandler}
             />

@@ -68,7 +68,7 @@ const useStyles = makeStyles({
 });
 
 export const TableCards = () => {
-    const classes = useStyles();
+
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = React.useState('');
     const [typeModel, setTypeModel] = useState('');
@@ -80,6 +80,7 @@ export const TableCards = () => {
     const packName = useTypedSelector(state => state.cards.packName);
     const idPack = useTypedSelector(state => state.cards.data.packUserId);
     const classes = useStyles();
+
     const deleteCard = (idCard: string) => {
         dispatch(deleteCardTC(1, 7, idCard, idPack))
     }

@@ -15,16 +15,16 @@ import React, {ChangeEvent} from 'react';
 type PropsType = {
     isButton: boolean;
     isArrowBack?: boolean;
-    title: string;
+    titleSearch: string;
     value?: string;
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 
-export const Search = ({isArrowBack, isButton, title, onChange, value}: PropsType) => {
+export const Search = ({isArrowBack, isButton, titleSearch, onChange, value}: PropsType) => {
 
     const dispatch = useDispatch()
-    const cardsName = useTypedSelector(state => state.packs.cardName)
+    //const cardsName = useTypedSelector(state => state.packs.cardName)
 
     const addPack = () => {
         dispatch(addNewPackTC())
@@ -78,7 +78,7 @@ export const Search = ({isArrowBack, isButton, title, onChange, value}: PropsTyp
 
                 </Grid>
             }
-            <ModalMi title={'Add Pack'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Pack'}/>
+            {/*<ModalMi title={'Add Pack'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Pack'}/>*/}
         </Grid>
     )
 }
