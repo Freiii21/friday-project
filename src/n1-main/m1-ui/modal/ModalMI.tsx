@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@material-ui/core/Button';
 import {Input, TextField} from '@mui/material';
 import {useDispatch} from 'react-redux';
-import {deletePackT} from '../../m2-bll/reducers/packsReducer';
+import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
 import {ChangeEvent, useState} from "react";
 import {addNewCardTC, deleteCardTC, updateCardTC} from "../../m2-bll/reducers/cardReducer";
 import {useTypedSelector} from "../../m2-bll/redux";
@@ -47,6 +47,7 @@ export default function ModalMi({
 
     const [question, setQuestion] = useState<string>('')
     const [answer, setAnswer] = useState<string>('')
+    const [nameNewPack, setNameNewPack] = useState<string>('')
     const cardsPack_id = useTypedSelector(state => state.cards.data.cards[0].cardsPack_id)
 
     const _id = id
@@ -67,9 +68,20 @@ export default function ModalMi({
         if (title === 'Add card') {
             dispatch(addNewCardTC({"card": {cardsPack_id, question, answer}}))
         }
-        if (title === 'Update card' ) {
-            _id  && dispatch(updateCardTC({"card": {_id, question, comments}}))
-            console.log( _id)
+        if (title === 'Add Pack') {
+            dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
+        }
+        if (title === 'Edit name') {
+            dispatch(changeNamePackTC({
+                cardsPack: {
+                    _id: _id || '',
+                    name: nameNewPack
+                }
+            }))
+        }
+        if (title === 'Update card') {
+            _id && dispatch(updateCardTC({"card": {_id, question, comments}}))
+            console.log(_id)
         }
         setQuestion("")
         setAnswer("")
@@ -111,7 +123,8 @@ export default function ModalMi({
                     <Input size={'small'}
                            placeholder={'Name'}
                            type={'text'}
-                           onChange={() => {
+                           onChange={(e) => {
+                               setNameNewPack(e.currentTarget.value)
                            }}
                            style={{marginTop: '10px', minHeight: '10px'}}
                     />}

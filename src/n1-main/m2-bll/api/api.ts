@@ -29,8 +29,8 @@ export const packsAPI = {
         (urlForPackCards, {
             params: data,
         }),
-    addNewPack: (data?: Partial<RequestOnePackType>) =>
-        instance.post(urlForPackCards, {cardsPack: {name: 'JASON BOURNE'}}),
+    addNewPack: (data: RequestToAddPackType) =>
+        instance.post(urlForPackCards, data),
 
     setPackCards: (data?: Partial<RequestOnePackType>) =>
         instance.post<Partial<RequestOnePackType>, AxiosResponse<{}>>(urlForPackCards, data),
@@ -135,4 +135,7 @@ export type UserType = {
     verified: boolean;
     rememberMe: boolean;
     error?: string;
+}
+export type RequestToAddPackType = {
+    cardsPack: {name: string}
 }
