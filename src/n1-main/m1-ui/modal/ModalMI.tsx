@@ -7,6 +7,11 @@ import Button from '@material-ui/core/Button';
 import {Input, TextField} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {deletePackT} from '../../m2-bll/reducers/packsReducer';
+import {useTypedSelector} from '../../m2-bll/redux';
+import {Navigate, NavLink} from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearIndeterminate from '../common/Preloader/unused/LinearMI';
+import {PATH} from '../routes/RoutesComponent';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -29,13 +34,17 @@ type PropsType = {
     titleOfPage?: string;
     nameOfCell?: string;
 }
-export default function ModalMi({title, open, setOpen, titleOfPage, type, id, nameOfCell}: PropsType) {
+export default function ModalMi(
+    {title, open, setOpen, titleOfPage, type, id, nameOfCell,}
+        : PropsType) {
     const dispatch = useDispatch();
+    const question = useTypedSelector(state => state.cards.cardsForLearn[0].question);
+    const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
+    const status = useTypedSelector(state => state.app.status);
     // const handleClose = () => setOpen(false);
     const deletePack = () => {
         id && dispatch(deletePackT(id));
     }
-
     return (
         <div>
             <Modal
@@ -53,12 +62,12 @@ export default function ModalMi({title, open, setOpen, titleOfPage, type, id, na
                             be excluded from this course.</>}
                         {titleOfPage === 'Card' && <>Do you really want to remove {nameOfCell}?</>}
                     </Typography>}
-                    {type==='learn' &&
+                    {type === 'learn' &&
                     <Typography id="modal-modal-description" sx={{mt: 2}}>
-                      Question:
+                        Question: {question}
                     </Typography>
                     }
-                    {type === 'input' && title==='Edit name' &&
+                    {type === 'input' && title === 'Edit name' &&
                     <Input size={'small'}
                            placeholder={'Name'}
                            type={'text'}
@@ -87,8 +96,13 @@ export default function ModalMi({title, open, setOpen, titleOfPage, type, id, na
                                     onClick={deletePack}>{type}</Button>}
                             {type === 'input' &&
                             <Button size={'small'} variant={'contained'} color={'primary'}>{'save'}</Button>}
-                            {type==='learn'&&
-                            <Button size={'small'} variant={'contained'} color={'primary'}>Show answer</Button>
+                            {type === 'learn' &&
+
+                            <Button size={'small'} variant={'contained'}
+                                    color={'primary'} disabled={!!!cardsTotalCount||status==='loading'}>
+                                <NavLink style={{textDecoration: 'none',color:'white'}} to={'/card'}> Show answer </NavLink>
+                            </Button>
+
                             }
                         </Grid>
                     </Grid>

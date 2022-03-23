@@ -1,13 +1,11 @@
 import React, {useState} from 'react'
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import {Box} from '@mui/material';
 import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
 import {wrapper} from '../../../../n1-main/m1-ui/utilities/for css';
-import {setRegisteredT} from '../../../../n1-main/m2-bll/reducers/authReducer';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -15,11 +13,12 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Typography from '@mui/material/Typography';
 import s from './card.module.css';
+import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
 
 export const Card = () => {
     const dispatch = useDispatch();
     const [value, setValue] = useState('');
-
+    const cardsForLearnLength = useTypedSelector(state => state.cards.cardsForLearn.length);
     const handleSubmit = () => {
         alert(value)
     }
@@ -46,23 +45,25 @@ export const Card = () => {
                 }}
             >
                 <Grid container justifyContent={'center'} style={{display: 'flex', flexDirection: 'column',}}>
-                    <Grid className={s.grid1} item style={{alignSelf:'flex-start',marginBottom:'10%'}}>
+                    <Grid className={s.grid1} item style={{alignSelf: 'flex-start', marginBottom: '10%'}}>
                         <Typography variant={'h6'}>
                             Learn
                         </Typography>
                     </Grid>
-                    <Grid item sx={{marginBottom: '10px'}} >
+                    <Grid item sx={{marginBottom: '10px'}}>
 
                         <Typography variant={'body1'} component={'div'}>
                             Question: <>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, eaque!</>
 
                         </Typography>
                         <Typography variant={'body1'} component={'div'}>
-                            Answer:<>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus at dolore dolorum fuga impedit ipsam maiores perspiciatis, porro quas ut? Aperiam eaque eligendi hic ipsa iure magnam neque perspiciatis? Quidem!
+                            Answer:<>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus at dolore
+                            dolorum fuga impedit ipsam maiores perspiciatis, porro quas ut? Aperiam eaque eligendi hic
+                            ipsa iure magnam neque perspiciatis? Quidem!
                         </>
                         </Typography>
                     </Grid>
-                    <Grid item justifyContent={'center'} sx={{minHeight:'30%'}}>
+                    <Grid item justifyContent={'center'} sx={{minHeight: '30%'}}>
                         <form onSubmit={handleSubmit}>
                             <FormControl component="fieldset">
                                 <FormLabel component="legend">Rate yourself</FormLabel>
