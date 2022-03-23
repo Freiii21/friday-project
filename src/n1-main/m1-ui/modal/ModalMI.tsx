@@ -53,8 +53,12 @@ export default function ModalMi({title, open, setOpen, titleOfPage, type, id, na
                             be excluded from this course.</>}
                         {titleOfPage === 'Card' && <>Do you really want to remove {nameOfCell}?</>}
                     </Typography>}
-
-                    {type === 'input' && titleOfPage === 'Pack' &&
+                    {type==='learn' &&
+                    <Typography id="modal-modal-description" sx={{mt: 2}}>
+                      Question:
+                    </Typography>
+                    }
+                    {type === 'input' && title==='Edit name' &&
                     <Input size={'small'}
                            placeholder={'Name'}
                            type={'text'}
@@ -83,6 +87,9 @@ export default function ModalMi({title, open, setOpen, titleOfPage, type, id, na
                                     onClick={deletePack}>{type}</Button>}
                             {type === 'input' &&
                             <Button size={'small'} variant={'contained'} color={'primary'}>{'save'}</Button>}
+                            {type==='learn'&&
+                            <Button size={'small'} variant={'contained'} color={'primary'}>Show answer</Button>
+                            }
                         </Grid>
                     </Grid>
 

@@ -10,7 +10,7 @@ import Container from '@mui/material/Container';
 import {ProfileMI} from '../../../n2-features/f1-auth/a3-profile/ProfileMI';
 import {PacksCards} from '../../../n2-features/f2-pacsAndCards/pacs/PacksCards';
 import {Cards} from '../../../n2-features/f2-pacsAndCards/cards/Cards';
-import ModalMI from '../modal/ModalMI';
+import {Card} from '../../../n2-features/f2-pacsAndCards/cards/card/Card';
 
 
 export const PATH = {
@@ -23,6 +23,7 @@ export const PATH = {
     CHECK_EMAIL: '/checkEmail',
     PACKS_CARDS: '/packsCards',
     CARDS_MI: '/cards',
+    CARD: '/card',
 }
 
 export const RoutesComponent = () => {
@@ -40,6 +41,7 @@ export const RoutesComponent = () => {
                 <Route path={PATH.CHECK_EMAIL} element={<CheckEmail/>}/>
                 <Route path={PATH.PACKS_CARDS} element={<PacksCards/>}/>
                 <Route path={PATH.CARDS_MI} element={<Cards/>}/>
+                <Route path={PATH.CARD} element={<Card/>}/>
                 <Route path="*" element={<Navigate to={PATH.PAGE_NOT_FOUND}/>}/>
             </Routes>
         </Container>

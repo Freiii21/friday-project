@@ -24,6 +24,7 @@ import FormControl from "@mui/material/FormControl";
 import {InputLabel, NativeSelect,} from "@material-ui/core";
 import {useDebounce} from "use-debounce";
 import {ButtonForTablePacks} from "../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks";
+import {log} from 'util';
 
 
 interface Column {
@@ -161,7 +162,8 @@ export function TableM() {
                                                         name_1={'Del'} name_2={'Edit'} name_3={'Learn'}
                                                         titleOfPage={'Pack'}
                                                         nameOfCell={row.name} id={row._id}
-                                                        color={false}
+                                                        color={false} nameOfPack={row.name}
+
                                                     />
                                                     : column.id === 'name'
                                                         ? < ButtonForTableCell text={value} idPack={row._id}/>

@@ -66,6 +66,7 @@ export const ButtonsAndSlider = () => {
                     onChange={handleChange}
                     valueLabelDisplay="auto"
                     getAriaValueText={valuetext}
+
                 />
             </div>
 

@@ -17,10 +17,11 @@ type PropsType = {
     titleOfPage: string;
     nameOfCell: string;
     id: string;
+    nameOfPack?:string;
 }
 const fontSize = {fontSize: '0.6rem'}
 export default function BasicButtonGroup(
-    {userId, name_1, name_2, name_3, color, titleOfPage, nameOfCell, id}: PropsType) {
+    {userId, name_1, name_2, name_3, color, titleOfPage, nameOfCell, id,nameOfPack}: PropsType) {
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = React.useState('');
     const [typeModel, setTypeModel] = useState('');
@@ -30,6 +31,9 @@ export default function BasicButtonGroup(
         setTypeModel('delete');
     };
     const onClick3 = () => {
+        setOpen(true);
+        setTitle(`Learn ${nameOfPack}`);
+        setTypeModel('learn');
     };
     const onClick2 = () => {
         setOpen(true);
