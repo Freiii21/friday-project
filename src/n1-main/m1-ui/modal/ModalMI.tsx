@@ -8,10 +8,8 @@ import {Input, TextField} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {deletePackT} from '../../m2-bll/reducers/packsReducer';
 import {useTypedSelector} from '../../m2-bll/redux';
-import {Navigate, NavLink} from 'react-router-dom';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearIndeterminate from '../common/Preloader/unused/LinearMI';
-import {PATH} from '../routes/RoutesComponent';
+import {NavLink} from 'react-router-dom';
+import {colorBlueMI} from '../utilities/for css';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -54,7 +52,9 @@ export default function ModalMi(
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom: '20px'}}>
-                        {title}
+                        {title === 'Learn'
+                            ? <><span>{title}:</span> <span style={{color: colorBlueMI}}>{nameOfCell}</span></>
+                            : title}
                     </Typography>
                     {type === 'delete' &&
                     <Typography id="modal-modal-description" sx={{mt: 2}}>
@@ -99,14 +99,17 @@ export default function ModalMi(
                             {type === 'learn' &&
 
                             <Button size={'small'} variant={'contained'}
-                                    color={'primary'} disabled={!!!cardsTotalCount||status==='loading'}>
-                                <NavLink style={{textDecoration: 'none',color:'white'}} to={'/card'}> Show answer </NavLink>
+                                    color={'primary'} disabled={!!!cardsTotalCount || status === 'loading'}>
+                                <NavLink to={'/card'}
+                                         style={{
+                                             textDecoration: 'none',
+                                             color: cardsTotalCount ? 'white' : 'black'
+                                         }}> Show answer </NavLink>
                             </Button>
 
                             }
                         </Grid>
                     </Grid>
-
                 </Box>
             </Modal>
         </div>

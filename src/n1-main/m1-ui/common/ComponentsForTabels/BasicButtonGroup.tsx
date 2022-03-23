@@ -1,12 +1,10 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ModalMi from '../../modal/ModalMI';
-import {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {cardsAPI} from '../../../m2-bll/api/cards-a-p-i';
 import {getCardsForLearn} from '../../../m2-bll/reducers/cardReducer';
-import {useTypedSelector} from '../../../m2-bll/redux';
 
 type PropsType = {
     userId: boolean;
@@ -14,9 +12,6 @@ type PropsType = {
     name_2: string;
     name_3: string;
     color?: boolean;
-    callBack1?: () => void;
-    callBack2?: () => void;
-    callBack3?: () => void;
     titleOfPage: string;
     nameOfCell: string;
     id: string;
@@ -39,9 +34,9 @@ export default function BasicButtonGroup(
     };
     const onClick3 = () => {
         setOpen(true);
-        setTitle(`Learn ${nameOfPack}`);
+        setTitle(`Learn`);
         setTypeModel('learn');
-        dispatch(getCardsForLearn(id));
+        dispatch(getCardsForLearn(id, nameOfCell));
 
     };
     const onClick2 = () => {

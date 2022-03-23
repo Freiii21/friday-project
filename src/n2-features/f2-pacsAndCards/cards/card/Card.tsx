@@ -2,10 +2,10 @@ import React, {useState} from 'react'
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import {useDispatch} from 'react-redux';
-import {NavLink} from 'react-router-dom';
+import {Navigate, NavLink} from 'react-router-dom';
 import {Box} from '@mui/material';
 import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
-import {wrapper} from '../../../../n1-main/m1-ui/utilities/for css';
+import {colorBlueMI, wrapper} from '../../../../n1-main/m1-ui/utilities/for css';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -18,11 +18,13 @@ import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
 export const Card = () => {
     const dispatch = useDispatch();
     const [value, setValue] = useState('');
-    const cardsForLearnLength = useTypedSelector(state => state.cards.cardsForLearn.length);
+    const namePack = useTypedSelector(state => state.cards.namePack);
+    const isAuth = useTypedSelector(state => state.auth.isAuth);
     const handleSubmit = () => {
         alert(value)
     }
 
+        if(!isAuth) return <Navigate to={PATH.LOGIN}/>
 
     return (
         <div style={wrapper}>
@@ -47,7 +49,7 @@ export const Card = () => {
                 <Grid container justifyContent={'center'} style={{display: 'flex', flexDirection: 'column',}}>
                     <Grid className={s.grid1} item style={{alignSelf: 'flex-start', marginBottom: '10%'}}>
                         <Typography variant={'h6'}>
-                            Learn
+                            Learn: <span style={{color: colorBlueMI}}>{namePack}</span>
                         </Typography>
                     </Grid>
                     <Grid item sx={{marginBottom: '10px'}}>

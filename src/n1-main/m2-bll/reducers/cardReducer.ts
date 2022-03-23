@@ -3,7 +3,8 @@ import {setErrorN, setLoaderStatus} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
 import {
     cardsAPI,
-    CardsDataType, CardsType,
+    CardsDataType,
+    CardsType,
     RequestForCardsType,
     RequestToAddCardType,
     RequestToUpdateCardType
@@ -11,7 +12,7 @@ import {
 import {AppRootStateType} from '../store';
 
 const initialCard = {
-    answer: 'none',
+    answer: 'no answer',
     cardsPack_id: 'none',
     comments: 'none',
     created: 'none',
@@ -69,6 +70,7 @@ const initialState = {
     cardsForLearn: [
         initialCard,
     ],
+    namePack: 'none',
 }
 export const cardsReducer = (state = initialState, action: CardReducerActionsType): InitialStateType => {
 
@@ -82,14 +84,18 @@ export const cardsReducer = (state = initialState, action: CardReducerActionsTyp
         case 'CARDS_REDUCER/SET_SORT_VALUE':
             return {...state, getData: {...state.getData, sortCards: action.sortValue}};
         case 'CARDS_REDUCER/SET_CARDS_FOR_LEARN':
-            return {...state,data: {...state.data,cardsTotalCount: action.countCards},cardsForLearn: action.data};
+            return {
+                ...state,
+                data: {...state.data, cardsTotalCount: action.countCards},
+                cardsForLearn: action.data, namePack: action.namePack
+            };
         default:
             return state;
     }
 }
 
-export const setCardsForLearn = (data: CardsType[],countCards:number) =>
-    ({type: 'CARDS_REDUCER/SET_CARDS_FOR_LEARN', data,countCards} as const);
+export const setCardsForLearn = (data: CardsType[], countCards: number, namePack: string) =>
+    ({type: 'CARDS_REDUCER/SET_CARDS_FOR_LEARN', data, countCards, namePack} as const);
 export const setCardsAC = (data: CardsDataType, packName?: string) => ({
     type: 'CARDS_REDUCER/SET_CARDS',
     data,
@@ -121,15 +127,15 @@ export const getCardsTC = () =>
         }
 
     }
-export const getCardsForLearn = (idPack: string) =>
+export const getCardsForLearn = (idPack: string, namePack: string) =>
     async (dispatch: Dispatch<CardReducerActionsType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
             const res = await cardsAPI.getCards({cardsPack_id: idPack});
             if (res.data.cardsTotalCount) {
-                dispatch(setCardsForLearn(res.data.cards,res.data.cardsTotalCount));
+                dispatch(setCardsForLearn(res.data.cards, res.data.cardsTotalCount, namePack));
             } else
-                dispatch(setCardsForLearn([initialCard],0));
+                dispatch(setCardsForLearn([initialCard], 0, namePack));
 
         } catch (e) {
             handleError(e, dispatch);

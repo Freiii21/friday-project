@@ -24,7 +24,6 @@ import FormControl from '@mui/material/FormControl';
 import {InputLabel, NativeSelect,} from '@material-ui/core';
 import {useDebounce} from 'use-debounce';
 import {ButtonForTablePacks} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks';
-import {log} from 'util';
 
 
 interface Column {
@@ -65,7 +64,7 @@ const columns: Column[] = [
 const useStyles = makeStyles({
     root: {
         width: '100%',
-        overflow:'scroll',
+        overflow: 'scroll',
     },
     container: {
         maxHeight: 480,
