@@ -9,7 +9,8 @@ import {
     RequestToAddCardType,
     RequestToUpdateCardType
 } from '../api/cards-a-p-i';
-import {AppRootStateType} from '../store';
+import {AppRootStateType, AppThunk} from '../store';
+import {ThunkAction} from 'redux-thunk';
 
 const initialCard = {
     answer: 'no answer',
@@ -83,12 +84,15 @@ export const cardsReducer = (state = initialState, action: CardReducerActionsTyp
             return {...state, getData: {...state.getData, page: action.page}};
         case 'CARDS_REDUCER/SET_SORT_VALUE':
             return {...state, getData: {...state.getData, sortCards: action.sortValue}};
+
         case 'CARDS_REDUCER/SET_CARDS_FOR_LEARN':
             return {
                 ...state,
                 data: {...state.data, cardsTotalCount: action.countCards},
                 cardsForLearn: action.data, namePack: action.namePack
             };
+        case 'CARDS_REDUCER/SET_CARDS_QUESTION':
+            return {...state, getData: {...state.getData, cardQuestion: action.value}};
         default:
             return state;
     }
@@ -108,11 +112,12 @@ export const setIdCardsAC = (idCards: string, name: string) => ({
 } as const);
 export const setCardsCurrentPage = (page: number) => ({type: 'CARDS_REDUCER/SET_CURRENT_PAGE', page} as const);
 export const setCardsSortValue = (sortValue: string) => ({type: 'CARDS_REDUCER/SET_SORT_VALUE', sortValue} as const);
+export const setCardsQuestion = (value: string) => ({type: 'CARDS_REDUCER/SET_CARDS_QUESTION', value} as const);
 
 
 //thunks
 
-export const getCardsTC = () =>
+export const getCardsTC = (): ThunkAction<void, AppRootStateType, unknown, CardReducerActionsType> =>
     async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
         const data: RequestForCardsType = getState().cards.getData
 
@@ -144,45 +149,41 @@ export const getCardsForLearn = (idPack: string, namePack: string) =>
         }
     }
 
-export const addNewCardTC = (dataForAdd: RequestToAddCardType) =>
-    async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
-        const data: RequestForCardsType = getState().cards.getData
+export const addNewCardTC = (dataForAdd: RequestToAddCardType): AppThunk =>
+    async (dispatch) => {
         try {
             dispatch(setLoaderStatus('loading'));
             await cardsAPI.addNewCard(dataForAdd);
-            const res = await cardsAPI.getCards(data);
-            dispatch(setCardsAC(res.data))
+            dispatch(getCardsTC())
         } catch (e) {
             handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
+
         }
     }
 
-export const deleteCardTC = (idCard: string) =>
-    async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
-        const data: RequestForCardsType = getState().cards.getData
+export const deleteCardTC = (idCard: string): AppThunk =>
+    async (dispatch) => {
         try {
             dispatch(setLoaderStatus('loading'));
             await cardsAPI.deleteCard(idCard);
-            const res = await cardsAPI.getCards(data);
-            dispatch(setCardsAC(res.data));
+            dispatch(getCardsTC())
         } catch (e) {
             handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'))
+
         }
     }
 
 
-export const updateCardTC = (dataForUpdate: RequestToUpdateCardType) =>
-    async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
-        const data: RequestForCardsType = getState().cards.getData
+export const updateCardTC = (dataForUpdate: RequestToUpdateCardType): AppThunk =>
+    async (dispatch) => {
         try {
-            setLoaderStatus('loading');
+            dispatch( setLoaderStatus('loading'));
             await cardsAPI.updateCard(dataForUpdate);
-            const res = await cardsAPI.getCards(data);
-            dispatch(setCardsAC(res.data));
+            dispatch(getCardsTC())
         } catch (e) {
             handleError(e, dispatch)
         } finally {
@@ -199,4 +200,6 @@ export type CardReducerActionsType =
     | ReturnType<typeof setCardsCurrentPage>
     | ReturnType<typeof setCardsSortValue>
     | ReturnType<typeof setCardsForLearn>
+    | ReturnType<typeof setCardsQuestion>
+
 type InitialStateType = typeof initialState;

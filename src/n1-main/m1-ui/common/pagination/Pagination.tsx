@@ -7,25 +7,24 @@ type PaginationType = {
     totalCountPage: number
     pageCount: number
     currentPage: number
-    setValue?: (value: number) => void
+
 }
 
-export const Pagination = ({setPage, totalCountPage, pageCount, currentPage, setValue}: PaginationType) => {
+export const Pagination = ({setPage, totalCountPage, pageCount, currentPage}: PaginationType) => {
 
 
     const totalPagesCount = Math.ceil(totalCountPage / pageCount)
-
     const pages: number[] = []
     createPages(pages, totalPagesCount, currentPage)
-    const onClick = (v: number) => {
-        setValue && setValue(v)
+    const onClickHandler = (v: number) => {
         setPage(v)
     }
     return (
         <div>
             <div className={s.container}>
                 {pages.map((m, i) =>
-                    <span className={currentPage === m ? s.page_active : s.page} onClick={() => onClick(m)}>{m}</span>)}
+                    <span key={i} className={currentPage === m ? s.page_active : s.page}
+                          onClick={() => onClickHandler(m)}>{m}</span>)}
             </div>
         </div>
     )

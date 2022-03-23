@@ -3,8 +3,11 @@ import {useState} from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ModalMi from '../../modal/ModalMI';
+
 import {useDispatch} from 'react-redux';
 import {getCardsForLearn} from '../../../m2-bll/reducers/cardReducer';
+import {useState} from 'react';
+
 
 type PropsType = {
     userId: boolean;
@@ -24,6 +27,7 @@ export default function BasicButtonGroup(
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = React.useState('');
     const [typeModel, setTypeModel] = useState('');
+
     const dispatch = useDispatch();
 
 
@@ -49,6 +53,7 @@ export default function BasicButtonGroup(
         setTitle('Update card');
         setTypeModel('input');
     }
+
     return (
         <>
             <ButtonGroup variant="contained" aria-label="outlined primary button group" size={'small'}>

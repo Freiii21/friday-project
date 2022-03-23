@@ -17,12 +17,12 @@ export const ButtonsAndSlider = () => {
     const dispatch = useDispatch()
 
     const userId = useTypedSelector(state => state.auth.user._id);
-    const cardPacksMinCardsCount = useTypedSelector(state => state.packs.data.minCardsCount);
-    const cardPacksMaxCardsCount = useTypedSelector(state => state.packs.data.maxCardsCount);
-    const cardSetMin = useTypedSelector(state => state.packs.getPackData.min);
-    const cardSetMax = useTypedSelector(state => state.packs.getPackData.max);
+    const packsMinCardsCount = useTypedSelector(state => state.packs.data.minCardsCount);
+    const packsMaxCardsCount = useTypedSelector(state => state.packs.data.maxCardsCount);
+    const pacsSetMin = useTypedSelector(state => state.packs.getPackData.min);
+    const pacsSetMax = useTypedSelector(state => state.packs.getPackData.max);
 
-    const value = [cardSetMin, cardSetMax]
+    const value = [pacsSetMin, pacsSetMax]
 
     const handleChange = useCallback((event: Event, newValue: number | number[]) => {
         dispatch(setMaxMinValue(newValue as number[]))
@@ -60,8 +60,8 @@ export const ButtonsAndSlider = () => {
                 <Slider
                     getAriaLabel={() => 'Temperature range'}
                     value={value}
-                    min={cardPacksMinCardsCount}
-                    max={cardPacksMaxCardsCount}
+                    min={packsMinCardsCount}
+                    max={packsMaxCardsCount}
                     step={1}
                     onChange={handleChange}
                     valueLabelDisplay="auto"

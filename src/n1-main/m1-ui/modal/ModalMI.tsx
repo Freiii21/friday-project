@@ -10,6 +10,10 @@ import {deletePackT} from '../../m2-bll/reducers/packsReducer';
 import {useTypedSelector} from '../../m2-bll/redux';
 import {NavLink} from 'react-router-dom';
 import {colorBlueMI} from '../utilities/for css';
+import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
+import {ChangeEvent, useState} from "react";
+import {addNewCardTC, deleteCardTC, updateCardTC} from "../../m2-bll/reducers/cardReducer";
+
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -31,7 +35,10 @@ type PropsType = {
     id?: string;
     titleOfPage?: string;
     nameOfCell?: string;
+
+
 }
+
 export default function ModalMi(
     {title, open, setOpen, titleOfPage, type, id, nameOfCell,}
         : PropsType) {
@@ -43,6 +50,73 @@ export default function ModalMi(
     const deletePack = () => {
         id && dispatch(deletePackT(id));
     }
+export default function ModalMi({
+                                    title,
+                                    open,
+                                    setOpen,
+                                    titleOfPage,
+                                    type,
+                                    id,
+                                    nameOfCell,
+                                }: PropsType) {
+    const dispatch = useDispatch();
+
+    const [question, setQuestion] = useState<string>('')
+    const [answer, setAnswer] = useState<string>('')
+    const [nameNewPack, setNameNewPack] = useState<string>('')
+    const cardsPack_id = useTypedSelector(state => state.cards.data.cards[0].cardsPack_id)
+
+    const _id = id
+    const comments = answer
+
+    const deletePackHandler = () => {
+        if (titleOfPage === "Pack") {
+            id && dispatch(deletePackT(id))
+        }
+        if (titleOfPage === "Card") {
+            id && dispatch(deleteCardTC(id))
+        }
+        setQuestion("")
+        setAnswer("")
+        setOpen(false)
+    }
+    const addOnClickHandler = () => {
+        if (title === 'Add card') {
+            dispatch(addNewCardTC({"card": {cardsPack_id, question, answer}}))
+        }
+        if (title === 'Add Pack') {
+            dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
+        }
+        if (title === 'Edit name') {
+            dispatch(changeNamePackTC({
+                cardsPack: {
+                    _id: _id || '',
+                    name: nameNewPack
+                }
+            }))
+        }
+        if (title === 'Update card') {
+            _id && dispatch(updateCardTC({"card": {_id, question, comments}}))
+            console.log(_id)
+        }
+        setQuestion("")
+        setAnswer("")
+        setOpen(false)
+    }
+    const onClickCancelHandler = () => {
+        setQuestion("")
+        setAnswer("")
+        setOpen(false)
+    }
+
+    const onChangeHandlerAnswer = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setAnswer(e.currentTarget.value)
+    }
+    const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setQuestion(e.currentTarget.value)
+    }
+
+
     return (
         <div>
             <Modal
@@ -71,7 +145,8 @@ export default function ModalMi(
                     <Input size={'small'}
                            placeholder={'Name'}
                            type={'text'}
-                           onChange={() => {
+                           onChange={(e) => {
+                               setNameNewPack(e.currentTarget.value)
                            }}
                            style={{marginTop: '10px', minHeight: '10px'}}
                     />}
@@ -79,22 +154,25 @@ export default function ModalMi(
                     <>
                         <TextField fullWidth={true} variant={'standard'}
                                    sx={{marginBottom: '5px'}} maxRows={2} multiline
-                                   placeholder={'question'}
+                                   placeholder={'question'} onChange={onChangeHandlerQuestion}
+                                   value={question}
                         />
                         <TextField fullWidth={true} variant={'standard'}
                                    sx={{marginBottom: '20px'}} maxRows={4} multiline
-                                   placeholder={'answer'}
+                                   placeholder={'answer'} onChange={onChangeHandlerAnswer}
+                                   value={answer}
                         />
                     </>}
                     <Grid container sx={{marginTop: 4}}>
                         <Grid item xs={6} sx={{textAlign: 'center'}}>
-                            <Button size={'small'} variant={'contained'} onClick={() => setOpen(false)}>Cancel</Button>
+                            <Button size={'small'} variant={'contained'} onClick={onClickCancelHandler}>Cancel</Button>
                         </Grid>
                         <Grid item xs={6} sx={{textAlign: 'center'}}>
                             {type === 'delete' &&
                             <Button size={'small'} variant={'contained'} color={'secondary'}
-                                    onClick={deletePack}>{type}</Button>}
+                                    onClick={deletePackHandler}>{type}</Button>}
                             {type === 'input' &&
+
                             <Button size={'small'} variant={'contained'} color={'primary'}>{'save'}</Button>}
                             {type === 'learn' &&
 
@@ -108,6 +186,7 @@ export default function ModalMi(
                             </Button>
 
                             }
+
                         </Grid>
                     </Grid>
                 </Box>
