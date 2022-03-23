@@ -12,6 +12,7 @@ import {BarApp} from '../common/Preloader/BarApp';
 
 
 const App = () => {
+
     const dispatch = useDispatch();
     const isRegistered = useTypedSelector(state => state.auth.isRegistered);
     const [toggleDrawer, setToggleDrawer] = useState(false)

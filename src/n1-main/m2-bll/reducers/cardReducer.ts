@@ -4,6 +4,7 @@ import {handleError} from '../../m1-ui/utilities/handleError';
 import {
     cardsAPI,
     CardsDataType,
+    CardsType,
     RequestForCardsType,
     RequestToAddCardType,
     RequestToUpdateCardType
@@ -11,7 +12,22 @@ import {
 import {AppRootStateType, AppThunk} from '../store';
 import {ThunkAction} from 'redux-thunk';
 
-
+const initialCard = {
+    answer: 'no answer',
+    cardsPack_id: 'none',
+    comments: 'none',
+    created: 'none',
+    grade: 0,
+    more_id: 'none',
+    question: 'no questions',
+    rating: 0,
+    shots: 0,
+    type: 'none',
+    updated: 'none',
+    user_id: 'none',
+    __v: 0,
+    _id: 'none',
+}
 const initialState = {
     data: {
         cards: [
@@ -51,7 +67,11 @@ const initialState = {
         sortCards: '',
         page: 0,
         pageCount: 10,
-    }
+    },
+    cardsForLearn: [
+        initialCard,
+    ],
+    namePack: 'none',
 }
 export const cardsReducer = (state = initialState, action: CardReducerActionsType): InitialStateType => {
 
@@ -64,6 +84,13 @@ export const cardsReducer = (state = initialState, action: CardReducerActionsTyp
             return {...state, getData: {...state.getData, page: action.page}};
         case 'CARDS_REDUCER/SET_SORT_VALUE':
             return {...state, getData: {...state.getData, sortCards: action.sortValue}};
+
+        case 'CARDS_REDUCER/SET_CARDS_FOR_LEARN':
+            return {
+                ...state,
+                data: {...state.data, cardsTotalCount: action.countCards},
+                cardsForLearn: action.data, namePack: action.namePack
+            };
         case 'CARDS_REDUCER/SET_CARDS_QUESTION':
             return {...state, getData: {...state.getData, cardQuestion: action.value}};
         default:
@@ -71,6 +98,8 @@ export const cardsReducer = (state = initialState, action: CardReducerActionsTyp
     }
 }
 
+export const setCardsForLearn = (data: CardsType[], countCards: number, namePack: string) =>
+    ({type: 'CARDS_REDUCER/SET_CARDS_FOR_LEARN', data, countCards, namePack} as const);
 export const setCardsAC = (data: CardsDataType, packName?: string) => ({
     type: 'CARDS_REDUCER/SET_CARDS',
     data,
@@ -103,7 +132,22 @@ export const getCardsTC = (): ThunkAction<void, AppRootStateType, unknown, CardR
         }
 
     }
+export const getCardsForLearn = (idPack: string, namePack: string) =>
+    async (dispatch: Dispatch<CardReducerActionsType>) => {
+        try {
+            dispatch(setLoaderStatus('loading'));
+            const res = await cardsAPI.getCards({cardsPack_id: idPack});
+            if (res.data.cardsTotalCount) {
+                dispatch(setCardsForLearn(res.data.cards, res.data.cardsTotalCount, namePack));
+            } else
+                dispatch(setCardsForLearn([initialCard], 0, namePack));
 
+        } catch (e) {
+            handleError(e, dispatch);
+        } finally {
+            dispatch(setLoaderStatus('idle'));
+        }
+    }
 
 export const addNewCardTC = (dataForAdd: RequestToAddCardType): AppThunk =>
     async (dispatch) => {
@@ -155,5 +199,7 @@ export type CardReducerActionsType =
     | ReturnType<typeof setIdCardsAC>
     | ReturnType<typeof setCardsCurrentPage>
     | ReturnType<typeof setCardsSortValue>
+    | ReturnType<typeof setCardsForLearn>
     | ReturnType<typeof setCardsQuestion>
+
 type InitialStateType = typeof initialState;

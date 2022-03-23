@@ -12,18 +12,18 @@ import {useTypedSelector} from '../../../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
 import BasicButtonGroup from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/BasicButtonGroup';
 import {ButtonForTableCell} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTableCell';
-import {Pagination} from "../../../../../n1-main/m1-ui/common/pagination/Pagination";
+import {Pagination} from '../../../../../n1-main/m1-ui/common/pagination/Pagination';
 import {
     getPacksTC,
     setCurrentPage,
     setPageCount,
     setSortPacks
-} from "../../../../../n1-main/m2-bll/reducers/packsReducer";
-import {useDispatch} from "react-redux";
-import FormControl from "@mui/material/FormControl";
-import {InputLabel, NativeSelect,} from "@material-ui/core";
-import {useDebounce} from "use-debounce";
-import {ButtonForTablePacks} from "../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks";
+} from '../../../../../n1-main/m2-bll/reducers/packsReducer';
+import {useDispatch} from 'react-redux';
+import FormControl from '@mui/material/FormControl';
+import {InputLabel, NativeSelect,} from '@material-ui/core';
+import {useDebounce} from 'use-debounce';
+import {ButtonForTablePacks} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks';
 
 
 interface Column {
@@ -64,6 +64,7 @@ const columns: Column[] = [
 const useStyles = makeStyles({
     root: {
         width: '100%',
+        overflow: 'scroll',
     },
     container: {
         maxHeight: 480,
@@ -164,8 +165,8 @@ export function TableM() {
                                                         titleOfPage={'Pack'}
                                                         nameOfCell={row.name} id={row._id}
 
-                                                        color={false}
-                                                    />
+                                                        color={false} nameOfPack={row.name}
+                             />
                                                     : column.id === 'name'
                                                         ? < ButtonForTableCell text={value} idPack={row._id}/>
                                                         : column.format && typeof value === 'string' ? column.format(value) : value

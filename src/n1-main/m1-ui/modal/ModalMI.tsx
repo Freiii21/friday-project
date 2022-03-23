@@ -6,10 +6,14 @@ import Grid from '@mui/material/Grid';
 import Button from '@material-ui/core/Button';
 import {Input, TextField} from '@mui/material';
 import {useDispatch} from 'react-redux';
+import {deletePackT} from '../../m2-bll/reducers/packsReducer';
+import {useTypedSelector} from '../../m2-bll/redux';
+import {NavLink} from 'react-router-dom';
+import {colorBlueMI} from '../utilities/for css';
 import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
 import {ChangeEvent, useState} from "react";
 import {addNewCardTC, deleteCardTC, updateCardTC} from "../../m2-bll/reducers/cardReducer";
-import {useTypedSelector} from "../../m2-bll/redux";
+
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -34,6 +38,18 @@ type PropsType = {
 
 
 }
+
+export default function ModalMi(
+    {title, open, setOpen, titleOfPage, type, id, nameOfCell,}
+        : PropsType) {
+    const dispatch = useDispatch();
+    const question = useTypedSelector(state => state.cards.cardsForLearn[0].question);
+    const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
+    const status = useTypedSelector(state => state.app.status);
+    // const handleClose = () => setOpen(false);
+    const deletePack = () => {
+        id && dispatch(deletePackT(id));
+    }
 export default function ModalMi({
                                     title,
                                     open,
@@ -110,7 +126,9 @@ export default function ModalMi({
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom: '20px'}}>
-                        {title}
+                        {title === 'Learn'
+                            ? <><span>{title}:</span> <span style={{color: colorBlueMI}}>{nameOfCell}</span></>
+                            : title}
                     </Typography>
                     {type === 'delete' &&
                     <Typography id="modal-modal-description" sx={{mt: 2}}>
@@ -118,8 +136,12 @@ export default function ModalMi({
                             be excluded from this course.</>}
                         {titleOfPage === 'Card' && <>Do you really want to remove {nameOfCell}?</>}
                     </Typography>}
-
-                    {type === 'input' && titleOfPage === 'Pack' &&
+                    {type === 'learn' &&
+                    <Typography id="modal-modal-description" sx={{mt: 2}}>
+                        Question: {question}
+                    </Typography>
+                    }
+                    {type === 'input' && title === 'Edit name' &&
                     <Input size={'small'}
                            placeholder={'Name'}
                            type={'text'}
@@ -150,12 +172,21 @@ export default function ModalMi({
                             <Button size={'small'} variant={'contained'} color={'secondary'}
                                     onClick={deletePackHandler}>{type}</Button>}
                             {type === 'input' &&
-                            <Button
-                                size={'small'}
-                                variant={'contained'}
-                                color={'primary'}
-                                onClick={addOnClickHandler}
-                            >{'save'}</Button>}
+
+                            <Button size={'small'} variant={'contained'} color={'primary'}>{'save'}</Button>}
+                            {type === 'learn' &&
+
+                            <Button size={'small'} variant={'contained'}
+                                    color={'primary'} disabled={!!!cardsTotalCount || status === 'loading'}>
+                                <NavLink to={'/card'}
+                                         style={{
+                                             textDecoration: 'none',
+                                             color: cardsTotalCount ? 'white' : 'black'
+                                         }}> Show answer </NavLink>
+                            </Button>
+
+                            }
+
                         </Grid>
                     </Grid>
                 </Box>

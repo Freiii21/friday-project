@@ -9,7 +9,8 @@ const instance = axios.create({
 
 export const cardsAPI = {
     getCards(data: RequestForCardsType) {
-        return instance.get<RequestForCardsType,AxiosResponse<CardsDataType>>(`/cards/card/`, {
+        return instance.get<RequestForCardsType,AxiosResponse<CardsDataType>>
+        (`/cards/card/`, {
                 params: data,
             }
         )
@@ -24,7 +25,8 @@ export const cardsAPI = {
         return instance.put<RequestToUpdateCardType>(`/cards/card`, data);
     },
     updateGrade(data: RequestToUpdateGradeType) {
-        return instance.put<RequestToUpdateGradeType,AxiosResponse<RequestToUpdateGradeType>>('cards/grade', data);
+        return instance.put<RequestToUpdateGradeType,AxiosResponse<RequestToUpdateGradeType>>
+        ('cards/grade', data);
     }
 };
 //types

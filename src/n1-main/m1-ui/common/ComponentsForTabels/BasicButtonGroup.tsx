@@ -1,7 +1,11 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ModalMi from '../../modal/ModalMI';
+
+import {useDispatch} from 'react-redux';
+import {getCardsForLearn} from '../../../m2-bll/reducers/cardReducer';
 import {useState} from 'react';
 
 
@@ -11,20 +15,21 @@ type PropsType = {
     name_2: string;
     name_3: string;
     color?: boolean;
-    callBack1?: () => void;
-    callBack2?: () => void;
-    callBack3?: () => void;
     titleOfPage: string;
     nameOfCell: string;
     id: string;
+    nameOfPack?: string;
 
 }
 const fontSize = {fontSize: '0.6rem'}
 export default function BasicButtonGroup(
-    {userId, name_1, name_2, name_3, color, titleOfPage, nameOfCell, id}: PropsType) {
+    {userId, name_1, name_2, name_3, color, titleOfPage, nameOfCell, id, nameOfPack}: PropsType) {
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = React.useState('');
     const [typeModel, setTypeModel] = useState('');
+
+    const dispatch = useDispatch();
+
 
     let onClick1 = () => {
         setOpen(true);
@@ -32,6 +37,11 @@ export default function BasicButtonGroup(
         setTypeModel('delete');
     };
     const onClick3 = () => {
+        setOpen(true);
+        setTitle(`Learn`);
+        setTypeModel('learn');
+        dispatch(getCardsForLearn(id, nameOfCell));
+
     };
     const onClick2 = () => {
         setOpen(true);
