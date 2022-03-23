@@ -2,11 +2,11 @@ import * as React from 'react';
 import {useState} from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import ModalMi from '../../modal/ModalMI';
-
 import {useDispatch} from 'react-redux';
 import {getCardsForLearn} from '../../../m2-bll/reducers/cardReducer';
-import {useState} from 'react';
+import ModalMi from '../../modal/ModalMI';
+
+
 
 
 type PropsType = {
