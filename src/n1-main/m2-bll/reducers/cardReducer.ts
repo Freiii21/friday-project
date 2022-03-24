@@ -4,7 +4,7 @@ import {handleError} from '../../m1-ui/utilities/handleError';
 import {
     cardsAPI,
     CardsDataType,
-    CardsType,
+    CardType,
     RequestForCardsType,
     RequestToAddCardType,
     RequestToUpdateCardType
@@ -71,6 +71,7 @@ const initialState = {
     cardsForLearn: [
         initialCard,
     ],
+    currentCard: initialCard,
 }
 export const cardsReducer = (state = initialState, action: CardReducerActionsType): InitialStateType => {
 
@@ -85,6 +86,7 @@ export const cardsReducer = (state = initialState, action: CardReducerActionsTyp
             return {...state, getData: {...state.getData, sortCards: action.sortValue}};
 
         case 'CARDS_REDUCER/SET_CARDS_FOR_LEARN':
+            debugger
             return {
                 ...state,
                 data: {...state.data, cardsTotalCount: action.countCards},
@@ -92,12 +94,15 @@ export const cardsReducer = (state = initialState, action: CardReducerActionsTyp
             };
         case 'CARDS_REDUCER/SET_CARDS_QUESTION':
             return {...state, getData: {...state.getData, cardQuestion: action.value}};
+        case 'CARDS_REDUCER/SET_CURRENT_CARD':
+            return {...state, currentCard: action.card};
         default:
             return state;
     }
 }
-
-export const setCardsForLearn = (data: CardsType[], countCards: number, namePack: string) =>
+export const setCurrentCard = (card: CardType) =>
+    ({type: 'CARDS_REDUCER/SET_CURRENT_CARD', card} as const);
+export const setCardsForLearn = (data: CardType[], countCards: number, namePack: string) =>
     ({type: 'CARDS_REDUCER/SET_CARDS_FOR_LEARN', data, countCards, namePack} as const);
 export const setCardsAC = (data: CardsDataType, packName: string) => ({
     type: 'CARDS_REDUCER/SET_CARDS',
@@ -139,6 +144,7 @@ export const getCardsForLearn = (idPack: string, namePack: string) =>
             const res = await cardsAPI.getCards({cardsPack_id: idPack});
             if (res.data.cardsTotalCount) {
                 dispatch(setCardsForLearn(res.data.cards, res.data.cardsTotalCount, namePack));
+                console.log(res.data)
             } else
                 dispatch(setCardsForLearn([initialCard], 0, namePack));
 
@@ -201,5 +207,5 @@ export type CardReducerActionsType =
     | ReturnType<typeof setCardsSortValue>
     | ReturnType<typeof setCardsForLearn>
     | ReturnType<typeof setCardsQuestion>
-
+    | ReturnType<typeof setCurrentCard>
 type InitialStateType = typeof initialState;
