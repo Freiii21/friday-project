@@ -10,7 +10,7 @@ type PaginationType = {
 
 }
 
-export const Pagination = ({setPage, totalCountPage, pageCount, currentPage}: PaginationType) => {
+export const Paginationn = ({setPage, totalCountPage, pageCount, currentPage}: PaginationType) => {
 
 
     const totalPagesCount = Math.ceil(totalCountPage / pageCount)

@@ -10,7 +10,7 @@ import {
     RequestToUpdateCardType
 } from '../api/cards-a-p-i';
 import {AppRootStateType, AppThunk} from '../store';
-import {ThunkAction} from 'redux-thunk';
+
 
 const initialCard = {
     answer: 'no answer',
@@ -76,11 +76,9 @@ export const cardsReducer = (state = initialState, action: CardReducerActionsTyp
 
     switch (action.type) {
         case 'CARDS_REDUCER/SET_CARDS':
-            debugger
             return {...state, data: action.data, packName: action.packName};
         case 'CARDS_REDUCER/SET_ID_PACKS':
-            debugger
-            return {...state,packName:action.name, getData: {...state.getData, cardsPack_id: action.idCards,}};
+            return {...state, packName: action.name, getData: {...state.getData, cardsPack_id: action.idCards,}};
         case 'CARDS_REDUCER/SET_CURRENT_PAGE':
             return {...state, getData: {...state.getData, page: action.page}};
         case 'CARDS_REDUCER/SET_SORT_VALUE':
@@ -118,16 +116,14 @@ export const setCardsQuestion = (value: string) => ({type: 'CARDS_REDUCER/SET_CA
 
 //thunks
 
-export const getCardsTC = (): ThunkAction<void, AppRootStateType, unknown, CardReducerActionsType> =>
-    async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
+export const getCardsTC = (): AppThunk =>
+    async (dispatch, getState: () => AppRootStateType) => {
         const data: RequestForCardsType = getState().cards.getData;
-        const namePack=getState().cards.packName;
-debugger
+        const namePack = getState().cards.packName;
         try {
             dispatch(setLoaderStatus('loading'));
             const res = await cardsAPI.getCards(data);
-            dispatch(setCardsAC(res.data,namePack));
-            console.log(res.data)
+            dispatch(setCardsAC(res.data, namePack));
         } catch (e) {
             handleError(e, dispatch);
         } finally {
@@ -144,7 +140,6 @@ export const getCardsForLearn = (idPack: string, namePack: string) =>
                 dispatch(setCardsForLearn(res.data.cards, res.data.cardsTotalCount, namePack));
             } else
                 dispatch(setCardsForLearn([initialCard], 0, namePack));
-
         } catch (e) {
             handleError(e, dispatch);
         } finally {
@@ -184,7 +179,7 @@ export const deleteCardTC = (idCard: string): AppThunk =>
 export const updateCardTC = (dataForUpdate: RequestToUpdateCardType): AppThunk =>
     async (dispatch) => {
         try {
-            dispatch( setLoaderStatus('loading'));
+            dispatch(setLoaderStatus('loading'));
             await cardsAPI.updateCard(dataForUpdate);
             dispatch(getCardsTC())
         } catch (e) {
