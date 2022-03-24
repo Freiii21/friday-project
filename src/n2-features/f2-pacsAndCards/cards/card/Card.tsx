@@ -20,11 +20,12 @@ export const Card = () => {
     const [value, setValue] = useState('');
     const namePack = useTypedSelector(state => state.cards.packName);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
+    const cards=useTypedSelector(state => state.cards.cardsForLearn)
     const handleSubmit = () => {
         alert(value)
     }
-
-        if(!isAuth) return <Navigate to={PATH.LOGIN}/>
+    console.log(cards)
+    if (!isAuth) return <Navigate to={PATH.LOGIN}/>
 
     return (
         <div style={wrapper}>

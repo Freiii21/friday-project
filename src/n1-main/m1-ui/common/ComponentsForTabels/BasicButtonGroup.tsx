@@ -5,8 +5,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import {useDispatch} from 'react-redux';
 import {getCardsForLearn} from '../../../m2-bll/reducers/cardReducer';
 import ModalMi from '../../modal/ModalMI';
-
-
+import {useTypedSelector} from '../../../m2-bll/redux';
 
 
 type PropsType = {
@@ -27,9 +26,9 @@ export default function BasicButtonGroup(
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = React.useState('');
     const [typeModel, setTypeModel] = useState('');
-
+    const cards = useTypedSelector(state => state.cards.cardsForLearn);
     const dispatch = useDispatch();
-
+    console.log('cards in BasButGro',cards)
 
     let onClick1 = () => {
         setOpen(true);

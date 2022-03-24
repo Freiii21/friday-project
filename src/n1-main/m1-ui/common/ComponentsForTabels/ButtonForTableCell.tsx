@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import React from 'react';
-import {getCardsTC, setIdCardsAC} from '../../../m2-bll/reducers/cardReducer';
+import {setIdCardsAC} from '../../../m2-bll/reducers/cardReducer';
 import {useDispatch} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 
@@ -12,8 +12,7 @@ type PropsType = {
 export const ButtonForTableCell = ({text, idPack}: PropsType) => {
     const dispatch = useDispatch();
     const showCards = () => {
-        debugger
-        dispatch(setIdCardsAC(idPack,text));
+        dispatch(setIdCardsAC(idPack, text));
     }
     return (
         <>

@@ -21,11 +21,11 @@ import {
     setCardsCurrentPage,
     setCardsQuestion,
     setCardsSortValue
-} from "../../../../n1-main/m2-bll/reducers/cardReducer";
-import {useDispatch} from "react-redux";
-import {Pagination} from "../../../../n1-main/m1-ui/common/pagination/Pagination";
+} from '../../../../n1-main/m2-bll/reducers/cardReducer';
+import {useDispatch} from 'react-redux';
+import {Pagination} from '../../../../n1-main/m1-ui/common/pagination/Pagination';
 import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
-import {useDebounce} from "use-debounce";
+import {useDebounce} from 'use-debounce';
 
 
 interface Column {
@@ -91,14 +91,12 @@ export const TableCards = () => {
     const cardsQuestion = useTypedSelector(state => state.cards.getData.cardQuestion);
     // value modal
 
-    console.log(rows)
-    console.log('cardsId',cardsId)
-
     const cardsQuestionDebounce = useDebounce(cardsQuestion, 1000)
     // set cards function
     useEffect(() => {
+        if (!isAuth) return;
         dispatch(getCardsTC())
-    }, [cardsId, cardsCurrentPage, cardsSortValue,cardsQuestionDebounce[0]])
+    }, [cardsId, cardsCurrentPage, cardsSortValue, cardsQuestionDebounce[0]])
 
     const handlerSetSortCards = (sortValue: string) => {
         dispatch(setCardsSortValue(sortValue))
@@ -109,8 +107,6 @@ export const TableCards = () => {
     const setSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(setCardsQuestion(e.currentTarget.value))
     }
-
-
 
 
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
@@ -169,7 +165,7 @@ export const TableCards = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.slice(0,  cardsPageCount + cardsPageCount).map((row) => {
+                            {rows.slice(0, cardsPageCount + cardsPageCount).map((row) => {
                                 return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                                         {columns.map((column) => {
@@ -211,8 +207,8 @@ export const TableCards = () => {
                     : null}
 
             </Paper>
-            <ModalMi  title={'Add card'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Card'}
-                     />
+            <ModalMi title={'Add card'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Card'}
+            />
         </>
     );
 }
