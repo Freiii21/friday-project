@@ -61,82 +61,82 @@ export default function ModalMi({
     const deletePack = () => {
         id && dispatch(deletePackT(id));
     }
-        const _id = id
-        const comments = answer
+    const _id = id
+    const comments = answer
 
-        const deletePackHandler = () => {
-            if (titleOfPage === 'Pack') {
-                id && dispatch(deletePackT(id))
-            }
-            if (titleOfPage === 'Card') {
-                id && dispatch(deleteCardTC(id))
-            }
-            setQuestion('')
-            setAnswer('')
-            setOpen(false)
+    const deletePackHandler = () => {
+        if (titleOfPage === 'Pack') {
+            id && dispatch(deletePackT(id))
         }
-        const addOnClickHandler = () => {
-            if (title === 'Add card') {
-                dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
-            }
-            if (title === 'Add Pack') {
-                dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
-            }
-            if (title === 'Edit name') {
-                dispatch(changeNamePackTC({
-                    cardsPack: {
-                        _id: _id || '',
-                        name: nameNewPack
+        if (titleOfPage === 'Card') {
+            id && dispatch(deleteCardTC(id))
+        }
+        setQuestion('')
+        setAnswer('')
+        setOpen(false)
+    }
+    const addOnClickHandler = () => {
+        if (title === 'Add card') {
+            dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
+        }
+        if (title === 'Add Pack') {
+            dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
+        }
+        if (title === 'Edit name') {
+            dispatch(changeNamePackTC({
+                cardsPack: {
+                    _id: _id || '',
+                    name: nameNewPack
+                }
+            }))
+        }
+        if (title === 'Update card') {
+            _id && dispatch(updateCardTC({'card': {_id, question, comments}}))
+            console.log(_id)
+        }
+        setQuestion('')
+        setAnswer('')
+        setOpen(false)
+    }
+    const onClickCancelHandler = () => {
+        setQuestion('')
+        setAnswer('')
+        setOpen(false)
+    }
+
+    const onChangeHandlerAnswer = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setAnswer(e.currentTarget.value)
+    }
+    const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setQuestion(e.currentTarget.value)
+    }
+
+
+    return (
+        <div>
+            <Modal
+                open={open}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom: '20px'}}>
+                        {title === 'Learn'
+                            ? <><span>{title}:</span> <span style={{color: colorBlueMI}}>{nameOfCell}</span></>
+                            : title}
+                    </Typography>
+                    {type === 'delete' &&
+                    <Typography id="modal-modal-description" sx={{mt: 2}}>
+                        {titleOfPage === 'Pack' && <>Do you really want to remove {nameOfCell}? All cards will
+                            be excluded from this course.</>}
+                        {titleOfPage === 'Card' && <>Do you really want to remove {nameOfCell}?</>}
+                    </Typography>}
+                    {type === 'learn' &&
+                    <Typography id="modal-modal-description" sx={{mt: 2}}>
+                        Question: {question1}
+                    </Typography>
                     }
-                }))
-            }
-            if (title === 'Update card') {
-                _id && dispatch(updateCardTC({'card': {_id, question, comments}}))
-                console.log(_id)
-            }
-            setQuestion('')
-            setAnswer('')
-            setOpen(false)
-        }
-        const onClickCancelHandler = () => {
-            setQuestion('')
-            setAnswer('')
-            setOpen(false)
-        }
-
-        const onChangeHandlerAnswer = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-            setAnswer(e.currentTarget.value)
-        }
-        const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-            setQuestion(e.currentTarget.value)
-        }
-
-
-        return (
-            <div>
-                <Modal
-                    open={open}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom: '20px'}}>
-                            {title === 'Learn'
-                                ? <><span>{title}:</span> <span style={{color: colorBlueMI}}>{nameOfCell}</span></>
-                                : title}
-                        </Typography>
-                        {type === 'delete' &&
-                        <Typography id="modal-modal-description" sx={{mt: 2}}>
-                            {titleOfPage === 'Pack' && <>Do you really want to remove {nameOfCell}? All cards will
-                                be excluded from this course.</>}
-                            {titleOfPage === 'Card' && <>Do you really want to remove {nameOfCell}?</>}
-                        </Typography>}
-                        {type === 'learn' &&
-                        <Typography id="modal-modal-description" sx={{mt: 2}}>
-                            Question: {question1}
-                        </Typography>
-                        }
-                        {type === 'input' && title === 'Edit name' &&
+                    {((type === 'input' && title === 'Edit name') || (type == 'input' && title === 'Add Pack' ))&&
                         <Input size={'small'}
                                placeholder={'Name'}
                                type={'text'}
@@ -145,49 +145,49 @@ export default function ModalMi({
                                }}
                                style={{marginTop: '10px', minHeight: '10px'}}
                         />}
-                        {type == 'input' && titleOfPage === 'Card' &&
-                        <>
-                            <TextField fullWidth={true} variant={'standard'}
-                                       sx={{marginBottom: '5px'}} maxRows={2} multiline
-                                       placeholder={'question'} onChange={onChangeHandlerQuestion}
-                                       value={question}
-                            />
-                            <TextField fullWidth={true} variant={'standard'}
-                                       sx={{marginBottom: '20px'}} maxRows={4} multiline
-                                       placeholder={'answer'} onChange={onChangeHandlerAnswer}
-                                       value={answer}
-                            />
-                        </>}
-                        <Grid container sx={{marginTop: 4}}>
-                            <Grid item xs={6} sx={{textAlign: 'center'}}>
-                                <Button size={'small'} variant={'contained'}
-                                        onClick={onClickCancelHandler}>Cancel</Button>
-                            </Grid>
-                            <Grid item xs={6} sx={{textAlign: 'center'}}>
-                                {type === 'delete' &&
-                                <Button size={'small'} variant={'contained'} color={'secondary'}
-                                        onClick={deletePackHandler}>{type}</Button>}
-                                {type === 'input' &&
-
-                                <Button size={'small'} variant={'contained'} color={'primary'}>{'save'}</Button>}
-                                {type === 'learn' &&
-
-                                <Button size={'small'} variant={'contained'}
-                                        color={'primary'} disabled={!cardsTotalCount || status === 'loading'}>
-                                    <NavLink to={'/card'}
-                                             style={{
-                                                 textDecoration: 'none',
-                                                 color: cardsTotalCount ? 'white' : 'black'
-                                             }}> Show answer </NavLink>
-                                </Button>
-
-                                }
-
-                            </Grid>
+                    {type == 'input' && titleOfPage === 'Card' &&
+                    <>
+                        <TextField fullWidth={true} variant={'standard'}
+                                   sx={{marginBottom: '5px'}} maxRows={2} multiline
+                                   placeholder={'question'} onChange={onChangeHandlerQuestion}
+                                   value={question}
+                        />
+                        <TextField fullWidth={true} variant={'standard'}
+                                   sx={{marginBottom: '20px'}} maxRows={4} multiline
+                                   placeholder={'answer'} onChange={onChangeHandlerAnswer}
+                                   value={answer}
+                        />
+                    </>}
+                    <Grid container sx={{marginTop: 4}}>
+                        <Grid item xs={6} sx={{textAlign: 'center'}}>
+                            <Button size={'small'} variant={'contained'}
+                                    onClick={onClickCancelHandler}>Cancel</Button>
                         </Grid>
-                    </Box>
-                </Modal>
-            </div>
-        );
-    }
+                        <Grid item xs={6} sx={{textAlign: 'center'}}>
+                            {type === 'delete' &&
+                            <Button size={'small'} variant={'contained'} color={'secondary'}
+                                    onClick={deletePackHandler}>{type}</Button>}
+                            {type === 'input' &&
+
+                            <Button size={'small'} variant={'contained'} color={'primary'} onClick={addOnClickHandler}>{'save'}</Button>}
+                            {type === 'learn' &&
+
+                            <Button size={'small'} variant={'contained'}
+                                    color={'primary'} disabled={!cardsTotalCount || status === 'loading'}>
+                                <NavLink to={'/card'}
+                                         style={{
+                                             textDecoration: 'none',
+                                             color: cardsTotalCount ? 'white' : 'black'
+                                         }}> Show answer </NavLink>
+                            </Button>
+
+                            }
+
+                        </Grid>
+                    </Grid>
+                </Box>
+            </Modal>
+        </div>
+    );
+}
 
