@@ -57,7 +57,7 @@ export default function ModalMi({
     const [question, setQuestion] = useState<string>('')
     const [answer, setAnswer] = useState<string>('')
     const [nameNewPack, setNameNewPack] = useState<string>('')
-    const cardsPack_id = useTypedSelector(state => state.cards.data.cards[0].cardsPack_id)
+   // const cardsPack_id = useTypedSelector(state => state.cards.data.cards[0].cardsPack_id)
     const deletePack = () => {
         id && dispatch(deletePackT(id));
     }
@@ -77,7 +77,7 @@ export default function ModalMi({
     }
     const addOnClickHandler = () => {
         if (title === 'Add card') {
-            dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
+           // dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
         }
         if (title === 'Add Pack') {
             dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))

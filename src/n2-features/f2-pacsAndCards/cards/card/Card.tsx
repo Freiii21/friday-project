@@ -18,7 +18,7 @@ import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
 export const Card = () => {
     const dispatch = useDispatch();
     const [value, setValue] = useState('');
-    const namePack = useTypedSelector(state => state.cards.namePack);
+    const namePack = useTypedSelector(state => state.cards.packName);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
     const handleSubmit = () => {
         alert(value)

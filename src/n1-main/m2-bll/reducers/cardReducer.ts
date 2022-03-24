@@ -71,15 +71,16 @@ const initialState = {
     cardsForLearn: [
         initialCard,
     ],
-    namePack: 'none',
 }
 export const cardsReducer = (state = initialState, action: CardReducerActionsType): InitialStateType => {
 
     switch (action.type) {
         case 'CARDS_REDUCER/SET_CARDS':
-            return {...state, data: action.data, packName: action.packName ?? ''};
-        case 'CARDS_REDUCER/SET_ID_PACS':
-            return {...state, getData: {...state.getData, cardsPack_id: action.idCards}};
+            debugger
+            return {...state, data: action.data, packName: action.packName};
+        case 'CARDS_REDUCER/SET_ID_PACKS':
+            debugger
+            return {...state,packName:action.name, getData: {...state.getData, cardsPack_id: action.idCards,}};
         case 'CARDS_REDUCER/SET_CURRENT_PAGE':
             return {...state, getData: {...state.getData, page: action.page}};
         case 'CARDS_REDUCER/SET_SORT_VALUE':
@@ -89,7 +90,7 @@ export const cardsReducer = (state = initialState, action: CardReducerActionsTyp
             return {
                 ...state,
                 data: {...state.data, cardsTotalCount: action.countCards},
-                cardsForLearn: action.data, namePack: action.namePack
+                cardsForLearn: action.data, packName: action.namePack
             };
         case 'CARDS_REDUCER/SET_CARDS_QUESTION':
             return {...state, getData: {...state.getData, cardQuestion: action.value}};
@@ -100,13 +101,13 @@ export const cardsReducer = (state = initialState, action: CardReducerActionsTyp
 
 export const setCardsForLearn = (data: CardsType[], countCards: number, namePack: string) =>
     ({type: 'CARDS_REDUCER/SET_CARDS_FOR_LEARN', data, countCards, namePack} as const);
-export const setCardsAC = (data: CardsDataType, packName?: string) => ({
+export const setCardsAC = (data: CardsDataType, packName: string) => ({
     type: 'CARDS_REDUCER/SET_CARDS',
     data,
     packName
 } as const);
 export const setIdCardsAC = (idCards: string, name: string) => ({
-    type: 'CARDS_REDUCER/SET_ID_PACS',
+    type: 'CARDS_REDUCER/SET_ID_PACKS',
     idCards,
     name
 } as const);
@@ -119,12 +120,14 @@ export const setCardsQuestion = (value: string) => ({type: 'CARDS_REDUCER/SET_CA
 
 export const getCardsTC = (): ThunkAction<void, AppRootStateType, unknown, CardReducerActionsType> =>
     async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
-        const data: RequestForCardsType = getState().cards.getData
-
+        const data: RequestForCardsType = getState().cards.getData;
+        const namePack=getState().cards.packName;
+debugger
         try {
             dispatch(setLoaderStatus('loading'));
             const res = await cardsAPI.getCards(data);
-            dispatch(setCardsAC(res.data));
+            dispatch(setCardsAC(res.data,namePack));
+            console.log(res.data)
         } catch (e) {
             handleError(e, dispatch);
         } finally {

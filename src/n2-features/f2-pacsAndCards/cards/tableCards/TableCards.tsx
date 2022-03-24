@@ -91,7 +91,8 @@ export const TableCards = () => {
     const cardsQuestion = useTypedSelector(state => state.cards.getData.cardQuestion);
     // value modal
 
-
+    console.log(rows)
+    console.log('cardsId',cardsId)
 
     const cardsQuestionDebounce = useDebounce(cardsQuestion, 1000)
     // set cards function

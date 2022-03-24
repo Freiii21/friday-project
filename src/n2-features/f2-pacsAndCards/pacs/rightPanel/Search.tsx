@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {NavLink} from 'react-router-dom';
 import React, {ChangeEvent} from 'react';
+import {colorBlueMI} from '../../../../n1-main/m1-ui/utilities/for css';
 
 
 type PropsType = {
@@ -42,7 +43,7 @@ export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, cal
                             style={{color: 'rgb(63, 81, 181)', position: 'relative', top: '5px', marginRight: '5px'}}
                         />
                     </NavLink>}
-                    {titleSearch}
+                    <span style={{color:colorBlueMI}}> {titleSearch}</span>
                 </Typography>
                 <TextField
                     fullWidth={true} size={'small'}
