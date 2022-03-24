@@ -12,7 +12,6 @@ import {useTypedSelector} from '../../../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
 import BasicButtonGroup from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/BasicButtonGroup';
 import {ButtonForTableCell} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTableCell';
-import {Pagination} from '../../../../../n1-main/m1-ui/common/pagination/Pagination';
 import {
     getPacksTC,
     setCurrentPage,
@@ -24,6 +23,7 @@ import FormControl from '@mui/material/FormControl';
 import {InputLabel, NativeSelect,} from '@material-ui/core';
 import {useDebounce} from 'use-debounce';
 import {ButtonForTablePacks} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks';
+import {Pagination} from "@material-ui/lab";
 
 
 interface Column {
@@ -72,9 +72,7 @@ const useStyles = makeStyles({
 });
 
 export function TableM() {
-
     const classes = useStyles();
-
     const dispatch = useDispatch()
     const rows = useTypedSelector(state => state.packs.data.cardPacks);
 
@@ -205,11 +203,9 @@ export function TableM() {
                     </FormControl>
                 </div>
                 <Pagination
-                    setPage={paginationHandler}
-                    totalCountPage={totalCountPage}
-                    pageCount={pageCount}
-                    currentPage={currentPage}
-                />
+                    count={Math.ceil(totalCountPage/pageCount)}
+                    onChange={(event: ChangeEvent<unknown>, page: number) => paginationHandler(page)}
+                    color="primary"/>
             </div>
         </Paper>
     );

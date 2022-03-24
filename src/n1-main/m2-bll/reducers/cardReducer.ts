@@ -10,7 +10,7 @@ import {
     RequestToUpdateCardType
 } from '../api/cards-a-p-i';
 import {AppRootStateType, AppThunk} from '../store';
-import {ThunkAction} from 'redux-thunk';
+
 
 const initialCard = {
     answer: 'no answer',
@@ -121,8 +121,8 @@ export const setCardsQuestion = (value: string) => ({type: 'CARDS_REDUCER/SET_CA
 
 //thunks
 
-export const getCardsTC = (): ThunkAction<void, AppRootStateType, unknown, CardReducerActionsType> =>
-    async (dispatch: Dispatch<CardReducerActionsType>, getState: () => AppRootStateType) => {
+export const getCardsTC = (): AppThunk =>
+    async (dispatch, getState: () => AppRootStateType) => {
         const data: RequestForCardsType = getState().cards.getData;
         const namePack = getState().cards.packName;
 
@@ -147,7 +147,6 @@ export const getCardsForLearn = (idPack: string, namePack: string) =>
                 console.log(res.data)
             } else
                 dispatch(setCardsForLearn([initialCard], 0, namePack));
-
         } catch (e) {
             handleError(e, dispatch);
         } finally {

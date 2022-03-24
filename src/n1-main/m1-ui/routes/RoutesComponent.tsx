@@ -23,7 +23,7 @@ export const PATH = {
     CREATING_NEW_PASSWORD: '/creatingNewPassword/:token',
     CHECK_EMAIL: '/checkEmail',
     PACKS_CARDS: '/packsCards',
-    CARDS_MI: '/cards',
+    CARDS_MI: '/cards/:cardId/:packNameURL',
     CARD: '/card',
 }
 

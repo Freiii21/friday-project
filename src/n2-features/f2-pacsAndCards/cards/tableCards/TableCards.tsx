@@ -13,19 +13,19 @@ import {ButtonForTablePacks} from '../../../../n1-main/m1-ui/common/ComponentsFo
 import Rating from '@mui/material/Rating';
 import BasicButtonGroup from '../../../../n1-main/m1-ui/common/ComponentsForTabels/BasicButtonGroup';
 import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
-import {Navigate} from 'react-router-dom';
+import {Navigate, useParams} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import {Search} from '../../pacs/rightPanel/Search';
 import {
     getCardsTC,
     setCardsCurrentPage,
     setCardsQuestion,
-    setCardsSortValue
-} from '../../../../n1-main/m2-bll/reducers/cardReducer';
-import {useDispatch} from 'react-redux';
-import {Pagination} from '../../../../n1-main/m1-ui/common/pagination/Pagination';
+    setCardsSortValue, setIdCardsAC
+} from "../../../../n1-main/m2-bll/reducers/cardReducer";
+import {useDispatch} from "react-redux";
 import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
-import {useDebounce} from 'use-debounce';
+import {useDebounce} from "use-debounce";
+import {Pagination} from "@material-ui/lab";
 
 
 interface Column {
@@ -76,6 +76,8 @@ export const TableCards = () => {
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
 
+    const {cardId,packNameURL} = useParams()
+
     const dispatch = useDispatch()
     // get value
     const rows = useTypedSelector(state => state.cards.data.cards);
@@ -84,7 +86,6 @@ export const TableCards = () => {
     // auth value
     const isAuth = useTypedSelector(state => state.auth.isAuth);
     // set Value
-    const cardsId = useTypedSelector(state => state.cards.getData.cardsPack_id);
     const cardsSortValue = useTypedSelector(state => state.cards.getData.sortCards);
     const cardsPageCount = useTypedSelector(state => state.cards.getData.pageCount);
     const cardsCurrentPage = useTypedSelector(state => state.cards.getData.page);
@@ -92,11 +93,13 @@ export const TableCards = () => {
     // value modal
 
     const cardsQuestionDebounce = useDebounce(cardsQuestion, 1000)
+
     // set cards function
     useEffect(() => {
-        if (!isAuth) return;
+        packNameURL &&  cardId && dispatch(setIdCardsAC(cardId, packNameURL))
         dispatch(getCardsTC())
-    }, [cardsId, cardsCurrentPage, cardsSortValue, cardsQuestionDebounce[0]])
+    }, [cardId, cardsCurrentPage, cardsSortValue, cardsQuestionDebounce[0]])
+
 
     const handlerSetSortCards = (sortValue: string) => {
         dispatch(setCardsSortValue(sortValue))
@@ -107,7 +110,6 @@ export const TableCards = () => {
     const setSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(setCardsQuestion(e.currentTarget.value))
     }
-
 
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
@@ -198,16 +200,22 @@ export const TableCards = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {cardsTotalCount > 10 ? <Pagination
-                        setPage={paginationHandler}
-                        totalCountPage={cardsTotalCount}
-                        pageCount={cardsPageCount}
-                        currentPage={cardsCurrentPage}
-                    />
-                    : null}
 
+                <div style={{marginTop: "30px"}}>
+                    {cardsTotalCount > 10 ?
+                        <Pagination
+                            count={Math.ceil(cardsTotalCount / cardsPageCount)}
+                            onChange={(event: ChangeEvent<unknown>, page: number) => paginationHandler(page)}
+                            color="primary"/>
+                        : null}
+                </div>
             </Paper>
-            <ModalMi title={'Add card'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Card'}
+            <ModalMi
+                title={'Add card'}
+                open={open}
+                setOpen={setOpen}
+                type={'input'}
+                titleOfPage={'Card'}
             />
         </>
     );

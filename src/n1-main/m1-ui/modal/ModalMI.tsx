@@ -58,13 +58,10 @@ export default function ModalMi({
     const [question, setQuestion] = useState<string>('')
     const [answer, setAnswer] = useState<string>('')
     const [nameNewPack, setNameNewPack] = useState<string>('')
-// Error: useSelector.js:36 Uncaught TypeError: Cannot read properties of undefined (reading 'cardsPack_id')
-    // const cardsPack_id = useTypedSelector(state => state.cards.data.cards[0].cardsPack_id)
-    const deletePack = () => {
-        id && dispatch(deletePackT(id));
-    }
+
+     const cardsPack_id = useTypedSelector(state => state.cards.getData.cardsPack_id)
+
     const _id = id
-    const comments = answer
 
     const deletePackHandler = () => {
         if (titleOfPage === 'Pack') {
@@ -79,7 +76,7 @@ export default function ModalMi({
     }
     const addOnClickHandler = () => {
         if (title === 'Add card') {
-            // dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
+            dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
         }
         if (title === 'Add Pack') {
             dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
@@ -93,8 +90,7 @@ export default function ModalMi({
             }))
         }
         if (title === 'Update card') {
-            _id && dispatch(updateCardTC({'card': {_id, question, comments}}))
-            console.log(_id)
+            _id && dispatch(updateCardTC({card: {_id, question, answer}}))
         }
         setQuestion('')
         setAnswer('')
@@ -192,7 +188,6 @@ export default function ModalMi({
                                 </Button>
 
                             }
-
                         </Grid>
                     </Grid>
                 </Box>

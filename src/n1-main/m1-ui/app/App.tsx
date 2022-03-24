@@ -11,6 +11,7 @@ import {useTypedSelector} from '../../m2-bll/redux';
 import {BarApp} from '../common/Preloader/BarApp';
 
 
+
 const App = () => {
 
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const App = () => {
     useEffect(() => {
         dispatch(checkAuthMeTC({}));
     }, [])
-    if (!isRegistered) return<Container fixed  sx={{mt: '0.5rem'}}> <BarApp/></Container>
+      if (!isRegistered) return<Container fixed  sx={{mt: '0.5rem'}}> <BarApp/></Container>
     return (
         <Container fixed sx={{mt: '0.5rem'}}>
             <SnackBarMessage/>

@@ -48,7 +48,7 @@ export type RequestToUpdateCardType = {
     card: {
         _id: string;
         question?: string;
-        comments?: string
+        answer?: string
     }
 }
 export type RequestToAddCardType = {
