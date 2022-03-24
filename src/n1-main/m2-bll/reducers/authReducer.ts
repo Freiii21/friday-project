@@ -44,7 +44,6 @@ export const setLoginT = (data: LoginDataType) =>
 
         } catch (er: any) {
             handleError(er, dispatch);
-            // dispatch(setRegistered(false));
         } finally {
             dispatch(setLoaderStatus('idle'));
         }
