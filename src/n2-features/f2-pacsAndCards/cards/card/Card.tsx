@@ -14,17 +14,32 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Typography from '@mui/material/Typography';
 import s from './card.module.css';
 import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
+import {getCard} from '../../../../n1-main/m1-ui/utilities/getCard';
+import {setCurrentCard} from '../../../../n1-main/m2-bll/reducers/cardReducer';
+import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
 
 export const Card = () => {
+    const [open, setOpen] = React.useState(false);
+    const [typeModel, setTypeModel] = useState('');
     const dispatch = useDispatch();
     const [value, setValue] = useState('');
     const namePack = useTypedSelector(state => state.cards.packName);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
+    const question = useTypedSelector(state => state.cards.currentCard.question);
+    const answer = useTypedSelector(state => state.cards.currentCard.answer);
+    const cards=useTypedSelector(state => state.cards.cardsForLearn)
     const handleSubmit = () => {
-        alert(value)
+       // alert(value)
     }
+    console.log(cards)
+    const getNewCard = () => {
+        const card = getCard(cards);
+        dispatch(setCurrentCard(card));
+        setTypeModel('learn');
+        setOpen(true);
 
-        if(!isAuth) return <Navigate to={PATH.LOGIN}/>
+    }
+    if (!isAuth) return <Navigate to={PATH.LOGIN}/>
 
     return (
         <div style={wrapper}>
@@ -55,14 +70,11 @@ export const Card = () => {
                     <Grid item sx={{marginBottom: '10px'}}>
 
                         <Typography variant={'body1'} component={'div'}>
-                            Question: <>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, eaque!</>
+                            Question: <>{question}</>
 
                         </Typography>
                         <Typography variant={'body1'} component={'div'}>
-                            Answer:<>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus at dolore
-                            dolorum fuga impedit ipsam maiores perspiciatis, porro quas ut? Aperiam eaque eligendi hic
-                            ipsa iure magnam neque perspiciatis? Quidem!
-                        </>
+                            Answer:<>{answer}</>
                         </Typography>
                     </Grid>
                     <Grid item justifyContent={'center'} sx={{minHeight: '30%'}}>
@@ -115,14 +127,21 @@ export const Card = () => {
                                         fontSize: '0.5rem',
                                     }}
                                     size={'small'}
-                                    type={'submit'} variant={'contained'} color={'primary'}>
-                                    Next
+                                    type={'submit'} variant={'contained'} color={'primary'}
+                                    onClick={getNewCard}
+                                >
+                                   Next
                                 </Button>
                             </div>
                         </form>
                     </Grid>
                 </Grid>
             </Box>
+            <ModalMi
+                title={namePack} open={open}
+                setOpen={setOpen}
+                type={typeModel} nameOfCell={'hardCord'}
+            />
         </div>
     )
 }

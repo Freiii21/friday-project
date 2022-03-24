@@ -12,6 +12,7 @@ import {colorBlueMI} from '../utilities/for css';
 import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
 import {ChangeEvent, useState} from 'react';
 import {addNewCardTC, deleteCardTC, updateCardTC} from '../../m2-bll/reducers/cardReducer';
+import {PATH} from '../routes/RoutesComponent';
 
 
 const style = {
@@ -49,7 +50,7 @@ export default function ModalMi({
                                     nameOfCell,
                                 }: PropsType) {
     const dispatch = useDispatch();
-    const question1 = useTypedSelector(state => state.cards.cardsForLearn[0].question);
+    const questionForLearn = useTypedSelector(state => state.cards.currentCard.question);
     const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
     const status = useTypedSelector(state => state.app.status);
     // const handleClose = () => setOpen(false);
@@ -130,7 +131,7 @@ export default function ModalMi({
                     </Typography>}
                     {type === 'learn' &&
                     <Typography id="modal-modal-description" sx={{mt: 2}}>
-                        Question: {question1}
+                        Question: {questionForLearn}
                     </Typography>
                     }
                     {((type === 'input' && title === 'Edit name') || (type == 'input' && title === 'Add Pack')) &&
@@ -169,15 +170,23 @@ export default function ModalMi({
                             <Button size={'small'} variant={'contained'} color={'primary'}
                                     onClick={addOnClickHandler}>{'save'}</Button>}
                             {type === 'learn' &&
+                            nameOfCell === 'hardCord' ?
+                                <Button size={'small'} variant={'contained'}
+                                        color={'primary'} disabled={!cardsTotalCount || status === 'loading'}
+                                        onClick={()=>setOpen(false)}
+                                >
+                                    Show answer
+                                </Button>
+                                : <Button size={'small'} variant={'contained'}
+                                          color={'primary'} disabled={!cardsTotalCount || status === 'loading'}
+                                >
+                                    <NavLink to={PATH.CARD}
+                                             style={{
+                                                 textDecoration: 'none',
+                                                 color: cardsTotalCount ? 'white' : 'black'
+                                             }}> Show answer </NavLink>
+                                </Button>
 
-                            <Button size={'small'} variant={'contained'}
-                                    color={'primary'} disabled={!cardsTotalCount || status === 'loading'}>
-                                <NavLink to={'/card'}
-                                         style={{
-                                             textDecoration: 'none',
-                                             color: cardsTotalCount ? 'white' : 'black'
-                                         }}> Show answer </NavLink>
-                            </Button>
                             }
                         </Grid>
                     </Grid>

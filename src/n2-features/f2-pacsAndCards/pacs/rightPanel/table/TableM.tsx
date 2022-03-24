@@ -85,12 +85,13 @@ export function TableM() {
     const packsName = useTypedSelector(state => state.packs.getPackData.packName)
     const packsSortValue = useTypedSelector(state => state.packs.getPackData.sortPacks)
     const pacsUserIdGetData = useTypedSelector(state => state.packs.getPackData.user_id)
-
+    const isAuth = useTypedSelector(state => state.auth.isAuth);
     const minValueDebounce = useDebounce(packSetMin, 1000)
     const maxValueDebounce = useDebounce(packSetMax, 1000)
     const cardsNameDebounce = useDebounce(packsName, 1000)
 
     useEffect(() => {
+        if (!isAuth) return;
         dispatch(getPacksTC())
     }, [currentPage, pageCount, minValueDebounce[0],
         maxValueDebounce[0], cardsNameDebounce[0],

@@ -99,8 +99,7 @@ export type UpdatedType =
     | '0created'
 
 export type CardsDataType = {
-    cards: CardsType[]
-    //id: string
+    cards: CardType[]
     cardsTotalCount: number
     maxGrade: number
     minGrade: number
@@ -111,7 +110,7 @@ export type CardsDataType = {
     tokenDeathTime: number
 }
 
-export type CardsType = {
+export type CardType = {
     answer: string
     cardsPack_id: string
     comments: string

@@ -100,6 +100,7 @@ export const TableCards = () => {
         dispatch(getCardsTC())
     }, [cardId, cardsCurrentPage, cardsSortValue, cardsQuestionDebounce[0]])
 
+
     const handlerSetSortCards = (sortValue: string) => {
         dispatch(setCardsSortValue(sortValue))
     }
