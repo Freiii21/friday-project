@@ -57,7 +57,8 @@ export default function ModalMi({
     const [question, setQuestion] = useState<string>('')
     const [answer, setAnswer] = useState<string>('')
     const [nameNewPack, setNameNewPack] = useState<string>('')
-   // const cardsPack_id = useTypedSelector(state => state.cards.data.cards[0].cardsPack_id)
+// Error: useSelector.js:36 Uncaught TypeError: Cannot read properties of undefined (reading 'cardsPack_id')
+    // const cardsPack_id = useTypedSelector(state => state.cards.data.cards[0].cardsPack_id)
     const deletePack = () => {
         id && dispatch(deletePackT(id));
     }
@@ -77,7 +78,7 @@ export default function ModalMi({
     }
     const addOnClickHandler = () => {
         if (title === 'Add card') {
-           // dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
+            // dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
         }
         if (title === 'Add Pack') {
             dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
@@ -136,15 +137,15 @@ export default function ModalMi({
                         Question: {question1}
                     </Typography>
                     }
-                    {((type === 'input' && title === 'Edit name') || (type == 'input' && title === 'Add Pack' ))&&
-                        <Input size={'small'}
-                               placeholder={'Name'}
-                               type={'text'}
-                               onChange={(e) => {
-                                   setNameNewPack(e.currentTarget.value)
-                               }}
-                               style={{marginTop: '10px', minHeight: '10px'}}
-                        />}
+                    {((type === 'input' && title === 'Edit name') || (type == 'input' && title === 'Add Pack')) &&
+                    <Input size={'small'}
+                           placeholder={'Name'}
+                           type={'text'}
+                           onChange={(e) => {
+                               setNameNewPack(e.currentTarget.value)
+                           }}
+                           style={{marginTop: '10px', minHeight: '10px'}}
+                    />}
                     {type == 'input' && titleOfPage === 'Card' &&
                     <>
                         <TextField fullWidth={true} variant={'standard'}
@@ -169,7 +170,8 @@ export default function ModalMi({
                                     onClick={deletePackHandler}>{type}</Button>}
                             {type === 'input' &&
 
-                            <Button size={'small'} variant={'contained'} color={'primary'} onClick={addOnClickHandler}>{'save'}</Button>}
+                            <Button size={'small'} variant={'contained'} color={'primary'}
+                                    onClick={addOnClickHandler}>{'save'}</Button>}
                             {type === 'learn' &&
 
                             <Button size={'small'} variant={'contained'}
