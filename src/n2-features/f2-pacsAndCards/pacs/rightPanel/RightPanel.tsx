@@ -27,6 +27,7 @@ export const RightPanel = () => {
                 value={cardsName}
                 onChange={onChangeHandler}
                 callBack={setOpen}
+                location={'pack'}
             />
             <TablePacks/>
             <ModalMi  title={'Add Pack'} open={open} setOpen={setOpen} type={'input'} titleOfPage={'Pack'}/>

@@ -17,10 +17,11 @@ type PropsType = {
     value?: string;
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void
     callBack?: (open: boolean) => void;
+    location: string;
 }
 
 
-export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, callBack}: PropsType) => {
+export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, callBack,location}: PropsType) => {
 
 
     const onClick = () => {
@@ -43,11 +44,11 @@ export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, cal
                             style={{color: 'rgb(63, 81, 181)', position: 'relative', top: '5px', marginRight: '5px'}}
                         />
                     </NavLink>}
-                    <span style={{color:colorBlueMI}}> {titleSearch}</span>
+                    <span style={{color: colorBlueMI}}> {titleSearch}</span>
                 </Typography>
                 <TextField
                     fullWidth={true} size={'small'}
-                    variant={'standard'} placeholder={'search pack'}
+                    variant={'standard'} placeholder={`search ${location}`}
                     value={value}
                     onChange={onChange}
 

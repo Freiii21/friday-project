@@ -120,6 +120,7 @@ export const TableCards = () => {
                 isArrowBack={true}
                 onChange={setSearchHandler}
                 value={cardsQuestion}
+                location={'card'}
             />
             <Paper className={classes.root}>
 

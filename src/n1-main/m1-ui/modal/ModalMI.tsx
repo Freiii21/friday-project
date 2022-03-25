@@ -14,7 +14,8 @@ import {ChangeEvent, useEffect, useState} from 'react';
 import {addNewCardTC, deleteCardTC, setCurrentCard, updateCardTC} from '../../m2-bll/reducers/cardReducer';
 import {PATH} from '../routes/RoutesComponent';
 import {getCard} from '../utilities/getCard';
-
+import CircularProgress from '@mui/material/CircularProgress';
+import LinearIndeterminate from '../common/Preloader/unused/LinearMI';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -57,16 +58,16 @@ export default function ModalMi({
     // const handleClose = () => setOpen(false);
 
     const cards = useTypedSelector(state => state.cards.cardsForLearn);
-    useEffect(()=>{
+    useEffect(() => {
         const card = getCard(cards);
         dispatch(setCurrentCard(card));
-    },[cards])
+    }, [cards])
 
     const [question, setQuestion] = useState<string>('')
     const [answer, setAnswer] = useState<string>('')
     const [nameNewPack, setNameNewPack] = useState<string>('')
 
-     const cardsPack_id = useTypedSelector(state => state.cards.getData.cardsPack_id)
+    const cardsPack_id = useTypedSelector(state => state.cards.getData.cardsPack_id)
 
     const _id = id
 
@@ -124,6 +125,7 @@ export default function ModalMi({
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
+                    {status === 'loading' && <LinearIndeterminate/>}
                     <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom: '20px'}}>
                         {title === 'Learn'
                             ? <><span>{title}:</span> <span style={{color: colorBlueMI}}>{nameOfCell}</span></>
@@ -137,12 +139,12 @@ export default function ModalMi({
                     </Typography>}
                     {type === 'learn' &&
                     <Typography id="modal-modal-description" sx={{mt: 2}}>
-                        Question: {questionForLearn}
+                        Question: {status === 'loading' ? '' : questionForLearn}
                     </Typography>
                     }
                     {((type === 'input' && title === 'Edit name') || (type === 'input' && title === 'Add Pack')) &&
                     <Input size={'small'}
-                           placeholder={'Name'}
+                           placeholder={nameOfCell}
                            type={'text'}
                            onChange={(e) => {
                                setNameNewPack(e.currentTarget.value)
@@ -179,24 +181,28 @@ export default function ModalMi({
                             nameOfCell === 'hardCord' ?
                                 <Button size={'small'} variant={'contained'}
                                         color={'primary'} disabled={!cardsTotalCount || status === 'loading'}
-                                        onClick={()=>setOpen(false)}
+                                        onClick={() => setOpen(false)}
                                 >
                                     Show answer
                                 </Button>
                                 : type === 'learn' && <Button size={'small'} variant={'contained'}
-                                          color={'primary'} disabled={!cardsTotalCount || status === 'loading'}
-                                >
-                                    <NavLink to={PATH.CARD}
-                                             style={{
-                                                 textDecoration: 'none',
-                                                 color: cardsTotalCount ? 'white' : 'black'
-                                             }}> Show answer </NavLink>
-                                </Button>
+                                                              color={'primary'}
+                                                              disabled={!cardsTotalCount || status === 'loading'}
+                            >
+                                <NavLink to={PATH.CARD}
+                                         style={{
+                                             textDecoration: 'none',
+                                             color: cardsTotalCount ? 'white' : 'black'
+                                         }}> Show answer </NavLink>
+                            </Button>
 
                             }
                         </Grid>
+
                     </Grid>
+
                 </Box>
+
             </Modal>
         </div>
     );
