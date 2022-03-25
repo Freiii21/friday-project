@@ -57,7 +57,7 @@ export const setLogoutT = () =>
             const res = await authAPI.logOut();
             dispatch(setLogOut());
             dispatch(setSuccess(res.data.info));
-            dispatch(setRegistered(true));
+           // dispatch(setRegistered(true));
         } catch (e: any) {
             handleError(e, dispatch);
         } finally {

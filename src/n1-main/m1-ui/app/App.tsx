@@ -11,16 +11,16 @@ import {useTypedSelector} from '../../m2-bll/redux';
 import {BarApp} from '../common/Preloader/BarApp';
 
 
-
 const App = () => {
 
     const dispatch = useDispatch();
     const isRegistered = useTypedSelector(state => state.auth.isRegistered);
+    const isAuth = useTypedSelector(state => state.auth.isAuth);
     const [toggleDrawer, setToggleDrawer] = useState(false)
     useEffect(() => {
         dispatch(checkAuthMeTC({}));
     }, [])
-      if (!isRegistered) return<Container fixed  sx={{mt: '0.5rem'}}> <BarApp/></Container>
+    if (!isRegistered) return <Container fixed sx={{mt: '0.5rem'}}> <BarApp/></Container>
     return (
         <Container fixed sx={{mt: '0.5rem'}}>
             <SnackBarMessage/>

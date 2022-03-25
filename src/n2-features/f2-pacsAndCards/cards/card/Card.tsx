@@ -30,14 +30,12 @@ export const Card = () => {
     const cards = useTypedSelector(state => state.cards.cardsForLearn)
     const card_id = useTypedSelector(state => state.cards.currentCard._id)
     const handleSubmit = () => {
-       // dispatch(updateCardGradeTC({grade: +value, card_id}))
-        alert(value)
+        // dispatch(updateCardGradeTC({grade: +value, card_id}))
+       // alert(value)
     }
-    //new commit
-    console.log(cards)
-    const getNewCard = () => {
+    const getNewCard =  () => {
         const card = getCard(cards);
-        dispatch(setCurrentCard(card));
+         dispatch(setCurrentCard(card));
         setTypeModel('learn');
         setOpen(true);
 
@@ -55,7 +53,7 @@ export const Card = () => {
                     padding: 5,
                     border: '2px solid lightgrey',
                     borderRadius: 3,
-                    width: 450,
+                    width: 500,
                     height: '90%',
                     backgroundColor: 'whitesmoke',
                     '&:hover': {
@@ -64,19 +62,21 @@ export const Card = () => {
                     },
                 }}
             >
-                <Grid container justifyContent={'center'} style={{display: 'flex', flexDirection: 'column',}}>
+                <Grid container justifyContent={'center'} style={{display: 'flex', flexDirection: 'column'}}>
                     <Grid className={s.grid1} item style={{alignSelf: 'flex-start', marginBottom: '10%'}}>
                         <Typography variant={'h6'}>
                             Learn: <span style={{color: colorBlueMI}}>{namePack}</span>
                         </Typography>
                     </Grid>
-                    <Grid item sx={{marginBottom: '10px'}}>
+                    //problems with overflow
+                    <Grid item sx={{marginBottom: '10px', overflow: 'auto'}}>
 
                         <Typography variant={'body1'} component={'div'}>
                             Question: <>{question}</>
 
                         </Typography>
-                        <Typography variant={'body1'} component={'div'}>
+                        //problems with overflow
+                        <Typography variant={'body1'} component={'div'} style={{overflow: 'auto', height: '40%'}}>
                             Answer:<>{answer}</>
                         </Typography>
                     </Grid>
@@ -130,7 +130,7 @@ export const Card = () => {
                                         fontSize: '0.5rem',
                                     }}
                                     size={'small'}
-                                    type={'submit'} variant={'contained'} color={'primary'}
+                                    variant={'contained'} color={'primary'}
                                     onClick={getNewCard}
                                 >
                                     Next
