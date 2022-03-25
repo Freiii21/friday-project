@@ -33,6 +33,7 @@ export const Card = () => {
        // dispatch(updateCardGradeTC({grade: +value, card_id}))
         alert(value)
     }
+    //new commit
     console.log(cards)
     const getNewCard = () => {
         const card = getCard(cards);
