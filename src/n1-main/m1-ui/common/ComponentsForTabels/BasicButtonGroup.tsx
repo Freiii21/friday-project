@@ -19,6 +19,7 @@ type PropsType = {
     nameOfPack?: string;
 
 }
+//
 const fontSize = {fontSize: '0.6rem'}
 export default function BasicButtonGroup(
     {userId, name_1, name_2, name_3, color, titleOfPage, nameOfCell, id,}: PropsType) {
