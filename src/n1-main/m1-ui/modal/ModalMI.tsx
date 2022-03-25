@@ -55,11 +55,13 @@ export default function ModalMi({
     const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
     const status = useTypedSelector(state => state.app.status);
     // const handleClose = () => setOpen(false);
+
     const cards = useTypedSelector(state => state.cards.cardsForLearn);
     useEffect(()=>{
         const card = getCard(cards);
         dispatch(setCurrentCard(card));
     },[cards])
+
     const [question, setQuestion] = useState<string>('')
     const [answer, setAnswer] = useState<string>('')
     const [nameNewPack, setNameNewPack] = useState<string>('')
