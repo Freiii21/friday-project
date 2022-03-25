@@ -10,9 +10,10 @@ import {useTypedSelector} from '../../m2-bll/redux';
 import {NavLink} from 'react-router-dom';
 import {colorBlueMI} from '../utilities/for css';
 import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
-import {ChangeEvent, useState} from 'react';
-import {addNewCardTC, deleteCardTC, updateCardTC} from '../../m2-bll/reducers/cardReducer';
+import {ChangeEvent, useEffect, useState} from 'react';
+import {addNewCardTC, deleteCardTC, setCurrentCard, updateCardTC} from '../../m2-bll/reducers/cardReducer';
 import {PATH} from '../routes/RoutesComponent';
+import {getCard} from '../utilities/getCard';
 
 
 const style = {
@@ -54,7 +55,11 @@ export default function ModalMi({
     const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
     const status = useTypedSelector(state => state.app.status);
     // const handleClose = () => setOpen(false);
-
+    const cards = useTypedSelector(state => state.cards.cardsForLearn);
+    useEffect(()=>{
+        const card = getCard(cards);
+        dispatch(setCurrentCard(card));
+    },[cards])
     const [question, setQuestion] = useState<string>('')
     const [answer, setAnswer] = useState<string>('')
     const [nameNewPack, setNameNewPack] = useState<string>('')

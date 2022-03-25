@@ -141,8 +141,10 @@ export const getCardsForLearn = (idPack: string, namePack: string) =>
     async (dispatch: Dispatch<CardReducerActionsType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
+debugger
             const res = await cardsAPI.getCards({cardsPack_id: idPack});
             if (res.data.cardsTotalCount) {
+                debugger
                 dispatch(setCardsForLearn(res.data.cards, res.data.cardsTotalCount, namePack));
                 console.log(res.data)
             } else

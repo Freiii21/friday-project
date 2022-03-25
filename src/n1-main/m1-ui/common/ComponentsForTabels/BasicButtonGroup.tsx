@@ -37,11 +37,10 @@ export default function BasicButtonGroup(
         setTitle(`Delete ${titleOfPage}`);
         setTypeModel('delete');
     };
-    const onClick3 = () => {
+    const onClick3 =async () => {
         debugger
-        dispatch(getCardsForLearn(idPack, nameOfCell));
-            const card = getCard(cards);
-            dispatch(setCurrentCard(card));
+       dispatch(getCardsForLearn(idPack, nameOfCell));
+
             setTitle(`Learn`);
             setTypeModel('learn');
             setOpen(true);
