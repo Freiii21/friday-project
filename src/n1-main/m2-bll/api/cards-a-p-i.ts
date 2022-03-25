@@ -40,6 +40,8 @@ export type ResponseUpdateGrade = {
         shots: number;
     }
 }
+
+
 export type RequestToUpdateGradeType = {
     grade: number;
     card_id: string;
@@ -75,16 +77,7 @@ export type RequestForCardsType = {
     pageCount?: number;
 }
 
-/*export type DataGetType = {
-    cardAnswer: string
-    cardQuestion: string
-    cardsPack_id: string
-    min: number
-    max: number
-    sortCards: string
-    page: number
-    pageCount: number
-}*/
+
 
 export type UpdatedType =
     '0updated'
