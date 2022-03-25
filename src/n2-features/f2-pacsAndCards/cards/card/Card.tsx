@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import s from './card.module.css';
 import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
 import {getCard} from '../../../../n1-main/m1-ui/utilities/getCard';
-import {setCurrentCard} from '../../../../n1-main/m2-bll/reducers/cardReducer';
+import {setCurrentCard, updateCardGradeTC} from '../../../../n1-main/m2-bll/reducers/cardReducer';
 import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
 
 export const Card = () => {
@@ -28,9 +28,12 @@ export const Card = () => {
     const question = useTypedSelector(state => state.cards.currentCard.question);
     const answer = useTypedSelector(state => state.cards.currentCard.answer);
     const cards = useTypedSelector(state => state.cards.cardsForLearn)
+    const card_id = useTypedSelector(state => state.cards.currentCard._id)
     const handleSubmit = () => {
-         alert('grade = '+value)
+       // dispatch(updateCardGradeTC({grade: +value, card_id}))
+        alert(value)
     }
+    console.log(cards)
     const getNewCard = () => {
         const card = getCard(cards);
         dispatch(setCurrentCard(card));
@@ -66,7 +69,7 @@ export const Card = () => {
                             Learn: <span style={{color: colorBlueMI}}>{namePack}</span>
                         </Typography>
                     </Grid>
-                    <Grid item sx={{marginBottom: '10px',maxHeight:'70%',overflow:'auto'}}>
+                    <Grid item sx={{marginBottom: '10px'}}>
 
                         <Typography variant={'body1'} component={'div'}>
                             Question: <>{question}</>
@@ -140,7 +143,6 @@ export const Card = () => {
                 title={namePack} open={open}
                 setOpen={setOpen}
                 type={typeModel} nameOfCell={'hardCord'}
-
             />
         </div>
     )
