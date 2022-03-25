@@ -25,7 +25,7 @@ export const cardsAPI = {
         return instance.put<RequestToUpdateCardType>(`/cards/card`, data);
     },
     updateGrade(data: RequestToUpdateGradeType) {
-        return instance.put<RequestToUpdateGradeType,AxiosResponse<RequestToUpdateGradeType>>
+        return instance.put<RequestToUpdateGradeType,AxiosResponse<ResponseUpdateGrade>>
         ('cards/grade', data);
     }
 };

@@ -7,7 +7,7 @@ import {
     CardType,
     RequestForCardsType,
     RequestToAddCardType,
-    RequestToUpdateCardType
+    RequestToUpdateCardType, RequestToUpdateGradeType
 } from '../api/cards-a-p-i';
 import {AppRootStateType, AppThunk} from '../store';
 
@@ -190,6 +190,18 @@ export const updateCardTC = (dataForUpdate: RequestToUpdateCardType): AppThunk =
         try {
             dispatch(setLoaderStatus('loading'));
             await cardsAPI.updateCard(dataForUpdate);
+            dispatch(getCardsTC())
+        } catch (e) {
+            handleError(e, dispatch)
+        } finally {
+            dispatch(setLoaderStatus('idle'))
+        }
+    }
+export const updateCardGradeTC = (dataForUpdate: RequestToUpdateGradeType): AppThunk =>
+    async (dispatch) => {
+        try {
+            dispatch(setLoaderStatus('loading'));
+            await cardsAPI.updateGrade(dataForUpdate);
             dispatch(getCardsTC())
         } catch (e) {
             handleError(e, dispatch)

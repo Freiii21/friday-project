@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import s from './card.module.css';
 import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
 import {getCard} from '../../../../n1-main/m1-ui/utilities/getCard';
-import {setCurrentCard} from '../../../../n1-main/m2-bll/reducers/cardReducer';
+import {setCurrentCard, updateCardGradeTC} from '../../../../n1-main/m2-bll/reducers/cardReducer';
 import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
 
 export const Card = () => {
@@ -27,9 +27,11 @@ export const Card = () => {
     const isAuth = useTypedSelector(state => state.auth.isAuth);
     const question = useTypedSelector(state => state.cards.currentCard.question);
     const answer = useTypedSelector(state => state.cards.currentCard.answer);
-    const cards=useTypedSelector(state => state.cards.cardsForLearn)
+    const cards = useTypedSelector(state => state.cards.cardsForLearn)
+    const card_id = useTypedSelector(state => state.cards.currentCard._id)
     const handleSubmit = () => {
-       // alert(value)
+       // dispatch(updateCardGradeTC({grade: +value, card_id}))
+        alert(value)
     }
     console.log(cards)
     const getNewCard = () => {
@@ -130,7 +132,7 @@ export const Card = () => {
                                     type={'submit'} variant={'contained'} color={'primary'}
                                     onClick={getNewCard}
                                 >
-                                   Next
+                                    Next
                                 </Button>
                             </div>
                         </form>
