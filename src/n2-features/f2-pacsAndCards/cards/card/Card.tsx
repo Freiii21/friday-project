@@ -27,11 +27,10 @@ export const Card = () => {
     const isAuth = useTypedSelector(state => state.auth.isAuth);
     const question = useTypedSelector(state => state.cards.currentCard.question);
     const answer = useTypedSelector(state => state.cards.currentCard.answer);
-    const cards=useTypedSelector(state => state.cards.cardsForLearn)
+    const cards = useTypedSelector(state => state.cards.cardsForLearn)
     const handleSubmit = () => {
-       // alert(value)
+         alert('grade = '+value)
     }
-    console.log(cards)
     const getNewCard = () => {
         const card = getCard(cards);
         dispatch(setCurrentCard(card));
@@ -67,7 +66,7 @@ export const Card = () => {
                             Learn: <span style={{color: colorBlueMI}}>{namePack}</span>
                         </Typography>
                     </Grid>
-                    <Grid item sx={{marginBottom: '10px'}}>
+                    <Grid item sx={{marginBottom: '10px',maxHeight:'70%',overflow:'auto'}}>
 
                         <Typography variant={'body1'} component={'div'}>
                             Question: <>{question}</>
@@ -130,7 +129,7 @@ export const Card = () => {
                                     type={'submit'} variant={'contained'} color={'primary'}
                                     onClick={getNewCard}
                                 >
-                                   Next
+                                    Next
                                 </Button>
                             </div>
                         </form>
@@ -141,6 +140,7 @@ export const Card = () => {
                 title={namePack} open={open}
                 setOpen={setOpen}
                 type={typeModel} nameOfCell={'hardCord'}
+
             />
         </div>
     )

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -10,11 +11,9 @@ import {useTypedSelector} from '../../m2-bll/redux';
 import {NavLink} from 'react-router-dom';
 import {colorBlueMI} from '../utilities/for css';
 import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
-import {ChangeEvent, useEffect, useState} from 'react';
-import {addNewCardTC, deleteCardTC, setCurrentCard, updateCardTC} from '../../m2-bll/reducers/cardReducer';
+import {addNewCardTC, deleteCardTC, setCurrentCard, setIsGet, updateCardTC} from '../../m2-bll/reducers/cardReducer';
 import {PATH} from '../routes/RoutesComponent';
 import {getCard} from '../utilities/getCard';
-import CircularProgress from '@mui/material/CircularProgress';
 import LinearIndeterminate from '../common/Preloader/unused/LinearMI';
 
 const style = {
@@ -43,13 +42,7 @@ type PropsType = {
 
 
 export default function ModalMi({
-                                    title,
-                                    open,
-                                    setOpen,
-                                    titleOfPage,
-                                    type,
-                                    id,
-                                    nameOfCell,
+                                    title, open, setOpen, titleOfPage, type, id, nameOfCell,
                                 }: PropsType) {
     const dispatch = useDispatch();
     const questionForLearn = useTypedSelector(state => state.cards.currentCard.question);
@@ -58,9 +51,13 @@ export default function ModalMi({
     // const handleClose = () => setOpen(false);
 
     const cards = useTypedSelector(state => state.cards.cardsForLearn);
+    const isGet = useTypedSelector(state => state.cards.isGet);
     useEffect(() => {
-        const card = getCard(cards);
-        dispatch(setCurrentCard(card));
+        if (isGet) {
+            const card = getCard(cards);
+            dispatch(setCurrentCard(card));
+        }
+
     }, [cards])
 
     const [question, setQuestion] = useState<string>('')
@@ -193,7 +190,9 @@ export default function ModalMi({
                                          style={{
                                              textDecoration: 'none',
                                              color: cardsTotalCount ? 'white' : 'black'
-                                         }}> Show answer </NavLink>
+                                         }}
+                                         onClick={()=>dispatch(setIsGet(false))}
+                                > Show answer </NavLink>
                             </Button>
 
                             }

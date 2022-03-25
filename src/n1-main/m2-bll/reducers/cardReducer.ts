@@ -72,6 +72,7 @@ const initialState = {
         initialCard,
     ],
     currentCard: initialCard,
+    isGet: false,
 }
 export const cardsReducer = (state = initialState, action: CardReducerActionsType): InitialStateType => {
 
@@ -86,7 +87,6 @@ export const cardsReducer = (state = initialState, action: CardReducerActionsTyp
             return {...state, getData: {...state.getData, sortCards: action.sortValue}};
 
         case 'CARDS_REDUCER/SET_CARDS_FOR_LEARN':
-            debugger
             return {
                 ...state,
                 data: {...state.data, cardsTotalCount: action.countCards},
@@ -96,10 +96,13 @@ export const cardsReducer = (state = initialState, action: CardReducerActionsTyp
             return {...state, getData: {...state.getData, cardQuestion: action.value}};
         case 'CARDS_REDUCER/SET_CURRENT_CARD':
             return {...state, currentCard: action.card};
+        case 'CARDS_REDUCER/SET_IS_GET':
+            return {...state, isGet: action.isGet};
         default:
             return state;
     }
 }
+export const setIsGet = (isGet: boolean) => ({type: 'CARDS_REDUCER/SET_IS_GET', isGet} as const);
 export const setCurrentCard = (card: CardType) =>
     ({type: 'CARDS_REDUCER/SET_CURRENT_CARD', card} as const);
 export const setCardsForLearn = (data: CardType[], countCards: number, namePack: string) =>
@@ -141,10 +144,8 @@ export const getCardsForLearn = (idPack: string, namePack: string) =>
     async (dispatch: Dispatch<CardReducerActionsType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
-debugger
-            const res = await cardsAPI.getCards({cardsPack_id: idPack});
+            const res = await cardsAPI.getCards({cardsPack_id: idPack,pageCount:150});
             if (res.data.cardsTotalCount) {
-                debugger
                 dispatch(setCardsForLearn(res.data.cards, res.data.cardsTotalCount, namePack));
                 console.log(res.data)
             } else
@@ -209,4 +210,5 @@ export type CardReducerActionsType =
     | ReturnType<typeof setCardsForLearn>
     | ReturnType<typeof setCardsQuestion>
     | ReturnType<typeof setCurrentCard>
+    | ReturnType<typeof setIsGet>
 type InitialStateType = typeof initialState;

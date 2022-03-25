@@ -23,7 +23,7 @@ import FormControl from '@mui/material/FormControl';
 import {InputLabel, NativeSelect,} from '@material-ui/core';
 import {useDebounce} from 'use-debounce';
 import {ButtonForTablePacks} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks';
-import {Pagination} from "@material-ui/lab";
+import {Pagination} from '@material-ui/lab';
 
 
 interface Column {
@@ -64,7 +64,7 @@ const columns: Column[] = [
 const useStyles = makeStyles({
     root: {
         width: '100%',
-        overflow: 'scroll',
+        overflow: 'auto',
     },
     container: {
         maxHeight: 480,
@@ -203,7 +203,7 @@ export function TableM() {
                     </FormControl>
                 </div>
                 <Pagination
-                    count={Math.ceil(totalCountPage/pageCount)}
+                    count={Math.ceil(totalCountPage / pageCount)}
                     onChange={(event: ChangeEvent<unknown>, page: number) => paginationHandler(page)}
                     color="primary"/>
             </div>
