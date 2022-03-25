@@ -114,7 +114,6 @@ export default function ModalMi({
         setQuestion(e.currentTarget.value)
     }
 
-
     return (
         <div>
             <Modal
@@ -139,7 +138,7 @@ export default function ModalMi({
                         Question: {questionForLearn}
                     </Typography>
                     }
-                    {((type === 'input' && title === 'Edit name') || (type == 'input' && title === 'Add Pack')) &&
+                    {((type === 'input' && title === 'Edit name') || (type === 'input' && title === 'Add Pack')) &&
                     <Input size={'small'}
                            placeholder={'Name'}
                            type={'text'}
@@ -148,7 +147,7 @@ export default function ModalMi({
                            }}
                            style={{marginTop: '10px', minHeight: '10px'}}
                     />}
-                    {type == 'input' && titleOfPage === 'Card' &&
+                    {type === 'input' && titleOfPage === 'Card' &&
                     <>
                         <TextField fullWidth={true} variant={'standard'}
                                    sx={{marginBottom: '5px'}} maxRows={2} multiline
@@ -182,7 +181,7 @@ export default function ModalMi({
                                 >
                                     Show answer
                                 </Button>
-                                : <Button size={'small'} variant={'contained'}
+                                : type === 'learn' && <Button size={'small'} variant={'contained'}
                                           color={'primary'} disabled={!cardsTotalCount || status === 'loading'}
                                 >
                                     <NavLink to={PATH.CARD}
