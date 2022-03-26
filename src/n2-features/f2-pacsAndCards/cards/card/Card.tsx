@@ -31,24 +31,26 @@ export const Card = () => {
     const card_id = useTypedSelector(state => state.cards.currentCard._id);
     const {packIdURL, packNameURL, cardIdURL} = useParams();
     const idPack = useTypedSelector(state => state.cards.cardsForLearn[0].cardsPack_id)
-
-    useEffect( () => {
+    const [yes, setYes] = useState(false);
+    useEffect(() => {
         if (idPack === 'noneInInitialCard') {
             packIdURL && packNameURL && dispatch(getCardsForLearn(packIdURL, packNameURL));
-
+            setYes(true);
         }
-    },[]);
+    }, []);
 
-    useEffect(()=>{
-
+    useEffect(() => {
+        if (yes) {
             const card = cardsForLearn.find(x => x._id === cardIdURL)
             card && dispatch(setCurrentCard(card));
-            card && dispatch(setCurrentCard(card));
+            setYes(false);
+        }
 
-    },[cardsForLearn])
+
+    }, [cardsForLearn])
     const handleSubmit = () => {
-         dispatch(updateCardGradeTC({grade: +value, card_id}))
-        // alert(value)
+        dispatch(updateCardGradeTC({grade: Number(value === '' ? 1 : value), card_id}))
+        setValue('');
     }
     const getNewCard = () => {
         const card = getCard(cardsForLearn);
@@ -150,7 +152,7 @@ export const Card = () => {
                                     onClick={getNewCard}
                                     type={'submit'}
                                 >
-                                    Next
+                                    <NavLink to={`/card/${idPack}/${namePack}/${card_id}`}>Next</NavLink>
                                 </Button>
                             </div>
                         </form>

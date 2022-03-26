@@ -12,7 +12,7 @@ import {
 import {AppRootStateType, AppThunk} from '../store';
 
 
-export const initialCardForReducer = {
+export const initialCardForReducer: CardType = {
     answer: 'no answer',
     cardsPack_id: 'noneInInitialCard',
     comments: 'none',
@@ -144,7 +144,7 @@ export const getCardsForLearn = (idPack: string, namePack: string) =>
     async (dispatch: Dispatch<CardReducerActionsType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
-            const res = await cardsAPI.getCards({cardsPack_id: idPack,pageCount:150});
+            const res = await cardsAPI.getCards({cardsPack_id: idPack, pageCount: 150});
             if (res.data.cardsTotalCount) {
                 dispatch(setCardsForLearn(res.data.cards, res.data.cardsTotalCount, namePack));
             } else
@@ -198,13 +198,16 @@ export const updateCardTC = (dataForUpdate: RequestToUpdateCardType): AppThunk =
         }
     }
 export const updateCardGradeTC = (dataForUpdate: RequestToUpdateGradeType): AppThunk =>
-    async (dispatch) => {
-    debugger
+    async (dispatch, getState: () => AppRootStateType) => {
         try {
+            const cardsForLearn = getState().cards.cardsForLearn;
             dispatch(setLoaderStatus('loading'));
-            const res=await cardsAPI.updateGrade(dataForUpdate);
-            console.log(res)
-            //dispatch(getCardsTC())
+            await cardsAPI.updateGrade(dataForUpdate);
+            const cardsWithUpdatedGrade = cardsForLearn.map(x => x._id === dataForUpdate.card_id ? {
+                ...x,
+                grade: dataForUpdate.grade
+            } : x);
+            dispatch(setCardsForLearn(cardsWithUpdatedGrade, getState().cards.data.cardsTotalCount, getState().cards.packName));
         } catch (e) {
             handleError(e, dispatch)
         } finally {
