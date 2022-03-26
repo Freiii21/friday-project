@@ -8,10 +8,9 @@ import {CheckEmail} from '../../../n2-features/f1-auth/a5-passwordRecovery/Check
 import {RegistrationMI} from '../../../n2-features/f1-auth/a2-registration/RegistrationMI';
 import Container from '@mui/material/Container';
 import {ProfileMI} from '../../../n2-features/f1-auth/a3-profile/ProfileMI';
-import {PacksCards} from '../../../n2-features/f2-pacsAndCards/pacs/PacksCards';
+import {PacksCards} from '../../../n2-features/f2-pacsAndCards/packs/PacksCards';
 import {Cards} from '../../../n2-features/f2-pacsAndCards/cards/Cards';
 import {Card} from '../../../n2-features/f2-pacsAndCards/cards/card/Card';
-
 
 
 export const PATH = {
@@ -24,10 +23,11 @@ export const PATH = {
     CHECK_EMAIL: '/checkEmail',
     PACKS_CARDS: '/packsCards',
     CARDS_MI: '/cards/:cardId/:packNameURL',
-    CARD: '/card',
+    CARD: '/card/:packIdURL/:packNameURL/:cardIdURL',
 }
 
 export const RoutesComponent = () => {
+
     return (
         <Container fixed>
             <Routes>

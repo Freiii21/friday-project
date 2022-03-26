@@ -12,9 +12,9 @@ import {
 import {AppRootStateType, AppThunk} from '../store';
 
 
-const initialCard = {
+export const initialCardForReducer: CardType = {
     answer: 'no answer',
-    cardsPack_id: 'none',
+    cardsPack_id: 'noneInInitialCard',
     comments: 'none',
     created: 'none',
     grade: 0,
@@ -69,9 +69,9 @@ const initialState = {
         pageCount: 10,
     },
     cardsForLearn: [
-        initialCard,
+        initialCardForReducer,
     ],
-    currentCard: initialCard,
+    currentCard: initialCardForReducer,
     isGet: false,
 }
 export const cardsReducer = (state = initialState, action: CardReducerActionsType): InitialStateType => {
@@ -144,12 +144,11 @@ export const getCardsForLearn = (idPack: string, namePack: string) =>
     async (dispatch: Dispatch<CardReducerActionsType>) => {
         try {
             dispatch(setLoaderStatus('loading'));
-            const res = await cardsAPI.getCards({cardsPack_id: idPack,pageCount:150});
+            const res = await cardsAPI.getCards({cardsPack_id: idPack, pageCount: 150});
             if (res.data.cardsTotalCount) {
                 dispatch(setCardsForLearn(res.data.cards, res.data.cardsTotalCount, namePack));
-                console.log(res.data)
             } else
-                dispatch(setCardsForLearn([initialCard], 0, namePack));
+                dispatch(setCardsForLearn([initialCardForReducer], 0, namePack));
         } catch (e) {
             handleError(e, dispatch);
         } finally {
@@ -199,11 +198,16 @@ export const updateCardTC = (dataForUpdate: RequestToUpdateCardType): AppThunk =
         }
     }
 export const updateCardGradeTC = (dataForUpdate: RequestToUpdateGradeType): AppThunk =>
-    async (dispatch) => {
+    async (dispatch, getState: () => AppRootStateType) => {
         try {
+            const cardsForLearn = getState().cards.cardsForLearn;
             dispatch(setLoaderStatus('loading'));
             await cardsAPI.updateGrade(dataForUpdate);
-            dispatch(getCardsTC())
+            const cardsWithUpdatedGrade = cardsForLearn.map(x => x._id === dataForUpdate.card_id ? {
+                ...x,
+                grade: dataForUpdate.grade
+            } : x);
+            dispatch(setCardsForLearn(cardsWithUpdatedGrade, getState().cards.data.cardsTotalCount, getState().cards.packName));
         } catch (e) {
             handleError(e, dispatch)
         } finally {

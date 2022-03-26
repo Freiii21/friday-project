@@ -11,10 +11,17 @@ import {useTypedSelector} from '../../m2-bll/redux';
 import {NavLink} from 'react-router-dom';
 import {colorBlueMI} from '../utilities/for css';
 import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
-import {addNewCardTC, deleteCardTC, setCurrentCard, setIsGet, updateCardTC} from '../../m2-bll/reducers/cardReducer';
-import {PATH} from '../routes/RoutesComponent';
+import {
+    addNewCardTC,
+    deleteCardTC,
+    initialCardForReducer,
+    setCurrentCard,
+    setIsGet,
+    updateCardTC
+} from '../../m2-bll/reducers/cardReducer';
 import {getCard} from '../utilities/getCard';
 import LinearIndeterminate from '../common/Preloader/unused/LinearMI';
+import {CardType} from '../../m2-bll/api/cards-a-p-i';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -51,6 +58,7 @@ export default function ModalMi({
 
     const cards = useTypedSelector(state => state.cards.cardsForLearn);
     const isGet = useTypedSelector(state => state.cards.isGet);
+    const idCurrenCard=useTypedSelector(state => state.cards.currentCard._id);
     useEffect(() => {
         if (isGet) {
             const card = getCard(cards);
@@ -61,11 +69,10 @@ export default function ModalMi({
 
     const [question, setQuestion] = useState<string>('')
     const [answer, setAnswer] = useState<string>('')
-    const [nameNewPack, setNameNewPack] = useState<string>('')
+    const [nameNewPack, setNameNewPack] = useState<string|undefined>(nameOfCell)
 
     const cardsPack_id = useTypedSelector(state => state.cards.getData.cardsPack_id)
-
-    const _id = id
+    const _id = id;
 
     const deletePackHandler = () => {
         if (titleOfPage === 'Pack') {
@@ -83,7 +90,7 @@ export default function ModalMi({
             dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
         }
         if (title === 'Add Pack') {
-            dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
+            nameNewPack&&dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
         }
         if (title === 'Edit name') {
             dispatch(changeNamePackTC({
@@ -113,6 +120,7 @@ export default function ModalMi({
         setQuestion(e.currentTarget.value)
     }
 
+    const onClickShowAnswer = () => dispatch(setIsGet(false));
     return (
         <div>
             <Modal
@@ -140,7 +148,7 @@ export default function ModalMi({
                     }
                     {((type === 'input' && title === 'Edit name') || (type === 'input' && title === 'Add Pack')) &&
                     <Input size={'small'}
-                           placeholder={nameOfCell}
+                           value={nameNewPack}
                            type={'text'}
                            onChange={(e) => {
                                setNameNewPack(e.currentTarget.value)
@@ -185,12 +193,12 @@ export default function ModalMi({
                                                               color={'primary'}
                                                               disabled={!cardsTotalCount || status === 'loading'}
                             >
-                                <NavLink to={PATH.CARD}
+                                <NavLink to={`/card/${id}/${nameOfCell}/${idCurrenCard}`}
                                          style={{
                                              textDecoration: 'none',
                                              color: cardsTotalCount ? 'white' : 'black'
                                          }}
-                                         onClick={()=>dispatch(setIsGet(false))}
+                                         onClick={onClickShowAnswer}
                                 > Show answer </NavLink>
                             </Button>
 
