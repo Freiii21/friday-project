@@ -15,7 +15,7 @@ import BasicButtonGroup from '../../../../n1-main/m1-ui/common/ComponentsForTabe
 import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
 import {Navigate, useParams} from 'react-router-dom';
 import Button from '@mui/material/Button';
-import {Search} from '../../pacs/rightPanel/Search';
+import {Search} from '../../packs/rightPanel/Search';
 import {
     getCardsTC,
     setCardsCurrentPage,
@@ -177,7 +177,7 @@ export const TableCards = () => {
                                                 <TableCell key={column.id} align={column.align}>
                                                     {column.id === 'grade'
                                                         ?
-                                                        <Rating name="read-only" value={4.5} readOnly precision={0.5}/>
+                                                        <Rating name="read-only" value={row.grade} readOnly precision={0.5}/>
                                                         : column.id === 'actions'
                                                             ?
                                                             <BasicButtonGroup name_2={'Del'}
