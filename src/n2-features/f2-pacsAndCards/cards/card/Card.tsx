@@ -33,7 +33,6 @@ export const Card = () => {
     const idPack = useTypedSelector(state => state.cards.cardsForLearn[0].cardsPack_id)
 
     useEffect( () => {
-        debugger
         if (idPack === 'noneInInitialCard') {
             packIdURL && packNameURL && dispatch(getCardsForLearn(packIdURL, packNameURL));
 
@@ -41,16 +40,14 @@ export const Card = () => {
     },[]);
 
     useEffect(()=>{
-        debugger
 
             const card = cardsForLearn.find(x => x._id === cardIdURL)
             card && dispatch(setCurrentCard(card));
             card && dispatch(setCurrentCard(card));
 
     },[cardsForLearn])
-    console.log(packIdURL, packNameURL, cardIdURL)
     const handleSubmit = () => {
-        // dispatch(updateCardGradeTC({grade: +value, card_id}))
+         dispatch(updateCardGradeTC({grade: +value, card_id}))
         // alert(value)
     }
     const getNewCard = () => {
@@ -151,6 +148,7 @@ export const Card = () => {
                                     size={'small'}
                                     variant={'contained'} color={'primary'}
                                     onClick={getNewCard}
+                                    type={'submit'}
                                 >
                                     Next
                                 </Button>

@@ -79,12 +79,29 @@ export const setPacsName = (name: string) => ({type: 'PACKS_REDUCER/SET_CARD_NAM
 export const deletePack = (id: string) => ({type: 'PACKS_REDUCER/DELETE_PACK', id} as const);
 
 //thunks
-export const getPacksTC = () =>
-    async (dispatch: Dispatch<PacksReducerActionType>, getState: () => AppRootStateType) => {
-        const data = getState().packs.getPackData
+
+/*export const getPacksUpdateTC = () =>
+    async (dispatch: Dispatch<PacksReducerActionType>) => {
+
         try {
             dispatch(setLoaderStatus('loading'))
             const res = await packsAPI.getPacks(data);
+            dispatch(getPacks(res.data))
+        } catch (e) {
+            handleError(e, dispatch)
+        } finally {
+            dispatch(setLoaderStatus('idle'))
+        }
+    };*/
+export const getPacksTC = (dataOut?: GetPackDataType) =>
+    async (dispatch: Dispatch<PacksReducerActionType>, getState: () => AppRootStateType) => {
+        if (!dataOut) {
+            dataOut = getState().packs.getPackData;
+        }
+
+        try {
+            dispatch(setLoaderStatus('loading'))
+            const res = await packsAPI.getPacks(dataOut);
             dispatch(getPacks(res.data))
         } catch (e) {
             handleError(e, dispatch)
@@ -148,3 +165,12 @@ export type PacksReducerActionType =
     | ReturnType<typeof deletePack>
 
 type InitialStateType = typeof initialState;
+export type GetPackDataType = {
+    packName: string;
+    min: number;
+    max: number;
+    sortPacks: string;
+    page: number;
+    pageCount: number;
+    user_id: string;
+}

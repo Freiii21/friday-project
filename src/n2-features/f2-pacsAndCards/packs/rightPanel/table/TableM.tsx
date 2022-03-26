@@ -73,7 +73,7 @@ const useStyles = makeStyles({
 export function TableM() {
     const classes = useStyles();
     const dispatch = useDispatch()
-    const rows:PackType[] = useTypedSelector(state => state.packs.data.cardPacks);
+    const rows: PackType[] = useTypedSelector(state => state.packs.data.cardPacks);
 
     const _userId = useTypedSelector(state => state.auth.user._id);
     const currentPage = useTypedSelector(state => state.packs.getPackData.page);

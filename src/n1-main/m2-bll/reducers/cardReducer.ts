@@ -199,10 +199,12 @@ export const updateCardTC = (dataForUpdate: RequestToUpdateCardType): AppThunk =
     }
 export const updateCardGradeTC = (dataForUpdate: RequestToUpdateGradeType): AppThunk =>
     async (dispatch) => {
+    debugger
         try {
             dispatch(setLoaderStatus('loading'));
-            await cardsAPI.updateGrade(dataForUpdate);
-            dispatch(getCardsTC())
+            const res=await cardsAPI.updateGrade(dataForUpdate);
+            console.log(res)
+            //dispatch(getCardsTC())
         } catch (e) {
             handleError(e, dispatch)
         } finally {

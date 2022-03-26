@@ -69,7 +69,7 @@ export default function ModalMi({
 
     const [question, setQuestion] = useState<string>('')
     const [answer, setAnswer] = useState<string>('')
-    const [nameNewPack, setNameNewPack] = useState<string>('')
+    const [nameNewPack, setNameNewPack] = useState<string|undefined>(nameOfCell)
 
     const cardsPack_id = useTypedSelector(state => state.cards.getData.cardsPack_id)
     const _id = id;
@@ -90,7 +90,7 @@ export default function ModalMi({
             dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
         }
         if (title === 'Add Pack') {
-            dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
+            nameNewPack&&dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
         }
         if (title === 'Edit name') {
             dispatch(changeNamePackTC({
@@ -148,7 +148,7 @@ export default function ModalMi({
                     }
                     {((type === 'input' && title === 'Edit name') || (type === 'input' && title === 'Add Pack')) &&
                     <Input size={'small'}
-                           placeholder={nameOfCell}
+                           value={nameNewPack}
                            type={'text'}
                            onChange={(e) => {
                                setNameNewPack(e.currentTarget.value)

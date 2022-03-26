@@ -13,7 +13,6 @@ import {Cards} from '../../../n2-features/f2-pacsAndCards/cards/Cards';
 import {Card} from '../../../n2-features/f2-pacsAndCards/cards/card/Card';
 
 
-
 export const PATH = {
     LOGIN: '/login',
     REGISTRATION: '/registration',
@@ -28,6 +27,7 @@ export const PATH = {
 }
 
 export const RoutesComponent = () => {
+
     return (
         <Container fixed>
             <Routes>
