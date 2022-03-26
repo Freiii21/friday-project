@@ -1,8 +1,8 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import {useDispatch} from 'react-redux';
-import {Navigate, NavLink} from 'react-router-dom';
+import {Navigate, NavLink, useParams} from 'react-router-dom';
 import {Box} from '@mui/material';
 import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
 import {colorBlueMI, wrapper} from '../../../../n1-main/m1-ui/utilities/for css';
@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import s from './card.module.css';
 import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
 import {getCard} from '../../../../n1-main/m1-ui/utilities/getCard';
-import {setCurrentCard, updateCardGradeTC} from '../../../../n1-main/m2-bll/reducers/cardReducer';
+import {getCardsForLearn, setCurrentCard, updateCardGradeTC} from '../../../../n1-main/m2-bll/reducers/cardReducer';
 import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
 
 export const Card = () => {
@@ -27,21 +27,40 @@ export const Card = () => {
     const isAuth = useTypedSelector(state => state.auth.isAuth);
     const question = useTypedSelector(state => state.cards.currentCard.question);
     const answer = useTypedSelector(state => state.cards.currentCard.answer);
-    const cards = useTypedSelector(state => state.cards.cardsForLearn)
-    const card_id = useTypedSelector(state => state.cards.currentCard._id)
+    const cardsForLearn = useTypedSelector(state => state.cards.cardsForLearn)
+    const card_id = useTypedSelector(state => state.cards.currentCard._id);
+    const {packIdURL, packNameURL, cardIdURL} = useParams();
+    const idPack = useTypedSelector(state => state.cards.cardsForLearn[0].cardsPack_id)
+
+    useEffect( () => {
+        debugger
+        if (idPack === 'noneInInitialCard') {
+            packIdURL && packNameURL && dispatch(getCardsForLearn(packIdURL, packNameURL));
+
+        }
+    },[]);
+
+    useEffect(()=>{
+        debugger
+
+            const card = cardsForLearn.find(x => x._id === cardIdURL)
+            card && dispatch(setCurrentCard(card));
+            card && dispatch(setCurrentCard(card));
+
+    },[cardsForLearn])
+    console.log(packIdURL, packNameURL, cardIdURL)
     const handleSubmit = () => {
         // dispatch(updateCardGradeTC({grade: +value, card_id}))
-       // alert(value)
+        // alert(value)
     }
-    const getNewCard =  () => {
-        const card = getCard(cards);
-         dispatch(setCurrentCard(card));
+    const getNewCard = () => {
+        const card = getCard(cardsForLearn);
+        dispatch(setCurrentCard(card));
         setTypeModel('learn');
         setOpen(true);
 
     }
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
-
     return (
         <div style={wrapper}>
             <Box
@@ -72,12 +91,12 @@ export const Card = () => {
                     <Grid item sx={{marginBottom: '10px', overflow: 'auto'}}>
 
                         <Typography variant={'body1'} component={'div'}>
-                            Question: <>{question}</>
+                            Question: <span style={{color: 'red'}}>{question}</span>
 
                         </Typography>
                         //problems with overflow
                         <Typography variant={'body1'} component={'div'} style={{overflow: 'auto', height: '40%'}}>
-                            Answer:<>{answer}</>
+                            Answer:<span style={{color: colorBlueMI}}> {answer}</span>
                         </Typography>
                     </Grid>
                     <Grid item justifyContent={'center'} sx={{minHeight: '30%'}}>

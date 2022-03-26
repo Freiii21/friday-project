@@ -24,7 +24,7 @@ export const PATH = {
     CHECK_EMAIL: '/checkEmail',
     PACKS_CARDS: '/packsCards',
     CARDS_MI: '/cards/:cardId/:packNameURL',
-    CARD: '/card',
+    CARD: '/card/:packIdURL/:packNameURL/:cardIdURL',
 }
 
 export const RoutesComponent = () => {

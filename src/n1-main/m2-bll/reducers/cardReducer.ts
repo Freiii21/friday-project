@@ -12,9 +12,9 @@ import {
 import {AppRootStateType, AppThunk} from '../store';
 
 
-const initialCard = {
+export const initialCardForReducer = {
     answer: 'no answer',
-    cardsPack_id: 'none',
+    cardsPack_id: 'noneInInitialCard',
     comments: 'none',
     created: 'none',
     grade: 0,
@@ -69,9 +69,9 @@ const initialState = {
         pageCount: 10,
     },
     cardsForLearn: [
-        initialCard,
+        initialCardForReducer,
     ],
-    currentCard: initialCard,
+    currentCard: initialCardForReducer,
     isGet: false,
 }
 export const cardsReducer = (state = initialState, action: CardReducerActionsType): InitialStateType => {
@@ -147,9 +147,8 @@ export const getCardsForLearn = (idPack: string, namePack: string) =>
             const res = await cardsAPI.getCards({cardsPack_id: idPack,pageCount:150});
             if (res.data.cardsTotalCount) {
                 dispatch(setCardsForLearn(res.data.cards, res.data.cardsTotalCount, namePack));
-                console.log(res.data)
             } else
-                dispatch(setCardsForLearn([initialCard], 0, namePack));
+                dispatch(setCardsForLearn([initialCardForReducer], 0, namePack));
         } catch (e) {
             handleError(e, dispatch);
         } finally {

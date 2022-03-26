@@ -76,7 +76,6 @@ export const TableCards = () => {
     const classes = useStyles();
 
     const {cardId, packNameURL} = useParams()
-
     const dispatch = useDispatch()
     // get value
     const rows: CardType[] = useTypedSelector(state => state.cards.data.cards);
