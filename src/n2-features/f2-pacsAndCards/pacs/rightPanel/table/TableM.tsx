@@ -24,6 +24,7 @@ import {InputLabel, NativeSelect,} from '@material-ui/core';
 import {useDebounce} from 'use-debounce';
 import {ButtonForTablePacks} from '../../../../../n1-main/m1-ui/common/ComponentsForTabels/ButtonForTablePacks';
 import {Pagination} from '@material-ui/lab';
+import {PackType} from '../../../../../n1-main/m2-bll/api/api';
 
 
 interface Column {
@@ -32,7 +33,6 @@ interface Column {
     minWidth?: number;
     align?: 'right';
     format?: (value: string) => string;
-    formatB?: () => void;
 }
 
 const columns: Column[] = [
@@ -40,7 +40,7 @@ const columns: Column[] = [
     {id: 'cardsCount', label: 'Count', minWidth: 100},
     {
         id: 'updated',
-        label: 'Last Update',
+        label: 'Last Updated',
         minWidth: 100,
         align: 'right',
         format: (value: string) => DateTime.fromISO(value).toFormat('DDD'),
@@ -57,7 +57,6 @@ const columns: Column[] = [
         label: 'Actions',
         minWidth: 170,
         align: 'right',
-        formatB: () => <button>hello</button>
     },
 ];
 
@@ -74,7 +73,7 @@ const useStyles = makeStyles({
 export function TableM() {
     const classes = useStyles();
     const dispatch = useDispatch()
-    const rows = useTypedSelector(state => state.packs.data.cardPacks);
+    const rows:PackType[] = useTypedSelector(state => state.packs.data.cardPacks);
 
     const _userId = useTypedSelector(state => state.auth.user._id);
     const currentPage = useTypedSelector(state => state.packs.getPackData.page);
@@ -152,7 +151,7 @@ export function TableM() {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                                     {columns.map((column) => {
-                                        //@ts-ignore
+
                                         const value = row[column.id];
                                         return (
                                             <TableCell key={column.id} align={column.align}>
@@ -167,7 +166,7 @@ export function TableM() {
                                                         color={false} nameOfPack={row.name}
                                                     />
                                                     : column.id === 'name'
-                                                        ? < ButtonForTableCell text={value} idPack={row._id}/>
+                                                        ? < ButtonForTableCell text={row.name} idPack={row._id}/>
                                                         : column.format && typeof value === 'string' ? column.format(value) : value
                                                 }
                                             </TableCell>

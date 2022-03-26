@@ -124,5 +124,7 @@ export type CardType = {
     updated: string
     user_id: string
     __v: number
-    _id: string
+    _id: string;
+    //custom property for rendering table of cards
+    actions?:string;
 }

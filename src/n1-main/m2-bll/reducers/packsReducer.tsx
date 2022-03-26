@@ -14,7 +14,7 @@ const initialState = {
                 name: 'no Name',
                 cardsCount: 0,
                 created: 'none',
-                update: 'none',
+                updated: 'none',
             },
         ],
         cardPacksTotalCount: 0,

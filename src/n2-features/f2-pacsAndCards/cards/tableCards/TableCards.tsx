@@ -21,11 +21,12 @@ import {
     setCardsCurrentPage,
     setCardsQuestion,
     setCardsSortValue, setIdCardsAC
-} from "../../../../n1-main/m2-bll/reducers/cardReducer";
-import {useDispatch} from "react-redux";
+} from '../../../../n1-main/m2-bll/reducers/cardReducer';
+import {useDispatch} from 'react-redux';
 import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
-import {useDebounce} from "use-debounce";
-import {Pagination} from "@material-ui/lab";
+import {useDebounce} from 'use-debounce';
+import {Pagination} from '@material-ui/lab';
+import {CardType} from '../../../../n1-main/m2-bll/api/cards-a-p-i';
 
 
 interface Column {
@@ -34,7 +35,6 @@ interface Column {
     minWidth?: number;
     align?: 'right';
     format?: (value: string) => string;
-    formatB?: () => void;
 }
 
 const columns: Column[] = [
@@ -59,7 +59,6 @@ const columns: Column[] = [
         label: '',
         minWidth: 50,
         align: 'right',
-        formatB: () => <button>hello</button>
     },
 ];
 
@@ -76,11 +75,11 @@ export const TableCards = () => {
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
 
-    const {cardId,packNameURL} = useParams()
+    const {cardId, packNameURL} = useParams()
 
     const dispatch = useDispatch()
     // get value
-    const rows = useTypedSelector(state => state.cards.data.cards);
+    const rows: CardType[] = useTypedSelector(state => state.cards.data.cards);
     const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
     const packName = useTypedSelector(state => state.cards.packName);
     // auth value
@@ -96,7 +95,7 @@ export const TableCards = () => {
 
     // set cards function
     useEffect(() => {
-        packNameURL &&  cardId && dispatch(setIdCardsAC(cardId, packNameURL))
+        packNameURL && cardId && dispatch(setIdCardsAC(cardId, packNameURL))
         dispatch(getCardsTC())
     }, [cardId, cardsCurrentPage, cardsSortValue, cardsQuestionDebounce[0]])
 
@@ -172,7 +171,7 @@ export const TableCards = () => {
                                 return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                                         {columns.map((column) => {
-                                            //@ts-ignore
+
                                             const value = row[column.id];
                                             return (
                                                 <TableCell key={column.id} align={column.align}>
@@ -184,7 +183,6 @@ export const TableCards = () => {
                                                             <BasicButtonGroup name_2={'Del'}
                                                                               name_3={'Update'}
                                                                               userId={false}
-                                                                // callBack2={deleteCard}
                                                                               color={true}
                                                                               titleOfPage={'Card'}
                                                                               nameOfCell={row.question}
@@ -202,7 +200,7 @@ export const TableCards = () => {
                     </Table>
                 </TableContainer>
 
-                <div style={{marginTop: "30px"}}>
+                <div style={{marginTop: '30px'}}>
                     {cardsTotalCount > 10 ?
                         <Pagination
                             count={Math.ceil(cardsTotalCount / cardsPageCount)}

@@ -67,7 +67,9 @@ export type PackType = {
     name: string;
     cardsCount: number;
     created: string;
-    update: string;
+    updated: string;
+    //custom property for render table packs
+    actions?:string;
 }
 export type ResponsePacksType = {
     cardPacks: PackType[];
