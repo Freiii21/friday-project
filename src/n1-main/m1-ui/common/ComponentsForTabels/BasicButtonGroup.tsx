@@ -17,12 +17,14 @@ type PropsType = {
     nameOfCell: string;
     id: string;
     nameOfPack?: string;
+    questionText?: string;
+    answerText?: string;
 
 }
 //
 const fontSize = {fontSize: '0.6rem'}
 export default function BasicButtonGroup(
-    {userId, name_1, name_2, name_3, color, titleOfPage, nameOfCell, id,}: PropsType) {
+    {userId, name_1, name_2, name_3, color, titleOfPage, nameOfCell, id,questionText,answerText,}: PropsType) {
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = React.useState('');
     const [typeModel, setTypeModel] = useState('');
@@ -86,6 +88,8 @@ export default function BasicButtonGroup(
                 setOpen={setOpen} titleOfPage={titleOfPage}
                 type={typeModel} id={id}
                 nameOfCell={nameOfCell}
+                questionText={questionText}
+                answerText={answerText}
             />
         </>
     );

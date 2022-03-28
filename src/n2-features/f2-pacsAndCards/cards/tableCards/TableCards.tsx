@@ -172,6 +172,7 @@ export const TableCards = () => {
                                         {columns.map((column) => {
 
                                             const value = row[column.id];
+
                                             return (
                                                 <TableCell key={column.id} align={column.align}>
                                                     {column.id === 'grade'
@@ -186,6 +187,8 @@ export const TableCards = () => {
                                                                               titleOfPage={'Card'}
                                                                               nameOfCell={row.question}
                                                                               id={row._id}
+                                                                              questionText={row.question}
+                                                                              answerText={row.answer}
                                                             />
                                                             : column.format && typeof value === 'string'
                                                                 ? column.format(value) : value}
