@@ -11,17 +11,9 @@ import {useTypedSelector} from '../../m2-bll/redux';
 import {NavLink} from 'react-router-dom';
 import {colorBlueMI} from '../utilities/for css';
 import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
-import {
-    addNewCardTC,
-    deleteCardTC,
-    initialCardForReducer,
-    setCurrentCard,
-    setIsGet,
-    updateCardTC
-} from '../../m2-bll/reducers/cardReducer';
+import {addNewCardTC, deleteCardTC, setCurrentCard, setIsGet, updateCardTC} from '../../m2-bll/reducers/cardReducer';
 import {getCard} from '../utilities/getCard';
 import LinearIndeterminate from '../common/Preloader/unused/LinearMI';
-import {CardType} from '../../m2-bll/api/cards-a-p-i';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -42,13 +34,13 @@ type PropsType = {
     id?: string;
     titleOfPage?: string;
     nameOfCell?: string;
-
-
+    questionText?: string;
+    answerText?: string;
 }
 
 
 export default function ModalMi({
-                                    title, open, setOpen, titleOfPage, type, id, nameOfCell,
+                                    title, open, setOpen, titleOfPage, type, id, nameOfCell, questionText, answerText,
                                 }: PropsType) {
     const dispatch = useDispatch();
     const questionForLearn = useTypedSelector(state => state.cards.currentCard.question);
@@ -58,7 +50,7 @@ export default function ModalMi({
 
     const cards = useTypedSelector(state => state.cards.cardsForLearn);
     const isGet = useTypedSelector(state => state.cards.isGet);
-    const idCurrenCard=useTypedSelector(state => state.cards.currentCard._id);
+    const idCurrenCard = useTypedSelector(state => state.cards.currentCard._id);
     useEffect(() => {
         if (isGet) {
             const card = getCard(cards);
@@ -67,9 +59,9 @@ export default function ModalMi({
 
     }, [cards])
 
-    const [question, setQuestion] = useState<string>('')
-    const [answer, setAnswer] = useState<string>('')
-    const [nameNewPack, setNameNewPack] = useState<string|undefined>(nameOfCell)
+    const [question, setQuestion] = useState<string | undefined>(questionText)
+    const [answer, setAnswer] = useState<string | undefined>(answerText)
+    const [nameNewPack, setNameNewPack] = useState<string | undefined>(nameOfCell)
 
     const cardsPack_id = useTypedSelector(state => state.cards.getData.cardsPack_id)
     const _id = id;
@@ -90,7 +82,7 @@ export default function ModalMi({
             dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
         }
         if (title === 'Add Pack') {
-            nameNewPack&&dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
+            nameNewPack && dispatch(addNewPackTC({cardsPack: {name: nameNewPack}}))
         }
         if (title === 'Edit name') {
             dispatch(changeNamePackTC({
@@ -119,7 +111,6 @@ export default function ModalMi({
     const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setQuestion(e.currentTarget.value)
     }
-
     const onClickShowAnswer = () => dispatch(setIsGet(false));
     return (
         <div>

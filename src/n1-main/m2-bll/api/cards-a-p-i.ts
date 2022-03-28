@@ -54,8 +54,8 @@ export type RequestToUpdateCardType = {
 export type RequestToAddCardType = {
     card: {
         cardsPack_id: string;
-        question: string;
-        answer: string;
+        question: string|undefined;
+        answer: string|undefined;
         grade?: number;
         shots?: number;
         answerImg?: string;
