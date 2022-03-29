@@ -12,6 +12,7 @@ import {useTypedSelector} from '../../m2-bll/redux';
 import {useDispatch} from 'react-redux';
 import {setLogoutT} from '../../m2-bll/reducers/authReducer';
 import LinearIndeterminate from '../common/Preloader/unused/LinearMI';
+import icon from "../../../assets/flashcards.png"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -48,6 +49,9 @@ export default function HeaderMI({switchDrawer}: PropsType) {
                     }} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon/>
                     </IconButton>
+                    <div style={{backgroundColor:'white', marginRight:'25px'}} >
+                        <img src={icon} alt="icon" style={{height:'50px', width:'50px'}}/>
+                    </div>
                     <Typography variant="h6" className={classes.title}>
                         cards 2022
                     </Typography>
