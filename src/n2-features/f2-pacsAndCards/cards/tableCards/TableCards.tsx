@@ -27,6 +27,7 @@ import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
 import {useDebounce} from 'use-debounce';
 import {Pagination} from '@material-ui/lab';
 import {CardType} from '../../../../n1-main/m2-bll/api/cards-a-p-i';
+import ModalAddCard from '../../../../n1-main/m1-ui/modal/ModalAddCard';
 
 
 interface Column {
@@ -211,7 +212,7 @@ export const TableCards = () => {
                         : null}
                 </div>
             </Paper>
-            <ModalMi
+            <ModalAddCard
                 title={'Add card'}
                 open={open}
                 setOpen={setOpen}

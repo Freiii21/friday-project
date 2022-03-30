@@ -49,6 +49,7 @@ export const Card = () => {
 
     }, [cardsForLearn])
     const handleSubmit = () => {
+        alert(value)
         dispatch(updateCardGradeTC({grade: Number(value === '' ? 1 : value), card_id}))
         setValue('');
     }
