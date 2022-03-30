@@ -2,6 +2,9 @@ export const redStyle = {
     fontSize: '0.8rem',
     color: 'red',
 }
+export const fontSizeButtonAuth={
+    fontSize: '0.7rem',
+}
 export const wrapper = {
     display: 'flex',
     justifyContent: 'center',

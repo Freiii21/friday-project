@@ -11,7 +11,7 @@ import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {Navigate, useParams} from 'react-router-dom';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import {createNewPassword} from '../../../n1-main/m2-bll/reducers/authReducer';
-import {redStyle, wrapper} from '../../../n1-main/m1-ui/utilities/for css';
+import {fontSizeButtonAuth, redStyle, wrapper} from '../../../n1-main/m1-ui/utilities/for css';
 
 
 export const CreatingNewPassword = () => {
@@ -60,6 +60,7 @@ export const CreatingNewPassword = () => {
                     borderRadius: 3,
                     width: 350,
                     height: '90%',
+                    overflow: 'auto',
                     backgroundColor: 'whitesmoke',
                     '&:hover': {
                         backgroundColor: 'white',
@@ -67,7 +68,7 @@ export const CreatingNewPassword = () => {
                     },
                 }}
             >
-                <Grid container justifyContent={'center'}>
+                <Grid container justifyContent={'center'} sx={{margin: 'auto'}}>
                     <Grid item justifyContent={'center'}>
                         <form onSubmit={formik.handleSubmit}>
 
@@ -100,11 +101,12 @@ export const CreatingNewPassword = () => {
                                     will
                                     send you further instructions to email</p></FormLabel>
                                 <Button
+                                    style={fontSizeButtonAuth}
                                     sx={{
                                         marginTop: '30%',
                                         marginLeft: '10%',
-                                        height: 25,
-                                        width: 200,
+                                        height: '20%',
+                                        width: '100%',
                                         borderRadius: 10,
                                         fontSize: '0.5rem',
                                     }}

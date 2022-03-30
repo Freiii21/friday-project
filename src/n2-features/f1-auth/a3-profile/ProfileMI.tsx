@@ -51,6 +51,7 @@ export const ProfileMI = () => {
                     borderRadius: 3,
                     width: 350,
                     height: '90%',
+                    overflow:'auto',
                     backgroundColor: 'whitesmoke',
                     '&:hover': {
                         backgroundColor: 'white',
@@ -58,7 +59,7 @@ export const ProfileMI = () => {
                     },
                 }}
             >
-                <Grid container justifyContent={'center'}>
+                <Grid container justifyContent={'center'} sx={{margin:'auto'}}>
                     <Grid item justifyContent={'center'}>
                         {user.avatar
                             ? <img src={user.avatar} style={widthLogo} alt="AVATAR"/>
@@ -82,8 +83,8 @@ export const ProfileMI = () => {
                         <span><span style={styleSpan}>Email: </span> {user.email}</span>
                         <span><span style={styleSpan}>Name: </span>{user.name}</span>
                         <span><span style={styleSpan}>Cards count: </span>{user.publicCardPacksCount}</span>
-                        <span><span style={styleSpan}>Registartion: </span>{registerData}</span>
-                        <div>
+                        <span><span style={styleSpan}>Registration: </span>{registerData}</span>
+                        <div style={{marginBottom:'20%'}}>
 
                             <Input size={'small'}
                                    placeholder={'http://...'}

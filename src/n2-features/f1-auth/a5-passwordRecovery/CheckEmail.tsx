@@ -20,7 +20,8 @@ export const CheckEmail = () => {
                 border: '2px solid lightgrey',
                 borderRadius: 3,
                 width: 350,
-                height: '80%',
+                height: '90%',
+                overflow:'auto',
                 backgroundColor: 'whitesmoke',
                 '&:hover': {
                     backgroundColor: 'white',
@@ -28,7 +29,7 @@ export const CheckEmail = () => {
                 },
             }}
         >
-            <Grid container justifyContent={'center'}>
+            <Grid container justifyContent={'center'} sx={{margin:'auto'}}>
                 <Grid item justifyContent={'center'}>
                     <img src={img_envelope} alt={'envelope'}/>
                     <h1>Check Email</h1>

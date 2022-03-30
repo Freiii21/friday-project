@@ -14,7 +14,7 @@ import * as Yup from 'yup';
 import {setLoginT, setRegistered} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {Box, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
-import {redStyle} from '../../../n1-main/m1-ui/utilities/for css';
+import {fontSizeButtonAuth, redStyle} from '../../../n1-main/m1-ui/utilities/for css';
 import {BlankDiv} from '../../../n1-main/m1-ui/common/ComponentsForTabels/BlankDiv';
 
 type State = {
@@ -125,7 +125,7 @@ export const AddFormLoginMI = () => {
 
                         <FormControl>
                             <FormControlLabel
-                                sx={{marginTop: '20px'}}
+                                sx={{margin:'15% 0% 0% 5%'}}
                                 label={'Remember me'}
                                 control={
                                     <Checkbox
@@ -138,12 +138,12 @@ export const AddFormLoginMI = () => {
                                     Password</NavLink>
                             </p>
                             <Button
+                                style={fontSizeButtonAuth}
                                 sx={{
                                     marginTop: '30%',
-                                    height: 25,
-                                    width: 200,
+                                    height: '20%',
+                                    width: '100%',
                                     borderRadius: 10,
-                                    fontSize: '0.5rem',
                                 }}
                                 type={'submit'} variant={'contained'} color={'primary'}>
                                 Login
