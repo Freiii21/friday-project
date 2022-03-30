@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {ChangeEvent, useEffect, useState} from 'react'
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import {useDispatch} from 'react-redux';
@@ -48,19 +48,18 @@ export const Card = () => {
 
 
     }, [cardsForLearn])
-    const handleSubmit = () => {
-        alert(value)
-        dispatch(updateCardGradeTC({grade: Number(value === '' ? 1 : value), card_id}))
-        setValue('');
-    }
     const getNewCard = () => {
         const card = getCard(cardsForLearn);
         dispatch(setCurrentCard(card));
         setTypeModel('learn');
         setOpen(true);
-
+        dispatch(updateCardGradeTC({grade: Number(value === '' ? 1 : value), card_id}));
+        setValue('');
     }
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => setValue(e.currentTarget.value);
+
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
+
     return (
         <div style={wrapper}>
             <Box
@@ -100,63 +99,64 @@ export const Card = () => {
                         </Typography>
                     </Grid>
                     <Grid item justifyContent={'center'} sx={{minHeight: '30%'}}>
-                        <form onSubmit={handleSubmit}>
-                            <FormControl component="fieldset">
-                                <FormLabel component="legend">Rate yourself</FormLabel>
-                                <RadioGroup aria-label="gender" name="gender1" value={value}
-                                            onChange={(e) => setValue(e.currentTarget.value)}
-                                >
-                                    <FormControlLabel value="1" control={<Radio size={'small'}/>} label="Don`t know "/>
-                                    <FormControlLabel value="2" control={<Radio size={'small'}/>} label="Forgot"/>
-                                    <FormControlLabel value="3" control={<Radio size={'small'}/>}
-                                                      label="A lot of thought"/>
-                                    <FormControlLabel value="4" control={<Radio size={'small'}/>} label="Confused"/>
-                                    <FormControlLabel value="5" control={<Radio size={'small'}/>}
-                                                      label="Knew the answer"/>
-                                </RadioGroup>
-                            </FormControl>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-around',
-                                    width: '100%',
-                                    marginTop: '2%',
-                                }}>
-                                <Button
-                                    sx={{
-                                        marginTop: '30%',
-                                        height: 20,
-                                        width: 90,
-                                        borderRadius: 10,
-                                        fontSize: '0.5rem',
-                                    }}
-                                    size={'small'}
-                                    type={'button'} variant={'contained'} color={'primary'}
-                                >
-                                    <NavLink to={PATH.PACKS_CARDS}
-                                             style={{color: 'inherit', textDecoration: 'none'}}>
-                                        Cancel
-                                    </NavLink>
-                                </Button>
-                                <Button
-                                    sx={{
-                                        marginTop: '30%',
-                                        marginLeft: '10%',
-                                        height: 20,
-                                        width: 90,
-                                        borderRadius: 10,
-                                        fontSize: '0.5rem',
-                                    }}
-                                    size={'small'}
-                                    variant={'contained'} color={'primary'}
-                                    onClick={getNewCard}
-                                    type={'submit'}
-                                >
-                                    <NavLink to={`/card/${idPack}/${namePack}/${card_id}`}>Next</NavLink>
-                                </Button>
-                            </div>
-                        </form>
+
+                        <FormControl component="fieldset">
+                            <FormLabel component="legend">Rate yourself</FormLabel>
+                            <RadioGroup aria-label="gender" name="gender1" value={value}
+                                        onChange={onChange}
+                            >
+                                <FormControlLabel value="1" control={<Radio size={'small'}/>} label="Don`t know "/>
+                                <FormControlLabel value="2" control={<Radio size={'small'}/>} label="Forgot"/>
+                                <FormControlLabel value="3" control={<Radio size={'small'}/>}
+                                                  label="A lot of thought"/>
+                                <FormControlLabel value="4" control={<Radio size={'small'}/>} label="Confused"/>
+                                <FormControlLabel value="5" control={<Radio size={'small'}/>}
+                                                  label="Knew the answer"/>
+                            </RadioGroup>
+                        </FormControl>
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-around',
+                                width: '100%',
+                                marginTop: '2%',
+                            }}>
+                            <Button
+                                sx={{
+                                    marginTop: '30%',
+                                    height: 20,
+                                    width: 90,
+                                    borderRadius: 10,
+                                    fontSize: '0.5rem',
+                                }}
+                                size={'small'}
+                                type={'button'} variant={'contained'} color={'primary'}
+                            >
+                                <NavLink to={PATH.PACKS_CARDS}
+                                         style={{color: 'inherit', textDecoration: 'none'}}>
+                                    Cancel
+                                </NavLink>
+                            </Button>
+                            <Button
+                                type={'submit'}
+                                sx={{
+                                    marginTop: '30%',
+                                    marginLeft: '10%',
+                                    height: 20,
+                                    width: 90,
+                                    borderRadius: 10,
+                                    fontSize: '0.5rem',
+                                }}
+                                size={'small'}
+                                variant={'contained'} color={'primary'}
+                                onClick={getNewCard}
+
+                            >
+                                <NavLink to={`/card/${idPack}/${namePack}/${card_id}`}>Next</NavLink>
+                            </Button>
+                        </div>
+
                     </Grid>
                 </Grid>
             </Box>

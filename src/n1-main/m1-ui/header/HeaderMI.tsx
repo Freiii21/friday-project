@@ -49,7 +49,7 @@ export default function HeaderMI({switchDrawer}: PropsType) {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        cards 2022
+                        learning cards  2022
                     </Typography>
                     {isAuth
                         ? <Button color="inherit" onClick={handleLogOut}>Log Out</Button>

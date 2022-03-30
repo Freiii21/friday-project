@@ -7,6 +7,7 @@ import LinearIndeterminate from './unused/LinearMI';
 import React from 'react';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -20,24 +21,24 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     }),
 );
-export const BarApp= () => {
+export const BarApp = () => {
 
     const classes = useStyles();
-    return(
-      <div className={classes.root}>
-          <AppBar position="static">
-              <Toolbar>
+    return (
+        <div className={classes.root}>
+            <AppBar position="static">
+                <Toolbar>
 
-                  <IconButton  edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                      <MenuIcon/>
-                  </IconButton>
-                  <Typography variant="h6" className={classes.title}>
-                      cards 2022
-                  </Typography>
-                  <Button color="inherit">Login</Button>
-              </Toolbar>
-              <LinearIndeterminate/>
-          </AppBar>
-      </div>
-  )
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <MenuIcon/>
+                    </IconButton>
+                    <Typography variant="h6" className={classes.title}>
+                        learning cards 2022
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+                <LinearIndeterminate/>
+            </AppBar>
+        </div>
+    )
 }

@@ -56,16 +56,6 @@ export default function ModalAddCard({
     const status = useTypedSelector(state => state.app.status);
     // const handleClose = () => setOpen(false);
 
-    const cards = useTypedSelector(state => state.cards.cardsForLearn);
-    const isGet = useTypedSelector(state => state.cards.isGet);
-    const idCurrenCard = useTypedSelector(state => state.cards.currentCard._id);
-    useEffect(() => {
-        if (isGet) {
-            const card = getCard(cards);
-            dispatch(setCurrentCard(card));
-        }
-
-    }, [cards])
 
     const [question, setQuestion] = useState<string | undefined>(questionText)
     const [answer, setAnswer] = useState<string | undefined>(answerText)
@@ -92,7 +82,7 @@ export default function ModalAddCard({
     const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setQuestion(e.currentTarget.value)
     }
-    const onClickShowAnswer = () => dispatch(setIsGet(false));
+
     return (
         <div>
             <Modal
@@ -101,7 +91,6 @@ export default function ModalAddCard({
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    {status === 'loading' && <LinearIndeterminate/>}
                     <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom: '20px'}}>
                         {title}
                     </Typography>
