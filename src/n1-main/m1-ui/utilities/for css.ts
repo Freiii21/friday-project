@@ -6,7 +6,7 @@ export const wrapper = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '85vh'
+    height: '90vh'
 }
 export const widthLogo = {
     width: '150px',

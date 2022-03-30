@@ -73,6 +73,7 @@ export const AddFormLoginMI = () => {
                 borderRadius: 3,
                 width: 350,
                 height: '90%',
+                overflow:'auto',
                 backgroundColor: 'whitesmoke',
                 '&:hover': {
                     backgroundColor: 'white',
@@ -80,7 +81,7 @@ export const AddFormLoginMI = () => {
                 },
             }}
         >
-            <Grid container justifyContent={'center'}>
+            <Grid container justifyContent={'center'} sx={{margin:'auto'}}>
                 <Grid item justifyContent={'center'}>
                     <form onSubmit={formik.handleSubmit}>
 
