@@ -13,5 +13,6 @@ export const wrapper = {
 }
 export const widthLogo = {
     width: '150px',
+    height: '170px',
 }
 export const colorBlueMI = 'rgb(63, 81, 181)';

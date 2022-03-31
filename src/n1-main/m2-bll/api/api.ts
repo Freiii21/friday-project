@@ -69,7 +69,7 @@ export type PackType = {
     created: string;
     updated: string;
     //custom property for render table packs
-    actions?:string;
+    actions?: string;
 }
 export type ResponsePacksType = {
     cardPacks: PackType[];
@@ -114,7 +114,7 @@ export type ResponseUpdateUserType = {
 }
 export type NewNameUserType = {
     name?: string;
-    avatar: string;
+    avatar: string | ArrayBuffer | null;
 }
 export type ResponseRegisterDataType = {
     addedUser: {},
@@ -139,5 +139,5 @@ export type UserType = {
     error?: string;
 }
 export type RequestToAddPackType = {
-    cardsPack: {name: string}
+    cardsPack: { name: string }
 }

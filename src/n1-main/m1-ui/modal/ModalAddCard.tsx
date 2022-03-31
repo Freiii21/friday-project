@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ChangeEvent, useEffect, useState} from 'react';
+import {ChangeEvent, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -8,12 +8,7 @@ import Button from '@material-ui/core/Button';
 import {Input, TextField} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {useTypedSelector} from '../../m2-bll/redux';
-import {NavLink} from 'react-router-dom';
-import {colorBlueMI} from '../utilities/for css';
-import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
-import {addNewCardTC, deleteCardTC, setCurrentCard, setIsGet, updateCardTC} from '../../m2-bll/reducers/cardReducer';
-import {getCard} from '../utilities/getCard';
-import LinearIndeterminate from '../common/Preloader/unused/LinearMI';
+import {addNewCardTC} from '../../m2-bll/reducers/cardReducer';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -61,13 +56,17 @@ export default function ModalAddCard({
     const [answer, setAnswer] = useState<string | undefined>(answerText)
     const [nameNewPack, setNameNewPack] = useState<string | undefined>(nameOfCell)
 
+    const [file, setFile] = useState<File>();
+    const [fileURL, setFileURL] = useState<any>('');
+    const [fileData, setFileData] = useState<FormData>();
+
     const cardsPack_id = useTypedSelector(state => state.cards.getData.cardsPack_id)
     const _id = id;
-
+    const inRef = useRef<HTMLInputElement>(null);
 
     const addOnClickHandler = () => {
 
-        dispatch(addNewCardTC({'card': {cardsPack_id, question, answer}}))
+        dispatch(addNewCardTC({'card': {cardsPack_id, answerImg: fileURL, question, answer}}))
 
     }
     const onClickCancelHandler = () => {
@@ -82,7 +81,34 @@ export default function ModalAddCard({
     const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setQuestion(e.currentTarget.value)
     }
+    const onChangeAddFile = (e: ChangeEvent<HTMLInputElement>) => {
+        debugger
+        let reader = new FileReader();
 
+            reader.onloadend=() => {
+                const res = reader.result
+                setFileURL(res);
+                debugger
+            }
+
+        e.target.files&&reader.readAsDataURL(e.target.files[0])
+       /* e.target.files && reader.readAsDataURL(e.target.files[0])
+        reader.result*/
+        debugger
+       /* const formData = new FormData();
+        const newFile = e.target.files && e.target.files[0];
+        if (newFile) {
+            setFile(newFile);
+            setFileURL(window.URL.createObjectURL(newFile));
+            formData.append('myFile', newFile, newFile.name);
+            setFileData(formData);
+        }*/
+    }
+
+    debugger
+    console.log(file)
+    console.log(fileURL)
+    console.log(fileData)
     return (
         <div>
             <Modal
@@ -94,18 +120,29 @@ export default function ModalAddCard({
                     <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom: '20px'}}>
                         {title}
                     </Typography>
-                    <>
-                        <TextField fullWidth={true} variant={'standard'}
-                                   sx={{marginBottom: '5px'}} maxRows={2} multiline
-                                   placeholder={'question'} onChange={onChangeHandlerQuestion}
-                                   value={question}
-                        />
-                        <TextField fullWidth={true} variant={'standard'}
-                                   sx={{marginBottom: '20px'}} maxRows={4} multiline
-                                   placeholder={'answer'} onChange={onChangeHandlerAnswer}
-                                   value={answer}
-                        />
-                    </>
+                    <Grid container direction={'row'}>
+                        <Grid item xs={8}>
+                            <TextField fullWidth={true} variant={'standard'}
+                                       sx={{marginBottom: '5px'}} maxRows={2} multiline
+                                       placeholder={'question'} onChange={onChangeHandlerQuestion}
+                                       value={question}
+                            />
+                            <TextField fullWidth={true} variant={'standard'}
+                                       sx={{marginBottom: '20px'}} maxRows={4} multiline
+                                       placeholder={'answer'} onChange={onChangeHandlerAnswer}
+                                       value={answer}
+                            />
+                        </Grid>
+                        <Grid item xs={4} sx={{border: '1px solid black'}}>
+                            <TextField
+                                onChange={onChangeAddFile}
+                                type={'file'}
+                                ref={inRef}
+
+                            />
+                        </Grid>
+                    </Grid>
+
                     <Grid container sx={{marginTop: 4}}>
                         <Grid item xs={6} sx={{textAlign: 'center'}}>
                             <Button size={'small'} variant={'contained'}

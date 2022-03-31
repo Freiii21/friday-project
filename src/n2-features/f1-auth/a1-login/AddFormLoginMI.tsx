@@ -60,7 +60,7 @@ export const AddFormLoginMI = () => {
         },
     });
     {
-        if (isAuth) return <Navigate to={PATH.PROFILE}/>
+        if (isAuth) return <Navigate to={PATH.PACKS_CARDS}/>
     }
     return (
         <Box

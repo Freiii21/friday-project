@@ -58,7 +58,7 @@ export type RequestToAddCardType = {
         answer: string|undefined;
         grade?: number;
         shots?: number;
-        answerImg?: string;
+        answerImg?: string|FormData;
         questionImg?: string;
         questionVideo?: string;
         answerVideo?: string;
@@ -112,6 +112,7 @@ export type CardsDataType = {
 
 export type CardType = {
     answer: string
+    answerImg?:string;
     cardsPack_id: string
     comments: string
     created: string

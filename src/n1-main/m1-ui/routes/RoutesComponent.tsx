@@ -31,7 +31,7 @@ export const RoutesComponent = () => {
     return (
         <Container fixed>
             <Routes>
-                <Route path="/" element={<Navigate to={PATH.PROFILE}/>}/>
+                <Route path="/" element={<Navigate to={PATH.PACKS_CARDS}/>}/>
 
                 <Route path={PATH.LOGIN} element={<Login/>}/>
                 <Route path={PATH.REGISTRATION} element={<RegistrationMI/>}/>
