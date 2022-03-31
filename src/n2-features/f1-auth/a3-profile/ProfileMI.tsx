@@ -61,8 +61,6 @@ export const ProfileMI = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    margin: 0,
-                    padding: 0,
                     border: '2px solid lightgrey',
                     borderRadius: 3,
                     width: 400,

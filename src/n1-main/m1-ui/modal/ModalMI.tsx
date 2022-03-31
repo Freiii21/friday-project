@@ -13,13 +13,14 @@ import {colorBlueMI} from '../utilities/for css';
 import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
 import {addNewCardTC, deleteCardTC, setCurrentCard, setIsGet, updateCardTC} from '../../m2-bll/reducers/cardReducer';
 import {getCard} from '../utilities/getCard';
+import s from './modal.module.css';
 
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 500,
+    width: '30%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -118,7 +119,7 @@ export default function ModalMi({
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box sx={style} className={s.box}>
                     {status === 'loading' &&
                     <div style={{position: 'relative'}}>
                         <CircularProgress
@@ -143,7 +144,8 @@ export default function ModalMi({
                     </Typography>
                     }
                     {((type === 'input' && title === 'Edit name') || (type === 'input' && title === 'Add Pack')) &&
-                    <Input size={'small'}
+                    <Input fullWidth={true}
+                        size={'small'}
                            value={nameNewPack}
                            type={'text'}
                            onChange={(e) => {
