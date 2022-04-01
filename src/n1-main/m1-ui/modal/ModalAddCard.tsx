@@ -9,7 +9,8 @@ import {TextField} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {useTypedSelector} from '../../m2-bll/redux';
 import {addNewCardTC} from '../../m2-bll/reducers/cardReducer';
-import s from './modal.module.css';
+import s from './Modal.module.css';
+import {styleForWidthModal} from '../utilities/styleForWidthModal';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -46,7 +47,8 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
 
     const cardsPack_id = useTypedSelector(state => state.cards.getData.cardsPack_id)
     const inRef = useRef<HTMLInputElement>(null);
-
+    const useStyles = styleForWidthModal;
+    const classes = useStyles();
     const addOnClickHandler = () => {
 
         dispatch(addNewCardTC({'card': {cardsPack_id, answerImg: fileBase64, question, answer}}))
@@ -77,7 +79,7 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
 
 
     }
-//comment
+
     return (
         <div>
             <Modal
@@ -85,7 +87,7 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style} className={s.box}>
+                <Box className={classes.box} sx={style} >
                     <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom: '20px'}}>
                         {title}
                     </Typography>
