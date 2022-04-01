@@ -77,7 +77,7 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
 
 
     }
-// comments
+
     return (
         <div>
             <Modal
