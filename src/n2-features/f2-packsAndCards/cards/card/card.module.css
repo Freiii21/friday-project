@@ -1,0 +1,6 @@
+@media screen and (max-height: 700px ) {
+.box{
+    min-height: 85vh;
+}
+
+}
