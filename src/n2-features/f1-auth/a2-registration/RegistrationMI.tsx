@@ -11,7 +11,7 @@ import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import * as Yup from 'yup';
 import {Box, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
-import {redStyle, wrapper} from '../../../n1-main/m1-ui/utilities/for css';
+import {fontSizeButtonAuth, redStyle, wrapper} from '../../../n1-main/m1-ui/utilities/for css';
 import {BlankDiv} from '../../../n1-main/m1-ui/common/ComponentsForTabels/BlankDiv';
 import {setRegistered, setRegisteredT} from '../../../n1-main/m2-bll/reducers/authReducer';
 
@@ -75,6 +75,7 @@ export const RegistrationMI = () => {
                     borderRadius: 3,
                     width: 350,
                     height: '90%',
+                    overflow:'auto',
                     backgroundColor: 'whitesmoke',
                     '&:hover': {
                         backgroundColor: 'white',
@@ -82,7 +83,7 @@ export const RegistrationMI = () => {
                     },
                 }}
             >
-                <Grid container justifyContent={'center'}>
+                <Grid container justifyContent={'center'} sx={{margin:'auto'}} >
                     <Grid item justifyContent={'center'}>
                         <form onSubmit={formik.handleSubmit}>
 
@@ -104,7 +105,7 @@ export const RegistrationMI = () => {
 
                             <BlankDiv/>
 
-                            <FormControl>
+                            <FormControl size={'small'}>
                                 <InputLabel htmlFor="password">Password</InputLabel>
                                 <Input
                                     id="password"
@@ -161,12 +162,12 @@ export const RegistrationMI = () => {
                                         marginTop: '90px',
                                     }}>
                                     <Button
+                                        style={fontSizeButtonAuth}
                                         sx={{
                                             marginTop: '30%',
-                                            height: 20,
-                                            width: 90,
+                                            height: '20%',
+                                            width: '45%',
                                             borderRadius: 10,
-                                            fontSize: '0.5rem',
                                         }}
                                         size={'small'}
                                         type={'button'} variant={'contained'} color={'primary'}
@@ -177,13 +178,13 @@ export const RegistrationMI = () => {
                                         </NavLink>
                                     </Button>
                                     <Button
+                                        style={fontSizeButtonAuth}
                                         sx={{
                                             marginTop: '30%',
                                             marginLeft: '10%',
-                                            height: 20,
-                                            width: 90,
+                                            height: '20%',
+                                            width: '50%',
                                             borderRadius: 10,
-                                            fontSize: '0.5rem',
                                         }}
                                         size={'small'}
                                         type={'submit'} variant={'contained'} color={'primary'}>

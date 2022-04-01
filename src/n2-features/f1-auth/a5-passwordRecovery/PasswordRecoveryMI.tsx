@@ -10,7 +10,7 @@ import {Box, Input, InputLabel} from '@mui/material';
 import {Navigate, NavLink} from 'react-router-dom';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import {passwordRecoveryTC} from '../../../n1-main/m2-bll/reducers/authReducer';
-import {redStyle, wrapper} from '../../../n1-main/m1-ui/utilities/for css';
+import {fontSizeButtonAuth, redStyle, wrapper} from '../../../n1-main/m1-ui/utilities/for css';
 import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 
 
@@ -49,6 +49,7 @@ export const PasswordRecoveryMI = () => {
                     borderRadius: 3,
                     width: 350,
                     height: '90%',
+                    overflow: 'auto',
                     backgroundColor: 'whitesmoke',
                     '&:hover': {
                         backgroundColor: 'white',
@@ -56,49 +57,49 @@ export const PasswordRecoveryMI = () => {
                     },
                 }}
             >
-                <Grid container justifyContent={'center'} alignContent={'center'}>
-                    <Grid item>
-                        <form onSubmit={formik.handleSubmit}>
+                <Grid container justifyContent={'center'} alignContent={'center'} sx={{margin: 'auto'}}>
+                    <form onSubmit={formik.handleSubmit}>
 
+                        <FormLabel>
+                            <h2 style={{marginBottom: '30%'}}>Forgot you password?</h2>
+                        </FormLabel>
+
+                        <FormControl>
+                            <InputLabel htmlFor="password">Email</InputLabel>
+                            <Input
+                                id={'email'}
+                                type={'text'}
+                                {...formik.getFieldProps('email')}
+                            />
+                            {formik.touched.email && formik.errors.email
+                                ? <div style={redStyle}>{formik.errors.email}</div>
+                                : null}
                             <FormLabel>
-                                <h2 style={{marginBottom: '30%'}}>Forgot you password?</h2>
+                                <p style={{fontSize: '0.8rem', margin: '20% 0 '}}>
+                                    Enter your email address
+                                    and
+                                    we will send you further instructions
+                                </p>
                             </FormLabel>
+                            <Grid container xs={12} justifyContent={'center'}>
+                                <Button
+                                    style={fontSizeButtonAuth}
+                                    sx={{
+                                        height: '20%',
+                                        width: '100%',
+                                        borderRadius: 10,
 
-                            <FormControl>
-                                <InputLabel htmlFor="password">Email</InputLabel>
-                                <Input
-                                    id={'email'}
-                                    type={'text'}
-                                    {...formik.getFieldProps('email')}
-                                />
-                                {formik.touched.email && formik.errors.email
-                                    ? <div style={redStyle}>{formik.errors.email}</div>
-                                    : null}
-                                <FormLabel>
-                                    <p style={{fontSize: '0.8rem', margin: '20% 0 '}}>
-                                        Enter your email address
-                                        and
-                                        we will send you further instructions
-                                    </p>
-                                </FormLabel>
-                                    <Button
-                                        style={{marginLeft:'30px'}}
-                                        sx={{
-                                            height: 25,
-                                            width: 200,
-                                            borderRadius: 10,
-                                            fontSize: '0.5rem',
-                                        }}
-                                        type={'submit'} variant={'contained'} color={'primary'}>
-                                        Send instructions
-                                    </Button>
-                            </FormControl>
+                                    }}
+                                    type={'submit'} variant={'contained'} color={'primary'}>
+                                    Send instructions
+                                </Button>
+                            </Grid>
+                        </FormControl>
 
-                        </form>
-                    </Grid>
+                    </form>
                     <Grid item
                           sx={{
-                              marginTop: '30px',
+                              marginTop: '20%',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
@@ -108,7 +109,7 @@ export const PasswordRecoveryMI = () => {
                     >
                         <div style={{fontSize: '0.7rem'}}>Did you remember your password?</div>
                         <div><NavLink
-                            style={{textDecoration: 'none', fontSize: 'small'}}
+                            style={{textDecoration: 'none', fontSize: '0.8rem'}}
                             to={PATH.LOGIN}
                         >Try to logging in
                         </NavLink></div>

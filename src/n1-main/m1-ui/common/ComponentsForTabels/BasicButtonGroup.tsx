@@ -5,6 +5,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import {useDispatch} from 'react-redux';
 import {getCardsForLearn, setIsGet} from '../../../m2-bll/reducers/cardReducer';
 import ModalMi from '../../modal/ModalMI';
+import ModalAddCard from '../../modal/ModalAddCard';
 
 
 type PropsType = {
@@ -24,8 +25,10 @@ type PropsType = {
 //
 const fontSize = {fontSize: '0.6rem'}
 export default function BasicButtonGroup(
+
     {userId, name_1, name_2, name_3, color, titleOfPage, nameOfCell, id,questionText,answerText,}: PropsType) {
     const [open, setOpen] = React.useState(false);
+    const [open2,setOpen2]=React.useState(false);
     const [title, setTitle] = React.useState('');
     const [typeModel, setTypeModel] = useState('');
 
@@ -34,11 +37,13 @@ export default function BasicButtonGroup(
     const idPack = id;
 
     let onClick1 = () => {
+
         setOpen(true);
         setTitle(`Delete ${titleOfPage}`);
         setTypeModel('delete');
     };
     const onClick3 = async () => {
+
         dispatch(setIsGet(true));
         await dispatch(getCardsForLearn(idPack, nameOfCell));
         setTitle(`Learn`);
@@ -52,6 +57,7 @@ export default function BasicButtonGroup(
         setTypeModel('input');
     };
     const onClick4 = () => {
+
         setOpen(true);
         setTitle('Update card');
         setTypeModel('input');
@@ -91,6 +97,8 @@ export default function BasicButtonGroup(
                 questionText={questionText}
                 answerText={answerText}
             />
+
+
         </>
     );
 }

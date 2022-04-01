@@ -14,6 +14,7 @@ import {AppRootStateType, AppThunk} from '../store';
 
 export const initialCardForReducer: CardType = {
     answer: 'no answer',
+    answerImg:'',
     cardsPack_id: 'noneInInitialCard',
     comments: 'none',
     created: 'none',
@@ -159,6 +160,7 @@ export const getCardsForLearn = (idPack: string, namePack: string) =>
 export const addNewCardTC = (dataForAdd: RequestToAddCardType): AppThunk =>
     async (dispatch) => {
         try {
+            debugger
             dispatch(setLoaderStatus('loading'));
             await cardsAPI.addNewCard(dataForAdd);
             dispatch(getCardsTC())

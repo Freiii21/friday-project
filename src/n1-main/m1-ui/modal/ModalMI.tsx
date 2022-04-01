@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Grid from '@mui/material/Grid';
 import Button from '@material-ui/core/Button';
-import {Input, TextField} from '@mui/material';
+import {CircularProgress, Input, TextField} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {useTypedSelector} from '../../m2-bll/redux';
 import {NavLink} from 'react-router-dom';
@@ -13,14 +13,14 @@ import {colorBlueMI} from '../utilities/for css';
 import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
 import {addNewCardTC, deleteCardTC, setCurrentCard, setIsGet, updateCardTC} from '../../m2-bll/reducers/cardReducer';
 import {getCard} from '../utilities/getCard';
-import LinearIndeterminate from '../common/Preloader/unused/LinearMI';
+import s from './modal.module.css';
 
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 500,
+    width: '30%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -119,8 +119,14 @@ export default function ModalMi({
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
-                    {status === 'loading' && <LinearIndeterminate/>}
+                <Box sx={style} className={s.box}>
+                    {status === 'loading' &&
+                    <div style={{position: 'relative'}}>
+                        <CircularProgress
+                            style={{height: '20px', width: '20px', position: 'absolute', top: '0px', right: '0px'}}
+                        />
+                    </div>
+                    }
                     <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom: '20px'}}>
                         {title === 'Learn'
                             ? <><span>{title}:</span> <span style={{color: colorBlueMI}}>{nameOfCell}</span></>
@@ -138,7 +144,8 @@ export default function ModalMi({
                     </Typography>
                     }
                     {((type === 'input' && title === 'Edit name') || (type === 'input' && title === 'Add Pack')) &&
-                    <Input size={'small'}
+                    <Input fullWidth={true}
+                        size={'small'}
                            value={nameNewPack}
                            type={'text'}
                            onChange={(e) => {

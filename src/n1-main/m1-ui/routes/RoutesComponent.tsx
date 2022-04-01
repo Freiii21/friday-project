@@ -8,9 +8,9 @@ import {CheckEmail} from '../../../n2-features/f1-auth/a5-passwordRecovery/Check
 import {RegistrationMI} from '../../../n2-features/f1-auth/a2-registration/RegistrationMI';
 import Container from '@mui/material/Container';
 import {ProfileMI} from '../../../n2-features/f1-auth/a3-profile/ProfileMI';
-import {PacksCards} from '../../../n2-features/f2-pacsAndCards/packs/PacksCards';
-import {Cards} from '../../../n2-features/f2-pacsAndCards/cards/Cards';
-import {Card} from '../../../n2-features/f2-pacsAndCards/cards/card/Card';
+import {PacksCards} from '../../../n2-features/f2-packsAndCards/packs/PacksCards';
+import {Cards} from '../../../n2-features/f2-packsAndCards/cards/Cards';
+import {Card} from '../../../n2-features/f2-packsAndCards/cards/card/Card';
 
 
 export const PATH = {
@@ -31,7 +31,7 @@ export const RoutesComponent = () => {
     return (
         <Container fixed>
             <Routes>
-                <Route path="/" element={<Navigate to={PATH.PROFILE}/>}/>
+                <Route path="/" element={<Navigate to={PATH.PACKS_CARDS}/>}/>
 
                 <Route path={PATH.LOGIN} element={<Login/>}/>
                 <Route path={PATH.REGISTRATION} element={<RegistrationMI/>}/>

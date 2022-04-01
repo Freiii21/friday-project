@@ -27,8 +27,8 @@ const initialState = {
 
     getPackData: {
         packName: '',
-        min: 0,
-        max: 50,
+        min: 30,
+        max: 90,
         sortPacks: '',
         page: 1,
         pageCount: 10,
