@@ -13,14 +13,15 @@ import {colorBlueMI} from '../utilities/for css';
 import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers/packsReducer';
 import {addNewCardTC, deleteCardTC, setCurrentCard, setIsGet, updateCardTC} from '../../m2-bll/reducers/cardReducer';
 import {getCard} from '../utilities/getCard';
-import s from './modal.module.css';
+import {styleForWidthModal} from '../utilities/styleForWidthModal';
 
+
+const useStyles = styleForWidthModal;
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '30%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -112,6 +113,7 @@ export default function ModalMi({
         setQuestion(e.currentTarget.value)
     }
     const onClickShowAnswer = () => dispatch(setIsGet(false));
+    const classes = useStyles();
     return (
         <div>
             <Modal
@@ -119,7 +121,7 @@ export default function ModalMi({
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style} className={s.box}>
+                <Box sx={style} className={classes.box}>
                     {status === 'loading' &&
                     <div style={{position: 'relative'}}>
                         <CircularProgress
@@ -145,7 +147,7 @@ export default function ModalMi({
                     }
                     {((type === 'input' && title === 'Edit name') || (type === 'input' && title === 'Add Pack')) &&
                     <Input fullWidth={true}
-                        size={'small'}
+                           size={'small'}
                            value={nameNewPack}
                            type={'text'}
                            onChange={(e) => {
@@ -197,7 +199,7 @@ export default function ModalMi({
                                              color: cardsTotalCount ? 'white' : 'black'
                                          }}
                                          onClick={onClickShowAnswer}
-                                > Show answer </NavLink>
+                                >Answer </NavLink>
                             </Button>
 
                             }
