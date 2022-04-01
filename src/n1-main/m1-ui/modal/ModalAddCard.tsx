@@ -9,7 +9,6 @@ import {TextField} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {useTypedSelector} from '../../m2-bll/redux';
 import {addNewCardTC} from '../../m2-bll/reducers/cardReducer';
-import s from './Modal.module.css';
 import {styleForWidthModal} from '../utilities/styleForWidthModal';
 
 const style = {
@@ -32,18 +31,15 @@ type PropsType = {
 
 export default function ModalAddCard({title, open, setOpen,}: PropsType) {
     const dispatch = useDispatch();
-    const questionForLearn = useTypedSelector(state => state.cards.currentCard.question);
-    const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
     const status = useTypedSelector(state => state.app.status);
-    // const handleClose = () => setOpen(false);
 
 
     const [question, setQuestion] = useState<string | undefined>('')
     const [answer, setAnswer] = useState<string | undefined>('')
 
-
-    const [fileBase64, setBase64] = useState<string | ArrayBuffer | null>(null);
-
+    type Base64Type = string | ArrayBuffer | null;
+    const [fileBase64Answer, setBase64Answer] = useState<Base64Type>(null);
+    const [fileBase64Qeu, setBase64Que] = useState<Base64Type>(null);
 
     const cardsPack_id = useTypedSelector(state => state.cards.getData.cardsPack_id)
     const inRef = useRef<HTMLInputElement>(null);
@@ -51,8 +47,19 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
     const classes = useStyles();
     const addOnClickHandler = () => {
 
-        dispatch(addNewCardTC({'card': {cardsPack_id, answerImg: fileBase64, question, answer}}))
-
+        dispatch(addNewCardTC({
+            'card': {
+                cardsPack_id,
+                answerImg: fileBase64Answer,
+                questionImg: fileBase64Qeu,
+                question,
+                answer
+            }
+        }))
+        setOpen(false);
+        setBase64Answer(null);
+        setQuestion('');
+        setAnswer('');
     }
     const onClickCancelHandler = () => {
         setQuestion('')
@@ -66,7 +73,7 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
     const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setQuestion(e.currentTarget.value)
     }
-    const onChangeAddFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const createBase64Url = (e: ChangeEvent<HTMLInputElement>, setBase64: (v: Base64Type) => void) => {
         const reader = new FileReader();
         const newFile = e.target.files && e.target.files[0];
         if (newFile) {
@@ -76,10 +83,22 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
             }
             reader.readAsDataURL(newFile);
         }
-
-
     }
-
+    const onChangeAddFileAnswer = (e: ChangeEvent<HTMLInputElement>) => {
+        createBase64Url(e, setBase64Answer)
+        /* const reader = new FileReader();
+         const newFile = e.target.files && e.target.files[0];
+         if (newFile) {
+             reader.onloadend = () => {
+                 const res = reader.result
+                 setBase64Answer(res);
+             }
+             reader.readAsDataURL(newFile);
+         }*/
+    }
+    const onChangeAddFileQues = (e: ChangeEvent<HTMLInputElement>) => {
+        createBase64Url(e, setBase64Que)
+    }
     return (
         <div>
             <Modal
@@ -87,7 +106,7 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box className={classes.box} sx={style} >
+                <Box className={classes.box} sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom: '20px'}}>
                         {title}
                     </Typography>
@@ -99,7 +118,7 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
                                        value={question}
                             />
                             <input
-                                onChange={onChangeAddFile}
+                                onChange={onChangeAddFileQues}
                                 type={'file'}
                                 ref={inRef}
                             />
@@ -109,7 +128,7 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
                                        value={answer}
                             />
                             <input
-                                onChange={onChangeAddFile}
+                                onChange={onChangeAddFileAnswer}
                                 type={'file'}
                                 ref={inRef}
                             />

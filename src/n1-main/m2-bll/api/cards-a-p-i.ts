@@ -9,7 +9,7 @@ const instance = axios.create({
 
 export const cardsAPI = {
     getCards(data: RequestForCardsType) {
-        return instance.get<RequestForCardsType,AxiosResponse<CardsDataType>>
+        return instance.get<RequestForCardsType, AxiosResponse<CardsDataType>>
         (`/cards/card/`, {
                 params: data,
             }
@@ -25,19 +25,19 @@ export const cardsAPI = {
         return instance.put<RequestToUpdateCardType>(`/cards/card`, data);
     },
     updateGrade(data: RequestToUpdateGradeType) {
-        return instance.put<RequestToUpdateGradeType,AxiosResponse<ResponseUpdateGrade>>
+        return instance.put<RequestToUpdateGradeType, AxiosResponse<ResponseUpdateGrade>>
         ('cards/grade', data);
     }
 };
 //types
-export type ResponseUpdateGrade={
-    updatedGrade:{
-        _id:string;
-        cardsPack_id:string;
-        card_id:string;
-        user_id:string;
-        grade:number;
-        shots:number;
+export type ResponseUpdateGrade = {
+    updatedGrade: {
+        _id: string;
+        cardsPack_id: string;
+        card_id: string;
+        user_id: string;
+        grade: number;
+        shots: number;
     }
 }
 export type RequestToUpdateGradeType = {
@@ -54,12 +54,12 @@ export type RequestToUpdateCardType = {
 export type RequestToAddCardType = {
     card: {
         cardsPack_id: string;
-        question: string|undefined;
-        answer: string|undefined;
+        question: string | undefined;
+        answer: string | undefined;
         grade?: number;
         shots?: number;
-        answerImg?: string|ArrayBuffer|null;
-        questionImg?: string|ArrayBuffer|null;
+        answerImg?: string | ArrayBuffer | null;
+        questionImg?: string | ArrayBuffer | null;
         questionVideo?: string;
         answerVideo?: string;
     }
@@ -112,13 +112,14 @@ export type CardsDataType = {
 
 export type CardType = {
     answer: string
-    answerImg?:string;
+    answerImg?: string;
     cardsPack_id: string
     comments: string
     created: string
     grade: number
     more_id: string
-    question: string
+    question: string;
+    questionImg?: string;
     rating: number
     shots: number
     type: string
@@ -127,5 +128,5 @@ export type CardType = {
     __v: number
     _id: string;
     //custom property for rendering table of cards
-    actions?:string;
+    actions?: string;
 }

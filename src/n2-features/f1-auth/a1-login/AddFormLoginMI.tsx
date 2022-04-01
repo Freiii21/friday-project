@@ -11,7 +11,7 @@ import {Navigate, NavLink} from 'react-router-dom';
 import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import * as Yup from 'yup';
-import {setLoginT, setRegistered} from '../../../n1-main/m2-bll/reducers/authReducer';
+import {setLoginT} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {Box, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {fontSizeButtonAuth, redStyle} from '../../../n1-main/m1-ui/utilities/for css';
@@ -73,7 +73,7 @@ export const AddFormLoginMI = () => {
                 borderRadius: 3,
                 width: 350,
                 height: '90%',
-                overflow:'auto',
+                overflow: 'auto',
                 backgroundColor: 'whitesmoke',
                 '&:hover': {
                     backgroundColor: 'white',
@@ -81,7 +81,7 @@ export const AddFormLoginMI = () => {
                 },
             }}
         >
-            <Grid container justifyContent={'center'} sx={{margin:'auto'}}>
+            <Grid container justifyContent={'center'} sx={{margin: 'auto'}}>
                 <Grid item justifyContent={'center'}>
                     <form onSubmit={formik.handleSubmit}>
 
@@ -125,7 +125,7 @@ export const AddFormLoginMI = () => {
 
                         <FormControl>
                             <FormControlLabel
-                                sx={{margin:'15% 0% 0% 5%'}}
+                                sx={{margin: '15% 0% 0% 5%'}}
                                 label={'Remember me'}
                                 control={
                                     <Checkbox

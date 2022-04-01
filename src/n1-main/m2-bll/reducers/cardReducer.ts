@@ -21,6 +21,7 @@ export const initialCardForReducer: CardType = {
     grade: 0,
     more_id: 'none',
     question: 'no questions',
+    questionImg:'',
     rating: 0,
     shots: 0,
     type: 'none',
