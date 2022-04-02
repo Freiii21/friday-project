@@ -1,53 +1,24 @@
-import {Box, Button, Checkbox, Input} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import img_log from './img/jester1.png';
-import React, {ChangeEvent, useRef, useState} from 'react';
+import React from 'react';
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../../n1-main/m1-ui/routes/RoutesComponent';
 import {useTypedSelector} from '../../../n1-main/m2-bll/redux';
 import {DateTime} from 'luxon';
-import {colorBlueMI, widthLogo} from '../../../n1-main/m1-ui/utilities/for css';
-import {setNewNameAvatarTC} from '../../../n1-main/m2-bll/reducers/authReducer';
-import {useDispatch} from 'react-redux';
+import {colorBlueMI, fontSizeButtonAuth, widthLogo} from '../../../n1-main/m1-ui/utilities/for css';
+import ModalForProfile from '../../../n1-main/m1-ui/modal/ModalForProfile';
 
 export const ProfileMI = () => {
-    //for modify in base 64
-    const refInput = useRef<HTMLInputElement>(null);
+//for modal
+    const [open, setOpen] = React.useState(false);
 
     const user = useTypedSelector(state => state.auth.user);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
     const registerData = DateTime.fromISO(user.created).toFormat('DDD');
-    const [photo, setPhoto] = useState<string | ArrayBuffer | null>('');
-    const [name, setName] = useState('');
-    const dispatch = useDispatch();
-    const [checked, setChecked] = useState(false);
-    const setAvatar = () => {
-        dispatch(setNewNameAvatarTC({avatar: photo, name}))
-        setPhoto('');
-        setName('');
-    }
 
-    const setNickName = (e: ChangeEvent<HTMLInputElement>) => {
-        setName(e.currentTarget.value)
-    }
-    const setPhotos = (e: ChangeEvent<HTMLInputElement>) => {
-        setPhoto(e.currentTarget.value)
-    }
-    const styleSpan = {color: colorBlueMI, fontSize: '0.9rem'};
+    const styleSpan = {color: colorBlueMI, fontSize: '0.9rem',marginBottom:'2%'};
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
-    const onChangeCheckBox = () => setChecked(!checked);
-    const onChangeToBase64 = (e: ChangeEvent<HTMLInputElement>) => {
-        const reader = new FileReader();
-        const newFile = e.target.files && e.target.files[0];
-        if (newFile) {
-            reader.onloadend = () => {
-                if (checked) {
-                    setPhoto(reader.result)
-                }
-            }
-            reader.readAsDataURL(newFile);
-        }
-    };
     return (
         <div style={{
             display: 'flex',
@@ -60,10 +31,10 @@ export const ProfileMI = () => {
                 sx={{
                     display: 'flex',
                     justifyContent: 'center',
-                    alignItems: 'center',
+                    alignContent:'space-around',
                     border: '2px solid lightgrey',
                     borderRadius: 3,
-                    width: 400,
+                    width: 350,
                     height: '90%',
                     overflow: 'auto',
                     backgroundColor: 'whitesmoke',
@@ -84,7 +55,7 @@ export const ProfileMI = () => {
                     </Grid>
                     <Grid item
                           sx={{
-                              marginTop: '15px',
+                              margin: '15% 0',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'flex-start',
@@ -99,54 +70,13 @@ export const ProfileMI = () => {
                         <span><span style={styleSpan}>Name: </span>{user.name}</span>
                         <span><span style={styleSpan}>Cards count: </span>{user.publicCardPacksCount}</span>
                         <span><span style={styleSpan}>Registration: </span>{registerData}</span>
-                        <div style={{marginBottom: '20%'}}>
-
-                            <Grid container direction={'row'}>
-                                <Grid item xs={2}>
-                                    <Checkbox checked={checked} onChange={onChangeCheckBox}
-                                              inputProps={{'aria-label': 'controlled'}}
-                                              size={'small'}
-                                              style={{
-                                                  position: 'relative',
-                                                  top: '10px',
-                                                  left: '6px'
-                                              }}/>
-                                </Grid>
-                                {checked ?
-                                    <div style={{height: '10px', width: '10px', margin: '10px 0'}}>
-                                        <input type={'file'} ref={refInput} onChange={onChangeToBase64}/>
-                                    </div>
-                                    : <Grid item xs={9.5}><Input size={'small'}
-                                                                 placeholder={'http://...'}
-                                                                 type={'text'}
-                                                                 onChange={setPhotos}
-                                                                 value={photo}
-                                                                 style={{
-                                                                     marginTop: '10px',
-                                                                     minHeight: '10px',
-                                                                     paddingLeft: '10px'
-                                                                 }}
-
-                                    /></Grid>
-                                }
-                            </Grid>
-
-                            <div style={{fontSize: '0.7rem', textAlign: 'center', color: 'grey'}}>change avatar</div>
-                            <Input size={'small'}
-                                   placeholder={'New name'}
-                                   type={'text'}
-                                   onChange={setNickName}
-                                   value={name}
-                                   style={{marginLeft: '22px'}}
-                            />
-                            <div style={{fontSize: '0.7rem', textAlign: 'center', color: 'grey'}}>change name</div>
-                        </div>
-
-                        <Button onClick={setAvatar} size={'small'}
-                                style={{fontSize: '0.7rem', marginTop: '10px'}}> CHANGE AVATAR OR NAME </Button>
                     </Grid>
+                        <Button onClick={()=>setOpen(!open)} size={'small'} variant={'contained'}
+                                style={fontSizeButtonAuth}> CHANGE AVATAR OR NAME </Button>
+
                 </Grid>
             </Box>
+            <ModalForProfile open={open} setOpen={setOpen}/>
         </div>
     )
 }
