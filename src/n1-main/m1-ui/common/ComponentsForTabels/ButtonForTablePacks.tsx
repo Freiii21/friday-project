@@ -2,6 +2,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import React, {useState} from 'react';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {colorBlueMI} from '../../utilities/for css';
+import {useTypedSelector} from '../../../m2-bll/redux';
 
 
 type PropsType = {
@@ -9,9 +10,8 @@ type PropsType = {
     handlerSetSortPacs?: (sortValue: string) => void;
 }
 export const ButtonForTablePacks = ({nameCell, handlerSetSortPacs}: PropsType) => {
-
     const [arrow, setArrow] = useState(true);
-
+    const status = useTypedSelector(state => state.app.status);
     let onClickHandler = () => {
         if (arrow) {
             handlerSetSortPacs && handlerSetSortPacs(`0${nameCell}`);
@@ -30,8 +30,9 @@ export const ButtonForTablePacks = ({nameCell, handlerSetSortPacs}: PropsType) =
                 border: 'none',
                 position: 'relative',
                 top: '5px',
-                cursor: "pointer",
+                cursor: 'pointer',
             }}
+            disabled={status === 'loading'}
             onClick={onClickHandler}
         >
             {

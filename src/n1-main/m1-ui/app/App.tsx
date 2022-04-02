@@ -12,7 +12,7 @@ import {BarApp} from '../common/Preloader/BarApp';
 
 
 const App = () => {
-//comment 007
+
     const dispatch = useDispatch();
     const isRegistered = useTypedSelector(state => state.auth.isRegistered);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
