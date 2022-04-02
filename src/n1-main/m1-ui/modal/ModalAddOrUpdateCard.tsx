@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ChangeEvent, useRef, useState} from 'react';
+import {ChangeEvent, useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -10,6 +10,7 @@ import {useDispatch} from 'react-redux';
 import {useTypedSelector} from '../../m2-bll/redux';
 import {addNewCardTC} from '../../m2-bll/reducers/cardReducer';
 import {styleForWidthModal} from '../utilities/styleForWidthModal';
+import Input from '@mui/material/Input';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -26,16 +27,22 @@ type PropsType = {
     title: string;
     open: boolean;
     setOpen: (open: boolean) => void;
+    answ?: string;
+    ques?: string;
 }
 
 
-export default function ModalAddCard({title, open, setOpen,}: PropsType) {
+export default function ModalAddOrUpdateCard({title, open, setOpen, answ, ques}: PropsType) {
     const dispatch = useDispatch();
     const status = useTypedSelector(state => state.app.status);
 
 
-    const [question, setQuestion] = useState<string | undefined>('')
-    const [answer, setAnswer] = useState<string | undefined>('')
+    const [question, setQuestion] = useState<string | undefined>('');
+    const [answer, setAnswer] = useState<string | undefined>('');
+    useEffect(() => {
+        setQuestion(ques);
+        setAnswer(answ)
+    }, [answ, ques])
 
     type Base64Type = string | ArrayBuffer | null;
     const [fileBase64Answer, setBase64Answer] = useState<Base64Type>(null);
@@ -86,15 +93,6 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
     }
     const onChangeAddFileAnswer = (e: ChangeEvent<HTMLInputElement>) => {
         createBase64Url(e, setBase64Answer)
-        /* const reader = new FileReader();
-         const newFile = e.target.files && e.target.files[0];
-         if (newFile) {
-             reader.onloadend = () => {
-                 const res = reader.result
-                 setBase64Answer(res);
-             }
-             reader.readAsDataURL(newFile);
-         }*/
     }
     const onChangeAddFileQues = (e: ChangeEvent<HTMLInputElement>) => {
         createBase64Url(e, setBase64Que)
@@ -112,10 +110,10 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
                     </Typography>
                     <Grid container direction={'row'}>
                         <Grid item xs={12}>
-                            <TextField fullWidth={true} variant={'standard'}
-                                       sx={{marginBottom: '5px'}} maxRows={2} multiline
-                                       placeholder={'question'} onChange={onChangeHandlerQuestion}
-                                       value={question}
+                            <Input fullWidth={true}
+                                   sx={{marginBottom: '5px'}} maxRows={2} multiline
+                                   onChange={onChangeHandlerQuestion}
+                                   value={question}
                             />
                             <input
                                 onChange={onChangeAddFileQues}
@@ -124,7 +122,7 @@ export default function ModalAddCard({title, open, setOpen,}: PropsType) {
                             />
                             <TextField fullWidth={true} variant={'standard'}
                                        maxRows={4} multiline
-                                       placeholder={'answer'} onChange={onChangeHandlerAnswer}
+                                       onChange={onChangeHandlerAnswer}
                                        value={answer}
                             />
                             <input
