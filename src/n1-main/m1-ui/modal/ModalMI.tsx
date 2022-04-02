@@ -42,10 +42,14 @@ type PropsType = {
 
 
 export default function ModalMi({
-                                    title, open, setOpen, titleOfPage, type, id, nameOfCell, questionText, answerText,
+                                    title, open, setOpen, titleOfPage, type,
+                                    id, nameOfCell, questionText, answerText,
+
                                 }: PropsType) {
     const dispatch = useDispatch();
+    //data from current learning card
     const questionForLearn = useTypedSelector(state => state.cards.currentCard.question);
+    const questionImg = useTypedSelector(state => state.cards.currentCard.questionImg);
     const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
     const status = useTypedSelector(state => state.app.status);
     // const handleClose = () => setOpen(false);
@@ -108,12 +112,12 @@ export default function ModalMi({
         setOpen(false)
     }
 
-    const onChangeHandlerAnswer = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setAnswer(e.currentTarget.value)
-    }
-    const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setQuestion(e.currentTarget.value)
-    }
+    /* const onChangeHandlerAnswer = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+         setAnswer(e.currentTarget.value)
+     }
+     const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+         setQuestion(e.currentTarget.value)
+     }*/
     const onClickShowAnswer = () => dispatch(setIsGet(false));
     const classes = useStyles();
     return (
@@ -139,9 +143,21 @@ export default function ModalMi({
                         {titleOfPage === 'Card' && <>Do you really want to remove {nameOfCell}?</>}
                     </Typography>}
                     {type === 'learn' &&
-                    <Typography id="modal-modal-description" sx={{mt: 2}}>
-                        Question: {status === 'loading' ? '' : questionForLearn}
-                    </Typography>
+                    <Grid container xs={12}>
+                        {questionImg &&
+                        <Grid item xs={4} justifyContent={'center'} alignItems={'center'}>
+                            <span><img src={questionImg} style={{width: '90%'}} alt={'img for question'}/></span>
+                        </Grid>
+                        }
+                        <Grid item xs={questionImg ? 8 : 12}>
+                            <Typography id="modal-modal-description" sx={{mt: 2}}>
+                                Question: <span style={{color: colorBlueMI}}>
+                                {status === 'loading' ? '' : questionForLearn}
+                            </span>
+                            </Typography>
+                        </Grid>
+                    </Grid>
+
                     }
                     {((type === 'input' && title === 'Edit name') || (type === 'input' && title === 'Add Pack')) &&
                     <Input fullWidth={true}
@@ -188,7 +204,7 @@ export default function ModalMi({
                                         color={'primary'} disabled={!cardsTotalCount || status === 'loading'}
                                         onClick={() => setOpen(false)}
                                 >
-                                    Show answer
+                                    answer
                                 </Button>
                                 : type === 'learn' && <Button size={'small'} variant={'contained'}
                                                               color={'primary'}
