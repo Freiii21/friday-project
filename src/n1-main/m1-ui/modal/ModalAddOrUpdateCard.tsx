@@ -50,6 +50,7 @@ export default function ModalAddOrUpdateCard({title, open, setOpen, answ, ques}:
 
     const cardsPack_id = useTypedSelector(state => state.cards.getData.cardsPack_id)
     const inRef = useRef<HTMLInputElement>(null);
+    // for breakpoints
     const useStyles = styleForWidthModal;
     const classes = useStyles();
     const addOnClickHandler = () => {
