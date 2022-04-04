@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ChangeEvent, useRef, useState} from 'react';
+import {ChangeEvent, RefObject, useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -11,6 +11,10 @@ import {useDispatch} from 'react-redux';
 import {useTypedSelector} from '../../m2-bll/redux';
 import {styleForWidthModal} from '../utilities/styleForWidthModal';
 import {fontSizeButtonAuth} from '../utilities/for css';
+import SwitchCustom from '../common/SwitchCustom';
+import {checkUrl} from '../utilities/checkUrl';
+import {setErrorN} from '../../m2-bll/reducers/appReducer';
+
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -26,30 +30,64 @@ type PropsType = {
     open: boolean;
     setOpen: (b: boolean) => void;
 }
+
+
 export default function ModalForProfile({open, setOpen}: PropsType) {
     //for modify in base 64
     const refInput = useRef<HTMLInputElement>(null);
-
     const userName = useTypedSelector(state => state.auth.user.name);
+    let userName1 = userName;
+
     const [photo, setPhoto] = useState<string | ArrayBuffer | null>('');
-    const [name, setName] = useState(userName);
-    const [checked, setChecked] = useState(false);
+    const [name, setName] = useState(userName1);
+    //const [error, setError] = useState(false)
+    const [disableChange, setDisableChange] = useState(true);
+    //for switch
+    const [checked, setChecked] = useState(true);
+    const status = useTypedSelector(state => state.app.status);
     const dispatch = useDispatch();
+    useEffect(() => {
+        setName(userName)
+    }, [open]);
     //for breakpoints
     const useStyles = styleForWidthModal;
     const classes = useStyles();
 
+
     const setAvatar = () => {
-        dispatch(setNewNameAvatarTC({avatar: photo, name}))
-        setPhoto('');
-        setName('');
+        if (photo && typeof photo === 'string'||photo==='') {
+            if(photo===''){
+                dispatch(setNewNameAvatarTC({avatar: photo, name}))
+                setPhoto('');
+                setName('');
+                setOpen(false)
+            }
+            else if (checkUrl(photo)) {
+                dispatch(setNewNameAvatarTC({avatar: photo, name}))
+                setPhoto('');
+                setName('');
+                setOpen(false);
+            }
+            else dispatch(setErrorN('incorrect url'))
+        }
+
+
+
     }
 
     const setNickName = (e: ChangeEvent<HTMLInputElement>) => {
-        setName(e.currentTarget.value)
+        setName(e.currentTarget.value);
+        setDisableChange(false);
     }
     const setPhotos = (e: ChangeEvent<HTMLInputElement>) => {
-        setPhoto(e.currentTarget.value)
+        /*   if(!checkUrl(e.currentTarget.value)){
+               setError(true);
+               setPhoto('')
+           }
+           setPhoto(e.currentTarget.value)*/
+        setPhoto(e.currentTarget.value);
+
+        setDisableChange(false);
     }
 
     const onChangeToBase64 = (e: ChangeEvent<HTMLInputElement>) => {
@@ -63,8 +101,12 @@ export default function ModalForProfile({open, setOpen}: PropsType) {
             }
             reader.readAsDataURL(newFile);
         }
+        setDisableChange(false);
     };
-    const onClickCancel = () => setOpen(false);
+    const onClickCancel = () => {
+        setOpen(false);
+        setPhoto('');
+    };
     return (
         <Modal
             open={open}
@@ -72,32 +114,35 @@ export default function ModalForProfile({open, setOpen}: PropsType) {
             aria-describedby="modal-modal-description"
         >
             <Box sx={style} className={classes.box}>
-                <Grid container direction={'row'} justifyContent={'center'} xs={12}>
-                    {/* <Grid item xs={2}>
-                                <Checkbox checked={checked} onChange={onChangeCheckBox}
-                                          inputProps={{'aria-label': 'controlled'}}
-                                          size={'small'}
-                                          style={{
-                                              position: 'relative',
-                                              top: '10px',
-                                              left: '6px'
-                                          }}/>
-                            </Grid>*/}
+                <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} xs={12}>
+                    <Grid item xs={2}><SwitchCustom checked={checked} setChecked={setChecked}/></Grid>
+                    <Grid item xs={10}>
+                        <TypographyCustom title={!checked ? 'add avatar via url' : 'add avatar from local disc'}/>
+                    </Grid>
                     {checked
-                        ? <div style={{height: '10px', width: '10px', margin: '10px 0'}}>
-                            <input type={'file'} ref={refInput} onChange={onChangeToBase64}/>
-                        </div>
-                        : <TextFieldCustom value={photo} onChange={setPhotos} placeholder={'http://...'}/>
+                        ? <TextFieldCustom onChange={onChangeToBase64} type="file" ref={refInput}/>
+
+                        : <TextFieldCustom
+                            type="url" value={photo} onChange={setPhotos}
+                            placeholder={'https://example.com'}
+                        />
                     }
 
                 </Grid>
+                {/*{error && <TypographyCustom title={'incorrect enter'}/>}*/}
                 <TypographyCustom title={'change avatar'}/>
                 <TextFieldCustom value={name} onChange={setNickName} placeholder={''}/>
                 <TypographyCustom title={'change name'}/>
                 <Grid container direction={'row'} justifyContent={'space-around'} sx={{marginTop: '5%'}}>
-                    <Button style={fontSizeButtonAuth} onClick={onClickCancel} size={'small'} variant={'contained'}
-                            color={'inherit'}> Cancel</Button>
-                    <Button style={fontSizeButtonAuth} size={'small'} variant={'contained'}>Change</Button>
+                    <Button style={fontSizeButtonAuth} onClick={onClickCancel}
+                            size={'small'} variant={'contained'}
+                            color={'inherit'}>
+                        Cancel
+                    </Button>
+                    <Button disabled={status === 'loading' || disableChange} style={fontSizeButtonAuth} size={'small'}
+                            variant={'contained'} onClick={setAvatar}>
+                        Change
+                    </Button>
                 </Grid>
             </Box>
         </Modal>
@@ -112,17 +157,20 @@ const TypographyCustom = ({title}: { title: string }) => {
     )
 }
 type PropsTypeTextF = {
-    value: string | ArrayBuffer | null;
+    value?: string | ArrayBuffer | null;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    placeholder: string;
+    placeholder?: string;
+    type?: string;
+    ref?: RefObject<HTMLInputElement>;
+
 }
-const TextFieldCustom = ({value, onChange, placeholder}: PropsTypeTextF) => {
+const TextFieldCustom = ({value, onChange, placeholder, type = 'text',}: PropsTypeTextF) => {
     return (
         <TextField size={'small'}
                    placeholder={placeholder}
                    variant={'filled'}
                    fullWidth
-                   type={'text'}
+                   type={type}
                    onChange={onChange}
                    value={value}
 
