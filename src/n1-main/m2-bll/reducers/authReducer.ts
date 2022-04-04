@@ -2,6 +2,7 @@ import {authAPI, ForgotPasswordType, LoginDataType, NewNameUserType, NewPassword
 import {Dispatch} from 'redux';
 import {setErrorN, setIsSent, setLoaderStatus, setSuccess} from './appReducer';
 import {handleError} from '../../m1-ui/utilities/handleError';
+import {AppRootStateType} from '../store';
 
 const initialAuthState = {
     user: {} as UserType,
@@ -57,7 +58,7 @@ export const setLogoutT = () =>
             const res = await authAPI.logOut();
             dispatch(setLogOut());
             dispatch(setSuccess(res.data.info));
-           // dispatch(setRegistered(true));
+            // dispatch(setRegistered(true));
         } catch (e: any) {
             handleError(e, dispatch);
         } finally {
@@ -111,15 +112,16 @@ export const createNewPassword = (date: NewPasswordType) =>
     }
 
 export const checkAuthMeTC = (payload: {}) =>
-    async (dispatch: Dispatch<ActionAuthReducerType>) => {
+    async (dispatch: Dispatch<ActionAuthReducerType>, getState: () => AppRootStateType) => {
+        const isRegistered = getState().auth.isRegistered;
         try {
+
             dispatch(setLoaderStatus('loading'));
             const res = await authAPI.getAuthMe(payload);
             dispatch(setLogin(res.data, true));
             dispatch(setSuccess('authorization is successful'))
         } catch (e: any) {
-            handleError(e, dispatch);
-            dispatch(setLogin({} as UserType, false));
+            isRegistered && handleError(e, dispatch);
         } finally {
             dispatch(setLoaderStatus('idle'));
             dispatch(setRegistered(true))

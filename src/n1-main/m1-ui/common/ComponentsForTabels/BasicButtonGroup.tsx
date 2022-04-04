@@ -5,7 +5,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import {useDispatch} from 'react-redux';
 import {getCardsForLearn, setIsGet} from '../../../m2-bll/reducers/cardReducer';
 import ModalMi from '../../modal/ModalMI';
-import ModalAddCard from '../../modal/ModalAddCard';
+import {useTypedSelector} from '../../../m2-bll/redux';
 
 
 type PropsType = {
@@ -20,29 +20,33 @@ type PropsType = {
     nameOfPack?: string;
     questionText?: string;
     answerText?: string;
-
+    setTitleForUpdate?: (t: string) => void;
+    setOpenForModal?: (b: boolean) => void;
+    setQuestion?: (s: string) => void;
+    setAnswer?: (s: string) => void;
 }
-//
+
 const fontSize = {fontSize: '0.6rem'}
 export default function BasicButtonGroup(
-
-    {userId, name_1, name_2, name_3, color, titleOfPage, nameOfCell, id,questionText,answerText,}: PropsType) {
+    {
+        userId, name_1, name_2, name_3,
+        color, titleOfPage, nameOfCell, id,
+        questionText, answerText, setOpenForModal, setTitleForUpdate,
+        setAnswer, setQuestion,
+    }: PropsType) {
     const [open, setOpen] = React.useState(false);
-    const [open2,setOpen2]=React.useState(false);
     const [title, setTitle] = React.useState('');
     const [typeModel, setTypeModel] = useState('');
-
-
     const dispatch = useDispatch();
+    const status = useTypedSelector(state => state.app.status);
     const idPack = id;
 
-    let onClick1 = () => {
-
+    let onClickButDel = () => {
         setOpen(true);
         setTitle(`Delete ${titleOfPage}`);
         setTypeModel('delete');
     };
-    const onClick3 = async () => {
+    const onClickButLearn = async () => {
 
         dispatch(setIsGet(true));
         await dispatch(getCardsForLearn(idPack, nameOfCell));
@@ -51,43 +55,37 @@ export default function BasicButtonGroup(
         setOpen(true);
 
     };
-    const onClick2 = () => {
+    const onClickButEdit = () => {
         setOpen(true);
         setTitle('Edit name');
         setTypeModel('input');
     };
-    const onClick4 = () => {
+    const onClickButUpdate = () => {
 
-        setOpen(true);
-        setTitle('Update card');
-        setTypeModel('input');
+        setOpenForModal && setOpenForModal(true);
+        setTitleForUpdate && setTitleForUpdate('Update card');
+        answerText && setAnswer && setAnswer(answerText);
+        questionText && setQuestion && setQuestion(questionText);
     }
 
     return (
         <>
-            <ButtonGroup variant="contained" aria-label="outlined primary button group" size={'small'}>
+            <ButtonGroup variant="contained" aria-label="outlined primary button group"
+                         size={'small'} disabled={status === 'loading'}>
                 {userId && <Button style={fontSize}
                                    color={'secondary'}
-                                   onClick={onClick1}
+                                   onClick={onClickButDel}
+
                 >
                     {name_1}
                 </Button>}
-                {
-                    color
-                        ? <Button
-                            style={fontSize} color={'secondary'} onClick={onClick1}>
-                            {name_2}
-                        </Button>
-                        :
-                        <Button style={fontSize} onClick={onClick2}>
-                            {name_2}
-                        </Button>
-                }
+                <Button style={fontSize} color={color ? 'secondary' : 'primary'}
+                        onClick={color ? onClickButDel : onClickButEdit}>
+                    {name_2}
+                </Button>
+                <Button style={fontSize}
+                        onClick={name_3 === 'Learn' ? onClickButLearn : onClickButUpdate}>{name_3}</Button>
 
-                {name_3 === 'Learn'
-                    ? <Button style={fontSize} onClick={onClick3}>{name_3}</Button>
-                    : <Button style={fontSize} onClick={onClick4}>{name_3}</Button>
-                }
             </ButtonGroup>
             <ModalMi
                 title={title} open={open}

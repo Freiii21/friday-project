@@ -44,7 +44,7 @@ export default function HeaderMI({switchDrawer}: PropsType) {
 
                 <Toolbar>
 
-                    <IconButton onClick={() => {
+                    <IconButton disabled={status==='loading'} onClick={() => {
                         switchDrawer(true)
                     }} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon/>
@@ -59,9 +59,15 @@ export default function HeaderMI({switchDrawer}: PropsType) {
                         learning cards 2022
                     </Typography>
                     {isAuth
-                        ? <Button color="inherit" onClick={handleLogOut}>Log Out</Button>
-                        : <Button color="inherit"><NavLink style={{textDecoration: 'none', color: 'white'}}
-                                                           to={PATH.LOGIN}>Login</NavLink></Button>
+                        ?
+                        <Button color="inherit" onClick={handleLogOut} disabled={status === 'loading'}>
+                            Log Out
+                        </Button>
+                        : <Button color="inherit" disabled={status === 'loading'}>
+                            <NavLink style={{textDecoration: 'none', color: 'white'}}
+                                     to={PATH.LOGIN}>Login
+                            </NavLink>
+                        </Button>
                     }
                 </Toolbar>
                 {status === 'loading' && <LinearIndeterminate/>}

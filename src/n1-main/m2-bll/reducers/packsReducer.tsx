@@ -27,7 +27,7 @@ const initialState = {
 
     getPackData: {
         packName: '',
-        min: 30,
+        min: 0,
         max: 90,
         sortPacks: '',
         page: 1,
@@ -80,19 +80,6 @@ export const deletePack = (id: string) => ({type: 'PACKS_REDUCER/DELETE_PACK', i
 
 //thunks
 
-/*export const getPacksUpdateTC = () =>
-    async (dispatch: Dispatch<PacksReducerActionType>) => {
-
-        try {
-            dispatch(setLoaderStatus('loading'))
-            const res = await packsAPI.getPacks(data);
-            dispatch(getPacks(res.data))
-        } catch (e) {
-            handleError(e, dispatch)
-        } finally {
-            dispatch(setLoaderStatus('idle'))
-        }
-    };*/
 export const getPacksTC = (dataOut?: GetPackDataType) =>
     async (dispatch: Dispatch<PacksReducerActionType>, getState: () => AppRootStateType) => {
         if (!dataOut) {

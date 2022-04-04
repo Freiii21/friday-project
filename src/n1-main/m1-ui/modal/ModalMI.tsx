@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Grid from '@mui/material/Grid';
 import Button from '@material-ui/core/Button';
-import {CircularProgress, Input, TextField} from '@mui/material';
+import {Input} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {useTypedSelector} from '../../m2-bll/redux';
 import {NavLink} from 'react-router-dom';
@@ -14,6 +14,7 @@ import {addNewPackTC, changeNamePackTC, deletePackT} from '../../m2-bll/reducers
 import {addNewCardTC, deleteCardTC, setCurrentCard, setIsGet, updateCardTC} from '../../m2-bll/reducers/cardReducer';
 import {getCard} from '../utilities/getCard';
 import {styleForWidthModal} from '../utilities/styleForWidthModal';
+import {CircleProgressForModal} from './componentsForModals/CircleProgressForModal';
 
 
 const useStyles = styleForWidthModal;
@@ -41,10 +42,14 @@ type PropsType = {
 
 
 export default function ModalMi({
-                                    title, open, setOpen, titleOfPage, type, id, nameOfCell, questionText, answerText,
+                                    title, open, setOpen, titleOfPage, type,
+                                    id, nameOfCell, questionText, answerText,
+
                                 }: PropsType) {
     const dispatch = useDispatch();
+    //data from current learning card
     const questionForLearn = useTypedSelector(state => state.cards.currentCard.question);
+    const questionImg = useTypedSelector(state => state.cards.currentCard.questionImg);
     const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
     const status = useTypedSelector(state => state.app.status);
     // const handleClose = () => setOpen(false);
@@ -52,6 +57,7 @@ export default function ModalMi({
     const cards = useTypedSelector(state => state.cards.cardsForLearn);
     const isGet = useTypedSelector(state => state.cards.isGet);
     const idCurrenCard = useTypedSelector(state => state.cards.currentCard._id);
+
     useEffect(() => {
         if (isGet) {
             const card = getCard(cards);
@@ -106,12 +112,12 @@ export default function ModalMi({
         setOpen(false)
     }
 
-    const onChangeHandlerAnswer = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setAnswer(e.currentTarget.value)
-    }
-    const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setQuestion(e.currentTarget.value)
-    }
+    /* const onChangeHandlerAnswer = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+         setAnswer(e.currentTarget.value)
+     }
+     const onChangeHandlerQuestion = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+         setQuestion(e.currentTarget.value)
+     }*/
     const onClickShowAnswer = () => dispatch(setIsGet(false));
     const classes = useStyles();
     return (
@@ -122,13 +128,9 @@ export default function ModalMi({
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style} className={classes.box}>
-                    {status === 'loading' &&
-                    <div style={{position: 'relative'}}>
-                        <CircularProgress
-                            style={{height: '20px', width: '20px', position: 'absolute', top: '0px', right: '0px'}}
-                        />
-                    </div>
-                    }
+
+                    {status === 'loading' && < CircleProgressForModal/>}
+
                     <Typography id="modal-modal-title" variant="h6" component="h2" style={{marginBottom: '20px'}}>
                         {title === 'Learn'
                             ? <><span>{title}:</span> <span style={{color: colorBlueMI}}>{nameOfCell}</span></>
@@ -141,9 +143,21 @@ export default function ModalMi({
                         {titleOfPage === 'Card' && <>Do you really want to remove {nameOfCell}?</>}
                     </Typography>}
                     {type === 'learn' &&
-                    <Typography id="modal-modal-description" sx={{mt: 2}}>
-                        Question: {status === 'loading' ? '' : questionForLearn}
-                    </Typography>
+                    <Grid container xs={12}>
+                        {questionImg &&
+                        <Grid item xs={4} justifyContent={'center'} alignItems={'center'}>
+                            <span><img src={questionImg} style={{width: '90%'}} alt={'img for question'}/></span>
+                        </Grid>
+                        }
+                        <Grid item xs={questionImg ? 8 : 12}>
+                            <Typography id="modal-modal-description" sx={{mt: 2}}>
+                                Question: <span style={{color: colorBlueMI}}>
+                                {status === 'loading' ? '' : questionForLearn}
+                            </span>
+                            </Typography>
+                        </Grid>
+                    </Grid>
+
                     }
                     {((type === 'input' && title === 'Edit name') || (type === 'input' && title === 'Add Pack')) &&
                     <Input fullWidth={true}
@@ -155,7 +169,7 @@ export default function ModalMi({
                            }}
                            style={{marginTop: '10px', minHeight: '10px'}}
                     />}
-                    {type === 'input' && titleOfPage === 'Card' &&
+                    {/* {type === 'input' && titleOfPage === 'Card' &&
                     <>
                         <TextField fullWidth={true} variant={'standard'}
                                    sx={{marginBottom: '5px'}} maxRows={2} multiline
@@ -167,11 +181,14 @@ export default function ModalMi({
                                    placeholder={'answer'} onChange={onChangeHandlerAnswer}
                                    value={answer}
                         />
-                    </>}
+                    </>}*/}
                     <Grid container sx={{marginTop: 4}}>
                         <Grid item xs={6} sx={{textAlign: 'center'}}>
                             <Button size={'small'} variant={'contained'}
-                                    onClick={onClickCancelHandler}>Cancel</Button>
+                                    onClick={onClickCancelHandler}
+                                    disabled={status === 'loading'}
+                            >Cancel
+                            </Button>
                         </Grid>
                         <Grid item xs={6} sx={{textAlign: 'center'}}>
                             {type === 'delete' &&
@@ -187,7 +204,7 @@ export default function ModalMi({
                                         color={'primary'} disabled={!cardsTotalCount || status === 'loading'}
                                         onClick={() => setOpen(false)}
                                 >
-                                    Show answer
+                                    answer
                                 </Button>
                                 : type === 'learn' && <Button size={'small'} variant={'contained'}
                                                               color={'primary'}
