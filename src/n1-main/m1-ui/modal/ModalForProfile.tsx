@@ -10,7 +10,7 @@ import {setNewNameAvatarTC} from '../../m2-bll/reducers/authReducer';
 import {useDispatch} from 'react-redux';
 import {useTypedSelector} from '../../m2-bll/redux';
 import {styleForWidthModal} from '../utilities/styleForWidthModal';
-import {fontSizeButtonAuth} from '../utilities/for css';
+import {colorBlueMI, fontSizeButtonAuth} from '../utilities/for css';
 import SwitchCustom from '../common/SwitchCustom';
 import {checkUrl} from '../utilities/checkUrl';
 import {setErrorN} from '../../m2-bll/reducers/appReducer';
@@ -38,7 +38,8 @@ export default function ModalForProfile({open, setOpen}: PropsType) {
     const userName = useTypedSelector(state => state.auth.user.name);
     let userName1 = userName;
 
-    const [photo, setPhoto] = useState<string | ArrayBuffer | null>('');
+    const [photo, setPhoto] = useState('');
+    const [fileBase64, setFileBase64] = useState<string | ArrayBuffer | null>(null)
     const [name, setName] = useState(userName1);
     //const [error, setError] = useState(false)
     const [disableChange, setDisableChange] = useState(true);
@@ -55,23 +56,37 @@ export default function ModalForProfile({open, setOpen}: PropsType) {
 
 
     const setAvatar = () => {
-        if (photo && typeof photo === 'string'||photo==='') {
-            if(photo===''){
-                dispatch(setNewNameAvatarTC({avatar: photo, name}))
-                setPhoto('');
-                setName('');
-                setOpen(false)
-            }
-            else if (checkUrl(photo)) {
-                dispatch(setNewNameAvatarTC({avatar: photo, name}))
+        if (!name) {
+            dispatch(setErrorN('you need enter name'));
+            setDisableChange(true);
+            return;
+        }
+        if (fileBase64) {
+            dispatch(setNewNameAvatarTC({avatar: fileBase64, name}));
+            setName('');
+            setOpen(false);
+            setFileBase64(null);
+            setDisableChange(true);
+            return
+        }
+        if (photo && typeof photo === 'string' || photo === '') {
+            if (photo === '') {
+                dispatch(setNewNameAvatarTC({avatar: photo, name}));
                 setPhoto('');
                 setName('');
                 setOpen(false);
+                setDisableChange(true);
+            } else if (checkUrl(photo)) {
+                dispatch(setNewNameAvatarTC({avatar: photo, name}));
+                setPhoto('');
+                setName('');
+                setOpen(false);
+                setDisableChange(true);
+            } else {
+                dispatch(setErrorN('invalid url'));
+                setDisableChange(true);
             }
-            else dispatch(setErrorN('incorrect url'))
         }
-
-
 
     }
 
@@ -80,13 +95,7 @@ export default function ModalForProfile({open, setOpen}: PropsType) {
         setDisableChange(false);
     }
     const setPhotos = (e: ChangeEvent<HTMLInputElement>) => {
-        /*   if(!checkUrl(e.currentTarget.value)){
-               setError(true);
-               setPhoto('')
-           }
-           setPhoto(e.currentTarget.value)*/
         setPhoto(e.currentTarget.value);
-
         setDisableChange(false);
     }
 
@@ -96,7 +105,7 @@ export default function ModalForProfile({open, setOpen}: PropsType) {
         if (newFile) {
             reader.onloadend = () => {
                 if (checked) {
-                    setPhoto(reader.result)
+                    setFileBase64(reader.result)
                 }
             }
             reader.readAsDataURL(newFile);
@@ -117,7 +126,8 @@ export default function ModalForProfile({open, setOpen}: PropsType) {
                 <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} xs={12}>
                     <Grid item xs={2}><SwitchCustom checked={checked} setChecked={setChecked}/></Grid>
                     <Grid item xs={10}>
-                        <TypographyCustom title={!checked ? 'add avatar via url' : 'add avatar from local disc'}/>
+                        <TypographyCustom color={colorBlueMI}
+                                          title={!checked ? 'add avatar via url' : 'add avatar from local disc'}/>
                     </Grid>
                     {checked
                         ? <TextFieldCustom onChange={onChangeToBase64} type="file" ref={refInput}/>
@@ -129,7 +139,6 @@ export default function ModalForProfile({open, setOpen}: PropsType) {
                     }
 
                 </Grid>
-                {/*{error && <TypographyCustom title={'incorrect enter'}/>}*/}
                 <TypographyCustom title={'change avatar'}/>
                 <TextFieldCustom value={name} onChange={setNickName} placeholder={''}/>
                 <TypographyCustom title={'change name'}/>
@@ -151,9 +160,9 @@ export default function ModalForProfile({open, setOpen}: PropsType) {
 }
 
 
-const TypographyCustom = ({title}: { title: string }) => {
+const TypographyCustom = ({title, color = 'grey'}: { title: string; color?: string }) => {
     return (
-        <Typography style={{fontSize: '0.7rem', textAlign: 'center', color: 'grey'}}>{title}</Typography>
+        <Typography style={{fontSize: '0.7rem', textAlign: 'center', color: color}}>{title}</Typography>
     )
 }
 type PropsTypeTextF = {
