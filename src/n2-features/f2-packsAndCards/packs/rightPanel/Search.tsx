@@ -4,13 +4,13 @@ import TextField from '@mui/material/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {NavLink} from 'react-router-dom';
 import React, {ChangeEvent} from 'react';
 import {colorBlueMI, fontSizeButtonAuth} from '../../../../n1-main/m1-ui/utilities/for css';
-import {useDispatch} from "react-redux";
-import {setUserID} from "../../../../n1-main/m2-bll/reducers/packsReducer";
-
+import {useDispatch} from 'react-redux';
+import {setUserID} from '../../../../n1-main/m2-bll/reducers/packsReducer';
+import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
+import AssignmentReturnIcon from '@mui/icons-material/AssignmentReturn';
 
 type PropsType = {
     isButton: boolean;
@@ -23,13 +23,14 @@ type PropsType = {
 }
 
 
-export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, callBack,location}: PropsType) => {
+export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, callBack, location}: PropsType) => {
     const dispatch = useDispatch()
+    const status = useTypedSelector(state => state.app.status);
 
-    const onClick = () => {
+    const onClickAddPack = () => {
         callBack && callBack(true);
     }
-    const onClick1 = ()=>dispatch(setUserID(""));
+    const onClickReturnToPack = () => dispatch(setUserID(''));
     return (
         <Grid container
               xs={12}
@@ -41,14 +42,20 @@ export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, cal
             <Grid item xs={6}>
                 <Typography variant={'h6'}>
                     {isArrowBack &&
-                    <NavLink to={'/packsCards'}
-                             style={{textDecoration: 'none'}}
-                             onClick={onClick1}
-                    >
-                        <ArrowBackIcon
-                            style={{color: 'rgb(63, 81, 181)', position: 'relative', top: '5px', marginRight: '5px'}}
-                        />
-                    </NavLink>}
+
+                    <Button disabled={status === 'loading'} onClick={onClickReturnToPack}>
+                        <NavLink to={'/packsCards'}
+                                 style={{textDecoration: 'none'}}
+                        >
+                            <AssignmentReturnIcon style={{
+                                color: 'rgb(63, 81, 181)',
+                                position: 'relative',
+                                top: '5px',
+                                marginRight: '5px'
+                            }}/>
+                        </NavLink>
+                    </Button>
+                    }
                     <span style={{color: colorBlueMI}}> {titleSearch}</span>
                 </Typography>
                 <TextField
@@ -56,7 +63,7 @@ export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, cal
                     variant={'standard'} placeholder={`search ${location}`}
                     value={value}
                     onChange={onChange}
-
+                    disabled={status === 'loading'}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -71,10 +78,11 @@ export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, cal
                 <Grid item xs={4}>
 
                     <Button variant={'contained'}
-                            onClick={onClick}
+                            onClick={onClickAddPack}
                             color={'primary'}
                             size={'small'}
                             style={fontSizeButtonAuth}
+                            disabled={status === 'loading'}
                     >Add pack</Button>
 
 

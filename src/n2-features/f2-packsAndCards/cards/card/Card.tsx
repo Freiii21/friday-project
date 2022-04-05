@@ -1,11 +1,10 @@
 import React, {ChangeEvent, useEffect, useState} from 'react'
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
 import {useDispatch} from 'react-redux';
-import {Navigate, NavLink, useParams} from 'react-router-dom';
+import {Navigate, useParams} from 'react-router-dom';
 import {Box} from '@mui/material';
 import {PATH} from '../../../../n1-main/m1-ui/routes/RoutesComponent';
-import {colorBlueMI, styleForBoxCard, styleForCardButtons, wrapper} from '../../../../n1-main/m1-ui/utilities/for css';
+import {colorBlueMI, styleForBoxCard, wrapper} from '../../../../n1-main/m1-ui/utilities/for css';
 import Typography from '@mui/material/Typography';
 import s from './card.module.css';
 import {useTypedSelector} from '../../../../n1-main/m2-bll/redux';
@@ -15,6 +14,8 @@ import ModalMi from '../../../../n1-main/m1-ui/modal/ModalMI';
 import {QuestionForCard} from './componentsForCard/QuestionForCard';
 import {AnswerForCard} from './componentsForCard/AnswerForCard';
 import {RadioGroupForCard} from './componentsForCard/RadioGroupForCard';
+import {setErrorN} from '../../../../n1-main/m2-bll/reducers/appReducer';
+import {ButtonsForCard} from './componentsForCard/ButtonsForCard';
 
 export const Card = () => {
     //for model
@@ -56,12 +57,17 @@ export const Card = () => {
 
     }, [cardsForLearn])
     const getNewCard = () => {
-        const card = getCard(cardsForLearn);
-        dispatch(setCurrentCard(card));
-        setTypeModel('learn');
-        setOpen(true);
-        dispatch(updateCardGradeTC({grade: Number(value === '' ? 1 : value), card_id}));
-        setValue('');
+        if (value) {
+            const card = getCard(cardsForLearn);
+            dispatch(setCurrentCard(card));
+            setTypeModel('learn');
+            setOpen(true);
+            dispatch(updateCardGradeTC({grade: Number(value), card_id}));
+            setValue('');
+        } else {
+            dispatch(setErrorN('rate please'));
+        }
+
     }
     const onChange = (e: ChangeEvent<HTMLInputElement>) => setValue(e.currentTarget.value);
 
@@ -84,34 +90,7 @@ export const Card = () => {
                     <QuestionForCard question={question} questionImg={questionImg}/>
                     <AnswerForCard answer={answer} answerImg={answerImg && answerImg}/>
                     <RadioGroupForCard onChange={onChange} value={value}/>
-                    <Grid  container xs={12} justifyContent={'space-around'}
-                          direction={'row'}
-                          sx={{marginTop: 5}}>
-                        <Button
-                            sx={styleForCardButtons}
-                            size={'small'}
-                            type={'button'} variant={'contained'} color={'primary'}
-                        >
-                            <NavLink to={PATH.PACKS_CARDS}
-                                     style={{color: 'inherit', textDecoration: 'none'}}>
-                                Cancel
-                            </NavLink>
-                        </Button>
-                        <Button
-
-                            type={'submit'}
-                            sx={styleForCardButtons}
-                            size={'small'}
-                            variant={'contained'} color={'primary'}
-                            onClick={getNewCard}
-
-                        >
-                            <NavLink style={{textDecoration: 'none', color: 'white'}}
-                                     to={`/card/${idPack}/${namePack}/${card_id}`}>Next</NavLink>
-                        </Button>
-                    </Grid>
-
-
+                    <ButtonsForCard getNewCard={getNewCard} idPack={idPack} namePack={namePack} card_id={card_id}/>
                 </Grid>
             </Box>
             <ModalMi

@@ -20,9 +20,6 @@ export const AppDrawer = ({toggle, switchDrawer}: PropsType) => {
                 <MenuItem><NavLink to={PATH.PACKS_CARDS}
                                    className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
                                        : s.links)}>Packs of Cards</NavLink></MenuItem>
-                <MenuItem><NavLink to={PATH.INTRODUCE}
-                                   className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
-                                       : s.links)}>Introduce</NavLink></MenuItem>
             </Grid>
         </Drawer>
     );

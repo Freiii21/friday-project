@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -27,7 +27,7 @@ import {useDispatch} from 'react-redux';
 import {useDebounce} from 'use-debounce';
 import {Pagination} from '@material-ui/lab';
 import {CardType} from '../../../../n1-main/m2-bll/api/cards-a-p-i';
-import ModalAddCard from '../../../../n1-main/m1-ui/modal/ModalAddCard';
+import ModalAddOrUpdateCard from '../../../../n1-main/m1-ui/modal/ModalAddOrUpdateCard';
 
 
 interface Column {
@@ -39,8 +39,8 @@ interface Column {
 }
 
 const columns: Column[] = [
-    {id: 'question', label: `Question`, minWidth: 200},
-    {id: 'answer', label: 'Answer', minWidth: 200},
+    {id: 'question', label: `Question`, minWidth: 150},
+    {id: 'answer', label: 'Answer', minWidth: 150},
     {
         id: 'updated',
         label: 'Update',
@@ -58,7 +58,7 @@ const columns: Column[] = [
     {
         id: 'actions',
         label: '',
-        minWidth: 50,
+        minWidth: 100,
         align: 'right',
     },
 ];
@@ -73,11 +73,17 @@ const useStyles = makeStyles({
 });
 
 export const TableCards = () => {
+    //for modal
     const [open, setOpen] = React.useState(false);
+    const [title, setTitle] = React.useState('');
+    const [question, setQuestion] = React.useState('');
+    const [answer, setAnswer] = React.useState('');
+    //for style
     const classes = useStyles();
 
-    const {cardId, packNameURL} = useParams()
-    const dispatch = useDispatch()
+    const status = useTypedSelector(state => state.app.status);
+    const {cardId, packNameURL} = useParams();
+    const dispatch = useDispatch();
     // get value
     const rows: CardType[] = useTypedSelector(state => state.cards.data.cards);
     const cardsTotalCount = useTypedSelector(state => state.cards.data.cardsTotalCount);
@@ -89,27 +95,27 @@ export const TableCards = () => {
     const cardsPageCount = useTypedSelector(state => state.cards.getData.pageCount);
     const cardsCurrentPage = useTypedSelector(state => state.cards.getData.page);
     const cardsQuestion = useTypedSelector(state => state.cards.getData.cardQuestion);
-    // value modal
 
-    const cardsQuestionDebounce = useDebounce(cardsQuestion, 1000)
+    const [nameCellOnClick, setNameCellOnClick] = useState('');
+
+    const cardsQuestionDebounce = useDebounce(cardsQuestion, 1000);
 
     // set cards function
     useEffect(() => {
-        packNameURL && cardId && dispatch(setIdCardsAC(cardId, packNameURL))
-        dispatch(getCardsTC())
-    }, [cardId, cardsCurrentPage, cardsSortValue, cardsQuestionDebounce[0]])
+        packNameURL && cardId && dispatch(setIdCardsAC(cardId, packNameURL));
+        dispatch(getCardsTC());
+    }, [cardId, cardsCurrentPage, cardsSortValue, cardsQuestionDebounce[0]]);
 
 
     const handlerSetSortCards = (sortValue: string) => {
-        dispatch(setCardsSortValue(sortValue))
+        dispatch(setCardsSortValue(sortValue));
     }
     const paginationHandler = (value: number) => {
-        dispatch(setCardsCurrentPage(value))
+        dispatch(setCardsCurrentPage(value));
     }
     const setSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setCardsQuestion(e.currentTarget.value))
+        dispatch(setCardsQuestion(e.currentTarget.value));
     }
-
     if (!isAuth) return <Navigate to={PATH.LOGIN}/>
     return (
         <>
@@ -129,19 +135,24 @@ export const TableCards = () => {
                             <TableRow>
                                 {columns.map((column, index) => {
                                     if (index > 3) {
+                                        const onClickButtAdd = () => {
+                                            setOpen(true)
+                                            setTitle('Add card')
+                                        };
                                         return (
 
                                             <TableCell
                                                 key={column.id}
                                                 align={column.align}
-                                                style={{minWidth: column.minWidth}}
+                                                style={{minWidth: column.minWidth, textAlign: 'center'}}
                                             >
 
                                                 {
                                                     column.id === 'actions'
                                                         ?
                                                         <Button variant={'contained'} color={'primary'}
-                                                                size={'small'} onClick={() => setOpen(true)}>
+                                                                size={'small'} disabled={status === 'loading'}
+                                                                onClick={onClickButtAdd}>
                                                             Add
                                                         </Button>
                                                         : column.label
@@ -156,9 +167,13 @@ export const TableCards = () => {
                                                 align={column.align}
                                                 style={{minWidth: column.minWidth}}
                                             >
-                                                {column.label}
+
                                                 <ButtonForTablePacks handlerSetSortPacs={handlerSetSortCards}
-                                                                     nameCell={column.id}/>
+                                                                     nameCell={column.id}
+                                                                     setNameCellOnClick={setNameCellOnClick}
+                                                                     nameCellOnClick={nameCellOnClick}
+                                                > {column.label}
+                                                </ButtonForTablePacks>
                                             </TableCell>
                                         )
                                     }
@@ -175,10 +190,12 @@ export const TableCards = () => {
                                             const value = row[column.id];
 
                                             return (
-                                                <TableCell key={column.id} align={column.align}>
+                                                <TableCell key={column.id} align={column.align}
+                                                           style={{textAlign: 'left'}}>
                                                     {column.id === 'grade'
                                                         ?
-                                                        <Rating name="read-only" value={row.grade} readOnly precision={0.5}/>
+                                                        <Rating name="read-only" value={row.grade} readOnly
+                                                                precision={0.5}/>
                                                         : column.id === 'actions'
                                                             ?
                                                             <BasicButtonGroup name_2={'Del'}
@@ -190,6 +207,11 @@ export const TableCards = () => {
                                                                               id={row._id}
                                                                               questionText={row.question}
                                                                               answerText={row.answer}
+                                                                              setOpenForModal={setOpen}
+                                                                              setTitleForUpdate={setTitle}
+                                                                              setAnswer={setAnswer}
+                                                                              setQuestion={setQuestion}
+
                                                             />
                                                             : column.format && typeof value === 'string'
                                                                 ? column.format(value) : value}
@@ -212,10 +234,12 @@ export const TableCards = () => {
                         : null}
                 </div>
             </Paper>
-            <ModalAddCard
-                title={'Add card'}
+            <ModalAddOrUpdateCard
+                title={title}
                 open={open}
                 setOpen={setOpen}
+                ques={question}
+                answ={answer}
             />
         </>
     );

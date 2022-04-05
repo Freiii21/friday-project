@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from './tableM.module.css'
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -36,26 +36,26 @@ interface Column {
 }
 
 const columns: Column[] = [
-    {id: 'name', label: `Name`, minWidth: 150},
+    {id: 'name', label: `Name`, minWidth: 100},
     {id: 'cardsCount', label: 'Count', minWidth: 100},
     {
         id: 'updated',
-        label: 'Last Updated',
-        minWidth: 100,
+        label: 'Updated',
+        minWidth: 85,
         align: 'right',
         format: (value: string) => DateTime.fromISO(value).toFormat('DDD'),
     },
     {
         id: 'created',
-        label: 'Created By',
-        minWidth: 100,
+        label: 'Created',
+        minWidth: 85,
         align: 'right',
         format: (value: string) => DateTime.fromISO(value).toFormat('DDD'),
     },
     {
         id: 'actions',
         label: 'Actions',
-        minWidth: 170,
+        minWidth: 100,
         align: 'right',
     },
 ];
@@ -70,9 +70,9 @@ const useStyles = makeStyles({
     },
 });
 
-export function TableM() {
+export const TableM = () => {
     const classes = useStyles();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const rows: PackType[] = useTypedSelector(state => state.packs.data.cardPacks);
 
     const _userId = useTypedSelector(state => state.auth.user._id);
@@ -81,13 +81,16 @@ export function TableM() {
     const pageCount = useTypedSelector(state => state.packs.getPackData.pageCount);
     const packSetMin = useTypedSelector(state => state.packs.getPackData.min);
     const packSetMax = useTypedSelector(state => state.packs.getPackData.max);
-    const packsName = useTypedSelector(state => state.packs.getPackData.packName)
-    const packsSortValue = useTypedSelector(state => state.packs.getPackData.sortPacks)
-    const pacsUserIdGetData = useTypedSelector(state => state.packs.getPackData.user_id)
+    const packsName = useTypedSelector(state => state.packs.getPackData.packName);
+    const packsSortValue = useTypedSelector(state => state.packs.getPackData.sortPacks);
+    const pacsUserIdGetData = useTypedSelector(state => state.packs.getPackData.user_id);
     const isAuth = useTypedSelector(state => state.auth.isAuth);
-    const minValueDebounce = useDebounce(packSetMin, 1000)
-    const maxValueDebounce = useDebounce(packSetMax, 1000)
-    const cardsNameDebounce = useDebounce(packsName, 1000)
+    const minValueDebounce = useDebounce(packSetMin, 1000);
+    const maxValueDebounce = useDebounce(packSetMax, 1000);
+    const cardsNameDebounce = useDebounce(packsName, 1000);
+    const status = useTypedSelector(state => state.app.status);
+
+    const [nameCellOnClick, setNameCellOnClick] = useState('');
 
     useEffect(() => {
         if (!isAuth) return;
@@ -102,15 +105,16 @@ export function TableM() {
         dispatch(setPageCount(e.currentTarget.value as number))
     }
     const handlerSetSortPacs = (sortValue: string) => {
+
         dispatch(setSortPacks(sortValue))
     }
     const paginationHandler = (value: number) => {
         dispatch(setCurrentPage(value))
     }
 
-
+    console.log('TablePack')
     return (
-        <Paper className={classes.root} style={{overflow:'auto'}}>
+        <Paper className={classes.root} style={{overflow: 'auto'}}>
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -122,7 +126,7 @@ export function TableM() {
                                         <TableCell
                                             key={column.id}
                                             align={column.align}
-                                            style={{minWidth: column.minWidth}}
+                                            style={{minWidth: column.minWidth, textAlign: 'center'}}
                                         >
                                             {column.label}
                                         </TableCell>
@@ -135,10 +139,14 @@ export function TableM() {
                                             align={column.align}
                                             style={{minWidth: column.minWidth}}
                                         >
-                                            {column.label}
+
                                             <ButtonForTablePacks
                                                 handlerSetSortPacs={handlerSetSortPacs}
-                                                nameCell={column.id === 'actions' ? '' : column.id}/>
+                                                nameCell={column.id === 'actions' ? '' : column.id}
+                                                setNameCellOnClick={setNameCellOnClick}
+                                                nameCellOnClick={nameCellOnClick}
+                                            >{column.label}
+                                            </ButtonForTablePacks>
                                         </TableCell>
                                     )
                                 }
@@ -154,7 +162,7 @@ export function TableM() {
 
                                         const value = row[column.id];
                                         return (
-                                            <TableCell key={column.id} align={column.align}>
+                                            <TableCell key={column.id} align={column.align} style={{textAlign: 'left'}}>
 
                                                 {column.id === 'actions'
                                                     ? <BasicButtonGroup
@@ -193,6 +201,7 @@ export function TableM() {
                                 id: 'uncontrolled-native',
                             }}
                             onChange={handleChangeSelect}
+                            disabled={status === 'loading'}
                         >
                             <option value={10}>10</option>
                             <option value={25}>25</option>
@@ -204,7 +213,9 @@ export function TableM() {
                 <Pagination
                     count={Math.ceil(totalCountPage / pageCount)}
                     onChange={(event: ChangeEvent<unknown>, page: number) => paginationHandler(page)}
-                    color="primary"/>
+                    color="primary"
+                    disabled={status === 'loading'}
+                />
             </div>
         </Paper>
     );
