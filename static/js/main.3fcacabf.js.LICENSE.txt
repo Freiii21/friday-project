@@ -5,6 +5,14 @@ object-assign
 */
 
 /**
+   * @file VerbalExpressions JavaScript Library
+   * @version 0.3.0
+   * @license MIT
+   *
+   * @see https://github.com/VerbalExpressions/JSVerbalExpressions
+   */
+
+/**
  * A better abstraction over CSS.
  *
  * @copyright Oleg Isonen (Slobodskoi) / Isonen 2014-present
