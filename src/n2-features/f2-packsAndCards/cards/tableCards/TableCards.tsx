@@ -126,6 +126,7 @@ export const TableCards = () => {
                 onChange={setSearchHandler}
                 value={cardsQuestion}
                 location={'card'}
+                height={'fit-content'}
             />
             <Paper className={classes.root}>
 

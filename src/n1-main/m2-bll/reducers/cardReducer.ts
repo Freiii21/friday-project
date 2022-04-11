@@ -161,7 +161,6 @@ export const getCardsForLearn = (idPack: string, namePack: string) =>
 export const addNewCardTC = (dataForAdd: RequestToAddCardType): AppThunk =>
     async (dispatch) => {
         try {
-            debugger
             dispatch(setLoaderStatus('loading'));
             await cardsAPI.addNewCard(dataForAdd);
             dispatch(getCardsTC())

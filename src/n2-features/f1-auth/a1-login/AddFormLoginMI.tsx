@@ -14,8 +14,9 @@ import * as Yup from 'yup';
 import {setLoginT} from '../../../n1-main/m2-bll/reducers/authReducer';
 import {Box, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
-import {fontSizeButtonAuth, redStyle} from '../../../n1-main/m1-ui/utilities/for css';
+import {colorBlueMI, fontSizeButtonAuth, redStyle} from '../../../n1-main/m1-ui/utilities/for css';
 import {BlankDiv} from '../../../n1-main/m1-ui/common/ComponentsForTabels/BlankDiv';
+import Typography from '@mui/material/Typography';
 
 type State = {
     password: string;
@@ -133,10 +134,12 @@ export const AddFormLoginMI = () => {
                                         {...formik.getFieldProps('rememberMe')}
                                     />
                                 }/>
-                            <p style={{margin: '30px 0 90px 100px', fontSize: '0.8rem'}}>
+                            <p style={{margin: '30px 0 20px 100px', fontSize: '0.8rem'}}>
                                 <NavLink style={{textDecoration: 'none', color: 'blue'}} to={PATH.PASSWORD_RECOVERY}>Forgot
                                     Password</NavLink>
+
                             </p>
+
                             <Button
                                 style={fontSizeButtonAuth}
                                 sx={{
@@ -169,6 +172,20 @@ export const AddFormLoginMI = () => {
 
                     >Sign Up
                     </NavLink></div>
+                </Grid>
+                <Grid container sx={{
+                    marginTop: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+
+                }}>
+                    <Typography style={{fontSize: '0.7rem'}}>
+                        email: <span style={{color: colorBlueMI, marginLeft: '10px'}}>21alex7777@gmail.com</span>
+                        <br/>
+                        password: <span style={{color: colorBlueMI, marginLeft: '10px'}}>12345678</span>
+                    </Typography>
                 </Grid>
             </Grid>
         </Box>

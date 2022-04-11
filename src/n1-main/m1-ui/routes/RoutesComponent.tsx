@@ -11,6 +11,7 @@ import {ProfileMI} from '../../../n2-features/f1-auth/a3-profile/ProfileMI';
 import {PacksCards} from '../../../n2-features/f2-packsAndCards/packs/PacksCards';
 import {Cards} from '../../../n2-features/f2-packsAndCards/cards/Cards';
 import {Card} from '../../../n2-features/f2-packsAndCards/cards/card/Card';
+import {UsersList} from '../../../n2-features/users/UsersList';
 
 
 export const PATH = {
@@ -24,6 +25,7 @@ export const PATH = {
     PACKS_CARDS: '/packsCards',
     CARDS_MI: '/cards/:cardId/:packNameURL',
     CARD: '/card/:packIdURL/:packNameURL/:cardIdURL',
+    USERS_LIST:'/usersList',
 }
 
 export const RoutesComponent = () => {
@@ -43,7 +45,9 @@ export const RoutesComponent = () => {
                 <Route path={PATH.PACKS_CARDS} element={<PacksCards/>}/>
                 <Route path={PATH.CARDS_MI} element={<Cards/>}/>
                 <Route path={PATH.CARD} element={<Card/>}/>
+                <Route path={PATH.USERS_LIST} element={<UsersList/>}/>
                 <Route path="*" element={<Navigate to={PATH.PAGE_NOT_FOUND}/>}/>
+
             </Routes>
         </Container>
     )
