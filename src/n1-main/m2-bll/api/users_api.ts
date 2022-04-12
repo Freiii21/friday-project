@@ -6,30 +6,36 @@ export const instance = axios.create({
 });
 
 export const usersAPI = {
-    getUsers: (data?:Partial<RequestGetUserType>) =>
-        instance.get<Partial<RequestGetUserType>,AxiosResponse<any>>('/social/users',{
-            params:data,
+    getUsers: (data?: Partial<RequestGetUserType>) =>
+        instance.get<Partial<RequestGetUserType>, AxiosResponse<ResponseGetUsersType>>('/social/users', {
+            params: data,
         }),
+    getUser: (id: string) => instance.get<string, AxiosResponse<User2Type>>('/social/user',{params:id}),
 };
-export type ResponseGetUsersType={
-
+export type ResponseGetUsersType = {
+    users: User2Type[];
+    maxPublicCardPacksCount: number;
+    minPublicCardPacksCount: number;
+    page: number;
+    pageCount: number;
+    usersTotalCount: number;
 }
-export type RequestGetUserType={
-    userName:string;
-    min:number;
-    max:number;
-    sortUsers:string;
-    page:number;
-    pageCount:number;
+export type RequestGetUserType = {
+    userName: string;
+    min: number;
+    max: number;
+    sortUsers: string;
+    page: number;
+    pageCount: number;
 }
-export type UserType={
-    avatar:string;
-    created:string;
-    email:string;
-    isAdmin:boolean;
-    name:string;
-    publicCardPacksCount:number;
-    updated:string;
-    verified:boolean;
-    id:string;
+export type User2Type = {
+    avatar: string;
+    created: string;
+    email: string;
+    isAdmin: boolean;
+    name: string;
+    publicCardPacksCount: number;
+    updated: string;
+    verified: boolean;
+    _id: string;
 }
