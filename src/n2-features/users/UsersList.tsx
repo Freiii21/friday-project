@@ -21,3 +21,4 @@ export const UsersList = () => {
             {users.map(x => <div>{x.name}<span><img src={x.avatar} width={50} alt="avatar"/></span></div>)}
         </>)
 }
+Array(10).fill('')
