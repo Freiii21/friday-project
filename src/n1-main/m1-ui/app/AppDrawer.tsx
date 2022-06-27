@@ -12,14 +12,17 @@ export const AppDrawer = ({toggle, switchDrawer}: PropsType) => {
 
     return (
         <Drawer open={toggle} onClose={() => switchDrawer(false)}>
-            <Grid container direction={'column'} justifyContent={'space-around'} sx={{marginTop:'40%'}}>
+            <Grid container direction={'column'} justifyContent={'space-around'} sx={{marginTop: '40%'}}>
                 <MenuItem><NavLink to={PATH.PROFILE}
-                                               className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
-                                                   : s.links)}>Profile</NavLink></MenuItem>
+                                   className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
+                                       : s.links)}>Profile</NavLink></MenuItem>
 
                 <MenuItem><NavLink to={PATH.PACKS_CARDS}
                                    className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
                                        : s.links)}>Packs of Cards</NavLink></MenuItem>
+                <MenuItem><NavLink to={PATH.USERS_LIST}
+                                   className={({isActive}) => (isActive ? `${s.activeClass} ${s.links}`
+                                       : s.links)}>List of users</NavLink></MenuItem>
             </Grid>
         </Drawer>
     );

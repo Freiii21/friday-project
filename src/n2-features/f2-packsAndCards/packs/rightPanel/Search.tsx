@@ -20,10 +20,14 @@ type PropsType = {
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void
     callBack?: (open: boolean) => void;
     location: string;
+    height?:string;
 }
 
 
-export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, callBack, location}: PropsType) => {
+export const Search =
+    ({isArrowBack, isButton, titleSearch,
+         onChange, value, callBack,
+         location, height='20%'}: PropsType) => {
     const dispatch = useDispatch()
     const status = useTypedSelector(state => state.app.status);
 
@@ -34,7 +38,7 @@ export const Search = ({isArrowBack, isButton, titleSearch, onChange, value, cal
     return (
         <Grid container
               xs={12}
-              sx={{backgroundColor: 'ghostwhite', height: '15%', padding: '1%', margin: 0}}
+              sx={{backgroundColor: 'ghostwhite', height:height, padding: '1%', margin: 0}}
               justifyContent={'space-around'}
               alignItems={'center'}
 
